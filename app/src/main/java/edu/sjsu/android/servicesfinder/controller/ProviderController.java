@@ -53,7 +53,7 @@ public class ProviderController {
     public void registerProvider(Provider provider, ProviderDatabase.OnProviderOperationListener debugFlow) {
         String validationError = validateProvider(provider);
         if (validationError != null) {
-            debugFlow.onError(validationError); // ✅ Use passed listener
+            debugFlow.onError(validationError); //  Use passed listener
             return;
         }
 
@@ -65,56 +65,12 @@ public class ProviderController {
         providerDatabase.addProvider(provider, new ProviderDatabase.OnProviderOperationListener() {
             @Override
             public void onSuccess(String message) {
-                debugFlow.onSuccess(message); // ✅ Use passed listener
+                debugFlow.onSuccess(message); //  Use passed listener
             }
 
             @Override
             public void onError(String errorMessage) {
-                debugFlow.onError(errorMessage); // ✅ Use passed listener
-            }
-        });
-    }
-
-
-    // =========================================================
-    // PROVIDER LOGIN (Email/Password validation)
-    // =========================================================
-
-    /**
-     * Login provider by validating email and password
-     * NOTE: With Firebase Auth, this is handled by ProviderEntryActivity
-     * This method is for fallback/testing only
-     */
-    public void loginProvider(String email, String password) {
-        // Validate email format
-        if (!FirestoreHelper.isValidEmail(email)) {
-            if (listener != null) {
-                listener.onError("Invalid email format");
-            }
-            return;
-        }
-
-        // Query provider by email
-        providerDatabase.getProviderByEmail(email, new ProviderDatabase.OnProviderLoadedListener() {
-            @Override
-            public void onSuccess(Provider provider) {
-                // Verify password
-                if (provider.getPassword() != null && provider.getPassword().equals(password)) {
-                    if (listener != null) {
-                        listener.onLoginSuccess(provider);
-                    }
-                } else {
-                    if (listener != null) {
-                        listener.onError("Incorrect password");
-                    }
-                }
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                if (listener != null) {
-                    listener.onError("Email not found");
-                }
+                debugFlow.onError(errorMessage); //  Use passed listener
             }
         });
     }
@@ -150,123 +106,6 @@ public class ProviderController {
                 }
             }
         });
-    }
-
-    // =========================================================
-    // UPDATE PROVIDER
-    // =========================================================
-
-    /**
-     * Update provider profile
-     */
-    public void updateProvider(String providerId, Provider provider) {
-        String validationError = validateProvider(provider);
-        if (validationError != null) {
-            if (listener != null) {
-                listener.onError(validationError);
-            }
-            return;
-        }
-
-        providerDatabase.updateProvider(providerId, provider, new ProviderDatabase.OnProviderOperationListener() {
-            @Override
-            public void onSuccess(String message) {
-                if (listener != null) {
-                    listener.onOperationSuccess(message);
-                }
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                if (listener != null) {
-                    listener.onError(errorMessage);
-                }
-            }
-        });
-    }
-
-    // =========================================================
-    // DELETE PROVIDER
-    // =========================================================
-
-    /**
-     * Delete provider account
-     */
-    public void deleteProvider(String providerId) {
-        providerDatabase.deleteProvider(providerId, new ProviderDatabase.OnProviderOperationListener() {
-            @Override
-            public void onSuccess(String message) {
-                if (listener != null) {
-                    listener.onOperationSuccess(message);
-                }
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                if (listener != null) {
-                    listener.onError(errorMessage);
-                }
-            }
-        });
-    }
-
-    // =========================================================
-    // PROVIDER SERVICES MANAGEMENT
-    // =========================================================
-
-    /**
-     * Load all services for a provider
-     */
-    public void loadProviderServices(String providerId) {
-        providerDatabase.loadProviderServices(providerId, new ProviderDatabase.OnProviderServicesLoadedListener() {
-            @Override
-            public void onSuccess(List<?> services) {
-                // Convert raw documents to ProviderService objects
-                List<ProviderService> providerServices = new ArrayList<>();
-                for (Object obj : services) {
-                    if (obj instanceof QueryDocumentSnapshot) {
-                        QueryDocumentSnapshot doc = (QueryDocumentSnapshot) obj;
-                        ProviderService ps = documentToProviderService(doc);
-                        providerServices.add(ps);
-                    }
-                }
-
-                if (listener != null) {
-                    listener.onProviderServicesLoaded(providerServices);
-                }
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                if (listener != null) {
-                    listener.onError(errorMessage);
-                }
-            }
-        });
-    }
-
-    /**
-     * Convert Firestore document to ProviderService object
-     */
-    private ProviderService documentToProviderService(QueryDocumentSnapshot doc) {
-        ProviderService ps = new ProviderService();
-        ps.setId(doc.getId());
-        ps.setProviderId(doc.getString("providerId"));
-        ps.setServiceTitle(doc.getString("serviceTitle"));
-        ps.setDescription(doc.getString("description"));
-        ps.setPricing(doc.getString("pricing"));
-        ps.setCategory(doc.getString("category"));
-        ps.setServiceArea(doc.getString("serviceArea"));
-        ps.setAvailability(doc.getString("availability"));
-        ps.setContactPreference(doc.getString("contactPreference"));
-        ps.setImageUrl(doc.getString("imageUrl"));
-
-        Long timestamp = doc.getLong("timestamp");
-        if (timestamp != null) {
-            ps.setTimestamp(timestamp);
-        }
-
-        return ps;
     }
 
     // =========================================================
@@ -314,67 +153,6 @@ public class ProviderController {
         return null; // Valid
     }
 
-    // =========================================================
-    // FORMATTING & DISPLAY HELPERS
-    // =========================================================
-
-    /**
-     * Format provider for display (summary)
-     */
-    public String formatProviderSummary(Provider provider) {
-        if (provider == null) {
-            return "Unknown Provider";
-        }
-
-        StringBuilder summary = new StringBuilder();
-        summary.append(provider.getFullName());
-
-        if (provider.getEmail() != null && !provider.getEmail().isEmpty()) {
-            summary.append(" (").append(provider.getEmail()).append(")");
-        }
-
-        return summary.toString();
-    }
-
-    /**
-     * Format provider contact info
-     */
-    public String formatProviderContact(Provider provider) {
-        if (provider == null) {
-            return "No contact info";
-        }
-
-        List<String> parts = new ArrayList<>();
-
-        if (provider.getPhone() != null) {
-            parts.add(FirestoreHelper.formatPhoneNumber(provider.getPhone()));
-        }
-
-        if (provider.getEmail() != null) {
-            parts.add(provider.getEmail());
-        }
-
-        if (provider.getAddress() != null) {
-            parts.add(provider.getAddress());
-        }
-
-        return String.join(" | ", parts);
-    }
-
-    /**
-     * Format provider service count
-     */
-    public String formatServiceCount(List<ProviderService> services) {
-        if (services == null || services.isEmpty()) {
-            return "No services offered";
-        }
-
-        if (services.size() == 1) {
-            return "1 service offered";
-        }
-
-        return services.size() + " services offered";
-    }
 
     // =========================================================
     // LISTENER INTERFACE
@@ -392,17 +170,17 @@ public class ProviderController {
         /**
          * Called when login is successful
          */
-        void onLoginSuccess(Provider provider);
+        //void onLoginSuccess(Provider provider);
 
         /**
          * Called when provider services are loaded
          */
-        void onProviderServicesLoaded(List<ProviderService> providerServices);
+        //void onProviderServicesLoaded(List<ProviderService> providerServices);
 
         /**
          * Called when an operation succeeds (register, update, delete)
          */
-        void onOperationSuccess(String message);
+        //void onOperationSuccess(String message);
 
         /**
          * Called when an error occurs

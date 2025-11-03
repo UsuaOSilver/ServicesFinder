@@ -221,46 +221,6 @@ public class ProviderServiceDatabase {
                     listener.onError(FirestoreHelper.handleFirestoreError(e));
                 });
     }
-
-    /**
-     * Get specific provider with their services
-     */
-    public void getProviderWithServices(String providerId, OnProviderWithServicesLoadedListener listener) {
-        db.collection(FirestoreHelper.COLLECTION_PROVIDERS)
-                .document(providerId)
-                .get()
-                .addOnSuccessListener(providerDoc -> {
-                    if (!providerDoc.exists()) {
-                        listener.onError("Provider not found");
-                        return;
-                    }
-
-                    Provider provider = documentToProvider(providerDoc);
-
-                    providerDoc.getReference()
-                            .collection("services")
-                            .whereEqualTo("status", "Active")
-                            .get()
-                            .addOnSuccessListener(servicesSnapshot -> {
-                                List<ProviderService> services = new ArrayList<>();
-
-                                for (QueryDocumentSnapshot serviceDoc : servicesSnapshot) {
-                                    services.add(documentToProviderService(serviceDoc));
-                                }
-
-                                listener.onSuccess(provider, services);
-                            })
-                            .addOnFailureListener(e -> {
-                                Log.e(TAG, "Error loading services", e);
-                                listener.onError(FirestoreHelper.handleFirestoreError(e));
-                            });
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error loading provider", e);
-                    listener.onError(FirestoreHelper.handleFirestoreError(e));
-                });
-    }
-
     // =========================================================
     // HELPER METHODS
     // =========================================================
@@ -329,8 +289,4 @@ public class ProviderServiceDatabase {
         void onError(String errorMessage);
     }
 
-    public interface OnProviderWithServicesLoadedListener {
-        void onSuccess(Provider provider, List<ProviderService> services);
-        void onError(String errorMessage);
-    }
 }

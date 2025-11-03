@@ -16,13 +16,10 @@ import com.google.firebase.BuildConfig;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
-import java.util.List;
-import java.util.Objects;
 import edu.sjsu.android.servicesfinder.R;
 import edu.sjsu.android.servicesfinder.controller.ProviderController;
 import edu.sjsu.android.servicesfinder.database.ProviderDatabase;
 import edu.sjsu.android.servicesfinder.model.Provider;
-import edu.sjsu.android.servicesfinder.model.ProviderService;
 
 /* =========================================================================
    ProviderEntryActivity – DEBUG VERSION
@@ -83,6 +80,17 @@ public class ProviderEntryActivity extends AppCompatActivity
         signUpButton = findViewById(R.id.signUpButton);
         signUpCancelButton = findViewById(R.id.signUpCancelButton);
 
+        /*
+        // ====== Prefill default sign-up values ======
+        signUpFullName.setText("Van Anh Tran");
+        signUpEmail.setText("minhhaltd@yahoo.com");
+        signUpPhone.setText("6692067933");
+        signUpAddress.setText("1370 Mastic St San Jose CA 95110");
+        signUpPassword.setText("123456");
+        signUpConfirmPassword.setText("123456");
+
+         */
+
     }
 
     private void setupTabs() {
@@ -102,6 +110,7 @@ public class ProviderEntryActivity extends AppCompatActivity
         signUpButton.setOnClickListener(v -> handleSignUp());
         signInCancelButton.setOnClickListener(v -> finish());
         signUpCancelButton.setOnClickListener(v -> finish());
+
     }
 
     private void showSignIn() {
@@ -118,6 +127,13 @@ public class ProviderEntryActivity extends AppCompatActivity
     private void handleSignIn() {
         String email = getText(signInEmail);
         String password = getText(signInPassword);
+
+        if (BuildConfig.DEBUG) {
+            Log.d("DEBUG_SIGNIN", "Attempting sign-in with:");
+            Log.d("DEBUG_SIGNIN", "Email    : '" + email + "'");
+            Log.d("DEBUG_SIGNIN", "Password : '" + password + "' (len=" + password.length() + ")");
+            Log.d("DEBUG_SIGNIN", "FirebaseAuth instance: " + auth);
+        }
 
         if (!validateSignInInputs(email, password)) return;
 
@@ -225,7 +241,7 @@ public class ProviderEntryActivity extends AppCompatActivity
             @Override
             public void onSuccess(String message) {
                 if (BuildConfig.DEBUG) Log.d("DEBUG_FLOW", "Provider saved: " + message);
-                launchProviderDashboard(); // ✅ Launch dashboard here
+                launchProviderDashboard(); //  Launch dashboard here
             }
 
             @Override
@@ -304,18 +320,7 @@ public class ProviderEntryActivity extends AppCompatActivity
         navigateToDashboard(provider);
     }
 
-    @Override public void onLoginSuccess(Provider provider) {
-        hideLoading();
-        Toast.makeText(this, "Welcome " + provider.getFullName() + "!", Toast.LENGTH_SHORT).show();
-        navigateToDashboard(provider);
-    }
 
-    @Override public void onOperationSuccess(String message) {
-        hideLoading();
-        Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show();
-        Objects.requireNonNull(tabLayout.getTabAt(0)).select();
-        clearSignUpForm();
-    }
 
     @Override public void onError(String errorMessage) {
         hideLoading();
@@ -331,7 +336,6 @@ public class ProviderEntryActivity extends AppCompatActivity
         signUpConfirmPassword.setText("");
     }
 
-    @Override public void onProviderServicesLoaded(List<ProviderService> providerServices) { /* not used */ }
 
     private void launchProviderDashboard() {
         Intent intent = new Intent(this, ProviderDashboardActivity.class);
