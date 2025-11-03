@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Button background with rounded corners and gradient -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Orange/Red gradient for provider button -->
+    <gradient
+        android:startColor="@color/saddlebrown"
+        android:endColor="@color/saddlebrown"
+        android:angle="135"/>
+
+    <!-- Rounded corners -->
+    <corners android:radius="8dp"/>
+
+    <!-- Optional: Add padding -->
+    <padding
+        android:left="16dp"
+        android:right="16dp"
+        android:top="12dp"
+        android:bottom="12dp"/>
+
+</shape>

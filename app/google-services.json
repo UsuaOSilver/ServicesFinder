@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "593237395701",
+    "project_id": "servicesfinder-5fff6",
+    "storage_bucket": "servicesfinder-5fff6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593237395701:android:addb284d5d33702bcaddbc",
+        "android_client_info": {
+          "package_name": "edu.sjsu.android.servicesfinder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX6L0K9CZnJYRof9KjZruBLUzVMR6v8CE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
