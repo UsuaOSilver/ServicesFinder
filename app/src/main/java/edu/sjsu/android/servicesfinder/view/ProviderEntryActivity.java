@@ -78,8 +78,7 @@ public class ProviderEntryActivity extends AppCompatActivity
         signUpPassword = findViewById(R.id.signUpPassword);
         signUpConfirmPassword = findViewById(R.id.signUpConfirmPassword);
         signUpButton = findViewById(R.id.signUpButton);
-        signUpCancelButton = findViewById(R.id.signUpCancelButton);
-
+        signUpCancelButton = findViewById(R.id.signUpCancelButton);  
     }
 
     private void setupTabs() {
@@ -116,14 +115,12 @@ public class ProviderEntryActivity extends AppCompatActivity
     private void handleSignIn() {
         String email = getText(signInEmail);
         String password = getText(signInPassword);
-
         if (BuildConfig.DEBUG) {
             Log.d("DEBUG_SIGNIN", "Attempting sign-in with:");
             Log.d("DEBUG_SIGNIN", "Email    : '" + email + "'");
             Log.d("DEBUG_SIGNIN", "Password : '" + password + "' (len=" + password.length() + ")");
             Log.d("DEBUG_SIGNIN", "FirebaseAuth instance: " + auth);
         }
-
         if (!validateSignInInputs(email, password)) return;
 
         showLoading("Signing in...");
@@ -315,7 +312,6 @@ public class ProviderEntryActivity extends AppCompatActivity
         hideLoading();
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
     }
-
     private void clearSignUpForm() {
         signUpFullName.setText("");
         signUpEmail.setText("");
@@ -324,12 +320,9 @@ public class ProviderEntryActivity extends AppCompatActivity
         signUpPassword.setText("");
         signUpConfirmPassword.setText("");
     }
-
-
     private void launchProviderDashboard() {
         Intent intent = new Intent(this, ProviderDashboardActivity.class);
         startActivity(intent);
         finish(); // Optional: close sign-up screen
     }
-
 }

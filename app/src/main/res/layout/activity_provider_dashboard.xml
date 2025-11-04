@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/beige"
     android:padding="24dp">
 
     <LinearLayout
@@ -11,18 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Service Title -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Service Title"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/serviceTitleInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
+                <!-- Service Title -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Service Title"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:boxBackgroundColor="@color/white">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/serviceTitleInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Catalogue Label -->
         <TextView
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Catalogue"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:layout_marginTop="16dp" />
 
         <!-- Catalogue Dropdown -->
@@ -42,7 +42,7 @@
             android:padding="12dp"
             android:gravity="center_vertical"
             android:text="Select Catalogue"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:drawableEnd="@drawable/ic_arrow_drop_down"
             android:layout_marginTop="4dp" />
 
@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:hint="Description"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxBackgroundColor="@color/white"
             android:layout_marginTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -69,6 +70,7 @@
             android:layout_height="wrap_content"
             android:hint="Pricing"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxBackgroundColor="@color/white"
             android:layout_marginTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -83,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Service Area"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:layout_marginTop="16dp" />
 
         <Spinner
@@ -98,20 +100,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:layout_marginTop="16dp">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/uploadImageBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:text="Upload Image"
+                android:textAllCaps="false"
                 android:drawableStart="@drawable/ic_upload"
                 android:drawablePadding="8dp"
-                android:backgroundTint="#E0E0E0"
-                android:textColor="#000000"
+                android:background="@drawable/button_border"
+                android:textColor="@color/black"
                 android:textSize="14sp"
-                style="?android:attr/borderlessButtonStyle" />
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:rippleColor="@android:color/transparent"/>
+
+
 
             <ImageView
                 android:id="@+id/imagePreview"
@@ -128,12 +134,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Availability"
-            android:textColor="#000000"
-            android:layout_marginTop="16dp" />
+            android:textColor="@color/black" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_box"
             android:orientation="vertical">
 
             <!-- Row 1 -->
@@ -141,27 +148,23 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
                 <CheckBox
                     android:id="@+id/mon"
                     android:text="Mon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-
                 <CheckBox
                     android:id="@+id/tue"
                     android:text="Tue"
                     android:layout_marginStart="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
                 <CheckBox
                     android:id="@+id/wed"
                     android:text="Wed"
                     android:layout_marginStart="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-
                 <CheckBox
                     android:id="@+id/thu"
                     android:text="Thu"
@@ -175,7 +178,6 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
                 <CheckBox
                     android:id="@+id/fri"
                     android:text="Fri"
@@ -185,7 +187,7 @@
                 <CheckBox
                     android:id="@+id/sat"
                     android:text="Sat"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="28dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -204,38 +206,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Preferred Contact"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:layout_marginTop="16dp" />
-
-        <RadioGroup
-            android:id="@+id/contactPreferenceGroup"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:background="@drawable/border_box">
 
-            <RadioButton
-                android:id="@+id/contactCall"
-                android:layout_width="wrap_content"
+            <RadioGroup
+                android:id="@+id/contactPreferenceGroup"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Call"
-                android:checked="true"
-                android:layout_marginEnd="24dp" />
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
 
-            <RadioButton
-                android:id="@+id/contactText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:layout_marginEnd="24dp" />
+                <RadioButton
+                    android:id="@+id/contactCall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Call"
+                    android:checked="true"
+                    android:layout_marginEnd="24dp" />
 
-            <RadioButton
-                android:id="@+id/contactEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Email" />
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/contactText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text"
+                    android:layout_marginEnd="24dp" />
 
+                <RadioButton
+                    android:id="@+id/contactEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email" />
+            </RadioGroup>
+        </LinearLayout>
 
         <!-- Action Buttons -->
         <LinearLayout
@@ -251,8 +258,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Save Changes"
-                android:textColor="@android:color/white"
-                android:backgroundTint="#1B5E20"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/darkgreen"
                 app:cornerRadius="8dp"
                 android:layout_marginEnd="8dp" />
 
@@ -262,11 +269,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Cancel"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="#BBBBBB"
-                android:textColor="#000000"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/darkgreen"
                 app:cornerRadius="8dp"
                 android:layout_marginStart="8dp" />
+            <!-- style="@style/Widget.MaterialComponents.Button.OutlinedButton" -->
         </LinearLayout>
 
     </LinearLayout>

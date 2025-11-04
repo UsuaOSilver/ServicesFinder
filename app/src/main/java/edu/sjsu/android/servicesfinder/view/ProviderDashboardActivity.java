@@ -38,12 +38,12 @@ import edu.sjsu.android.servicesfinder.model.Service;
  *
  * Responsibilities:
  *  - Allow the provider to create and save a service offering.
- *  - Upload a service image to Firebase Storage (optional).
+ *  - Upload a service image to Firebase Storage
  *  - Save service details to Firebase Firestore.
  *  - Let the user pick categories and sub-services using a MultiSelectDropdown popup.
  *  - Allow selecting availability (Mon–Sun).
- *  - Allow choosing contact preference (Call/Text/Email).
- *  - Load previous “draft” automatically to help continue unfinished work.
+ *  - Allow choosing preferred contact  (Call/Text/Email).
+ *  - Load previous “draft” automatically when signIn
  *
  * Firebase components used:
  *      Firestore → stores structured service data
@@ -73,9 +73,6 @@ public class ProviderDashboardActivity extends AppCompatActivity
     private MultiSelectDropdown catalogueDropdown;
     private boolean cataloguesLoaded = false;
     private String editingServiceId = null;
-
-
-
 
     // Image selection launchers
     private final ActivityResultLauncher<Intent> galleryLauncher =
@@ -312,19 +309,19 @@ public class ProviderDashboardActivity extends AppCompatActivity
             // Upload file
             fileRef.putFile(imageUri)
                     .addOnSuccessListener(taskSnapshot -> {
-                        Log.d(TAG, "✅ Image uploaded successfully, getting download URL...");
+                        Log.d(TAG, "Image uploaded successfully, getting download URL...");
 
                         // Get download URL
                         fileRef.getDownloadUrl()
                                 .addOnSuccessListener(downloadUri -> {
                                     String downloadUrl = downloadUri.toString();
-                                    Log.d(TAG, "✅ Download URL obtained: " + downloadUrl);
+                                    Log.d(TAG, "Download URL obtained: " + downloadUrl);
                                     dialog.dismiss();
                                     Toast.makeText(this, "Image uploaded!", Toast.LENGTH_SHORT).show();
                                     callback.onSuccess(downloadUrl);
                                 })
                                 .addOnFailureListener(e -> {
-                                    Log.e(TAG, "❌ Failed to get download URL", e);
+                                    Log.e(TAG, "Failed to get download URL", e);
                                     dialog.dismiss();
                                     Toast.makeText(this, "Failed to get image URL: " + e.getMessage(),
                                             Toast.LENGTH_LONG).show();
@@ -332,7 +329,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
                                 });
                     })
                     .addOnFailureListener(e -> {
-                        Log.e(TAG, "❌ Image upload failed", e);
+                        Log.e(TAG, "Image upload failed", e);
                         dialog.dismiss();
 
                         // Show specific error message
@@ -469,8 +466,6 @@ public class ProviderDashboardActivity extends AppCompatActivity
                     });
         }
     }
-
-
     // =========================================================
     // IMAGE PICKER
     // =========================================================
@@ -488,7 +483,6 @@ public class ProviderDashboardActivity extends AppCompatActivity
                 })
                 .show();
     }
-
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
