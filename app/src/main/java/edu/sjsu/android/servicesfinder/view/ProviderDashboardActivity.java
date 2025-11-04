@@ -470,19 +470,21 @@ public class ProviderDashboardActivity extends AppCompatActivity
     // IMAGE PICKER
     // =========================================================
     private void showImagePickerDialog() {
-        String[] options = {"Choose from Gallery", "Take a Photo"};
-
         new AlertDialog.Builder(this)
                 .setTitle("Select Image")
-                .setItems(options, (dialog, which) -> {
+                .setItems(new String[]{"Choose from Gallery", "Take a Photo"}, (dialog, which) -> {
                     if (which == 0) {
                         openGallery();
-                    } else {
+                    } else if (which == 1) {
                         openCamera();
                     }
                 })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    dialog.dismiss();
+                })
                 .show();
     }
+
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");

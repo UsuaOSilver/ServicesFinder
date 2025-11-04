@@ -78,7 +78,7 @@ public class ProviderEntryActivity extends AppCompatActivity
         signUpPassword = findViewById(R.id.signUpPassword);
         signUpConfirmPassword = findViewById(R.id.signUpConfirmPassword);
         signUpButton = findViewById(R.id.signUpButton);
-        signUpCancelButton = findViewById(R.id.signUpCancelButton);  
+        signUpCancelButton = findViewById(R.id.signUpCancelButton);
     }
 
     private void setupTabs() {
