@@ -80,17 +80,6 @@ public class ProviderEntryActivity extends AppCompatActivity
         signUpButton = findViewById(R.id.signUpButton);
         signUpCancelButton = findViewById(R.id.signUpCancelButton);
 
-        /*
-        // ====== Prefill default sign-up values ======
-        signUpFullName.setText("Van Anh Tran");
-        signUpEmail.setText("minhhaltd@yahoo.com");
-        signUpPhone.setText("6692067933");
-        signUpAddress.setText("1370 Mastic St San Jose CA 95110");
-        signUpPassword.setText("123456");
-        signUpConfirmPassword.setText("123456");
-
-         */
-
     }
 
     private void setupTabs() {
