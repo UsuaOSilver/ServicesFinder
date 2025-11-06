@@ -12,44 +12,51 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/design_default_color_primary"
-        android:padding="24dp"
+        android:padding="12dp"
         android:gravity="center_vertical">
 
         <!-- Logo -->
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
             android:src="@drawable/servicesfinderlogo"
-            android:contentDescription="App Logo" />
+            android:contentDescription="App Logo"
+            android:adjustViewBounds="true" />
 
         <!-- Text Column -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
             android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Provider Portal"
-                android:textSize="24sp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="26sp"
+                android:autoSizeStepGranularity="1sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sign in or create an account"
-                android:textSize="18sp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/white"
                 android:alpha="0.9"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="2dp"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="10sp"
+                android:autoSizeMaxTextSize="18sp"
+                android:autoSizeStepGranularity="1sp" />
 
         </LinearLayout>
-
     </LinearLayout>
+
 
 
     <!-- Tab Layout -->
@@ -62,7 +69,7 @@
         app:tabMode="fixed"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/design_default_color_primary"
-        app:tabTextColor="@android:color/darker_gray"
+        app:tabTextColor="@color/darkgrey"
         app:tabSelectedTextColor="@color/design_default_color_primary" />
 
     <!-- Scrollable Content -->
@@ -91,7 +98,7 @@
                     android:text="Welcome Back!"
                     android:textSize="22sp"
                     android:textStyle="bold"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/peru"
                     android:layout_marginBottom="8dp" />
 
                 <TextView
@@ -99,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:text="Sign in to manage your services"
                     android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/black"
                     android:layout_marginBottom="24dp" />
 
                 <!-- Email -->
@@ -187,7 +194,7 @@
                     android:text="Create Account"
                     android:textSize="22sp"
                     android:textStyle="bold"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/peru"
                     android:layout_marginBottom="8dp" />
 
                 <TextView
@@ -195,14 +202,14 @@
                     android:layout_height="wrap_content"
                     android:text="Join us as a service provider"
                     android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/black"
                     android:layout_marginBottom="24dp" />
 
                 <!-- Full Name -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="14dp"
                     app:startIconDrawable="@android:drawable/ic_menu_myplaces"
                     app:boxBackgroundMode="outline">
 
@@ -219,7 +226,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="14dp"
                     app:startIconDrawable="@android:drawable/ic_dialog_email"
                     app:boxBackgroundMode="outline">
 
@@ -236,7 +243,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="14dp"
                     app:startIconDrawable="@android:drawable/ic_menu_call"
                     app:boxBackgroundMode="outline">
 
@@ -253,7 +260,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="14dp"
                     app:startIconDrawable="@android:drawable/ic_menu_mylocation"
                     app:boxBackgroundMode="outline">
 
@@ -270,7 +277,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="14dp"
                     app:startIconDrawable="@android:drawable/ic_lock_lock"
                     app:endIconMode="password_toggle"
                     app:boxBackgroundMode="outline">
@@ -315,7 +322,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Create Account"
+                        android:text="Create"
+                        android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -328,6 +336,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Cancel"
+                        android:textAllCaps="false"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:backgroundTint="@color/darkslategray"
