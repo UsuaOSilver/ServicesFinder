@@ -1,8 +1,12 @@
 package edu.sjsu.android.servicesfinder.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -559,9 +563,14 @@ public class MultiSelectDropdown {
         }
 
         // Update TextView text
-        anchorView.setText(summary.isEmpty()
-                ? "Select Catalogue & Services"          // Default text
-                : String.join(" | ", summary));          // Join with " | "
+        if (summary.isEmpty()) {
+            SpannableString hint = new SpannableString("Select Catalogue & Services");
+            hint.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.gray)), 0, hint.length(), 0);
+            anchorView.setText(hint);
+        } else {
+            anchorView.setText(TextUtils.join(" | ", summary));
+        }
+
     }
 
     /**

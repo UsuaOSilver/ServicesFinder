@@ -289,4 +289,38 @@ public class ProviderServiceDatabase {
         void onError(String errorMessage);
     }
 
+    // =========================================================
+// FIRESTORE SAVE / UPDATE
+// =========================================================
+
+    public void saveService(String providerId, ProviderService service,
+                            OnServiceSaveListener listener) {
+        FirebaseFirestore db = FirestoreHelper.getInstance();
+        db.collection("providers")
+                .document(providerId)
+                .collection("services")
+                .add(service)
+                .addOnSuccessListener(ref -> listener.onSuccess(ref.getId()))
+                .addOnFailureListener(e -> listener.onError(e.getMessage()));
+    }
+
+    public void updateService(String providerId, String serviceId, ProviderService service,
+                              OnServiceSaveListener listener) {
+        FirebaseFirestore db = FirestoreHelper.getInstance();
+        db.collection("providers")
+                .document(providerId)
+                .collection("services")
+                .document(serviceId)
+                .set(service)
+                .addOnSuccessListener(v -> listener.onSuccess(serviceId))
+                .addOnFailureListener(e -> listener.onError(e.getMessage()));
+    }
+
+    // Callback interface for save/update result
+    public interface OnServiceSaveListener {
+        void onSuccess(String serviceId);
+        void onError(String error);
+    }
+
+
 }

@@ -79,10 +79,6 @@ public class ProviderEntryActivity extends AppCompatActivity
         signUpConfirmPassword = findViewById(R.id.signUpConfirmPassword);
         signUpButton = findViewById(R.id.signUpButton);
         signUpCancelButton = findViewById(R.id.signUpCancelButton);
-
-        signInEmail.setText("minhha@yahoo.com");
-        signInPassword.setText("123456");
-
     }
 
     private void setupTabs() {

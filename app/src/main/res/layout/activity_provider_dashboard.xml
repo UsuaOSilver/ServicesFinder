@@ -101,7 +101,6 @@
                     android:layout_height="48dp"
                     android:padding="12dp"
                     android:gravity="center_vertical"
-                    android:text="Select Catalogue"
                     android:textColor="@color/black"
                     android:drawableEnd="@drawable/ic_arrow_drop_down"
                     android:layout_marginTop="4dp"
@@ -123,13 +122,13 @@
                 app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="16dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/descriptionInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:scrollbars="vertical" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/descriptionInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:scrollbars="vertical" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- ==================== PRICING ==================== -->
@@ -145,63 +144,34 @@
                     android:id="@+id/pricingInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal" />
+                    android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            ==================== SERVICE AREA ====================
-            <TextView
+            <!-- ==================== SERVICE AREA ==================== -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/serviceAreaLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Service Area"
-                android:textColor="@color/black"
-                android:layout_marginTop="16dp" />
-
-            <Spinner
-                android:id="@+id/serviceAreaSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/spinner_background"
-                android:layout_marginTop="4dp" />
-
-            <!-- ==================== IMAGE UPLOAD ==================== -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:hint="Service Area"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="16dp">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/uploadImageBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:text="Upload Image"
-                    android:textAllCaps="false"
-                    android:drawableStart="@drawable/ic_upload"
-                    android:drawablePadding="8dp"
-                    android:background="@drawable/button_border"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    app:rippleColor="@android:color/transparent"/>
-
-                <ImageView
-                    android:id="@+id/imagePreview"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginStart="16dp"
-                    android:visibility="gone"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/image_preview_border"
-                    android:contentDescription="Service image preview" />
-            </LinearLayout>
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/serviceAreaSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- ==================== AVAILABILITY ==================== -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Availability"
-                android:textColor="@color/black"
+                android:text="     Availability"
+                android:textColor="@color/gray"
                 android:layout_marginTop="16dp" />
 
             <LinearLayout
@@ -211,7 +181,7 @@
                 android:background="@drawable/border_box"
                 android:orientation="vertical">
 
-                <!-- Row 1: Mon, Tue, Wed, Thu -->
+                - Row 1: Mon, Tue, Wed, Thu
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -241,7 +211,6 @@
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
 
-                <!-- Row 2: Fri, Sat, Sun -->
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -269,11 +238,12 @@
             </LinearLayout>
 
             <!-- ==================== PREFERRED CONTACT ==================== -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Preferred Contact"
-                android:textColor="@color/black"
+                android:text="    Preferred Contact"
+                android:textColor="@color/gray"
                 android:layout_marginTop="16dp" />
 
             <LinearLayout
@@ -311,6 +281,40 @@
                         android:text="Email" />
                 </RadioGroup>
             </LinearLayout>
+
+            <!-- ==================== IMAGE UPLOAD ==================== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/uploadImageBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="Upload Image"
+                    android:textAllCaps="false"
+                    android:drawableStart="@drawable/ic_upload"
+                    android:drawablePadding="8dp"
+                    android:background="@drawable/button_border"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    app:rippleColor="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imagePreview"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="16dp"
+                    android:visibility="gone"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/image_preview_border"
+                    android:contentDescription="Service image preview" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
     <!-- ==================== ACTION BUTTONS ==================== -->

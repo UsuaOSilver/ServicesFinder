@@ -12,6 +12,9 @@ public class ProviderService {
     private String contactPreference;
     private String imageUrl;
     private long timestamp;
+    private String status;   // e.g., "Active" or "Inactive"
+    private double rating;   // average rating (for future reviews)
+
 
     public ProviderService() {}
 
@@ -49,4 +52,10 @@ public class ProviderService {
 
     public long getTimestamp() { return timestamp; }
     public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public double getRating() { return rating; }
+    public void setRating(double rating) { this.rating = rating; }
+
 }

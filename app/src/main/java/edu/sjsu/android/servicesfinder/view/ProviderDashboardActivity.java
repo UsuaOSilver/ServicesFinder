@@ -16,8 +16,10 @@ import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -27,8 +29,11 @@ import java.util.*;
 
 import edu.sjsu.android.servicesfinder.R;
 import edu.sjsu.android.servicesfinder.controller.CatalogueController;
+import edu.sjsu.android.servicesfinder.controller.ProviderServiceController;
+import edu.sjsu.android.servicesfinder.database.ProviderServiceDatabase;
 import edu.sjsu.android.servicesfinder.database.StorageHelper;
 import edu.sjsu.android.servicesfinder.model.Catalogue;
+import edu.sjsu.android.servicesfinder.model.ProviderService;
 import edu.sjsu.android.servicesfinder.model.Service;
 
 /**
@@ -58,7 +63,8 @@ public class ProviderDashboardActivity extends AppCompatActivity
     private ImageView imagePreview;
     private TextInputEditText serviceTitleInput, descriptionInput, pricingInput;
     private TextView catalogueTextView;
-    private Spinner serviceAreaSpinner;
+    // private Spinner serviceAreaSpinner;
+    private MaterialAutoCompleteTextView serviceAreaSpinner;
     private RadioGroup contactPreferenceGroup;
     private ProgressDialog loadingDialog;
     private CheckBox mon, tue, wed, thu, fri, sat, sun;
@@ -183,6 +189,8 @@ public class ProviderDashboardActivity extends AppCompatActivity
      *   - Saving data to Firestore is also async
      */
     private void handleSave() {
+        Log.e(TAG, "========== HANDLE SAVE CALLED ==========");
+        System.out.println("========== HANDLE SAVE CALLED ==========");
         // Get all input values
         String title = getText(serviceTitleInput);
         String description = getText(descriptionInput);
@@ -203,6 +211,14 @@ public class ProviderDashboardActivity extends AppCompatActivity
         Log.d(TAG, "Contact Preference: " + contactPreference);
         Log.d(TAG, "Category: " + category);
         Log.d(TAG, "Image URI: " + selectedImageUri);
+
+        // ADD THESE NEW DEBUG LINES:
+        if (selectedImageUri != null) {
+            Log.d(TAG, "Image URI Scheme: " + selectedImageUri.getScheme());
+            Log.d(TAG, "Image URI Path: " + selectedImageUri.getPath());
+            Log.d(TAG, "Is HTTP/HTTPS: " + (selectedImageUri.getScheme().equals("http") || selectedImageUri.getScheme().equals("https")));
+            Log.d(TAG, "Full URI: " + selectedImageUri.toString());
+        }
         Log.d(TAG, "========================");
 
         // Validate inputs
@@ -219,8 +235,8 @@ public class ProviderDashboardActivity extends AppCompatActivity
         }
 
         if (pricing.isEmpty()) {
-            pricingInput.setError("Required");
-            Toast.makeText(this, "Please enter pricing", Toast.LENGTH_SHORT).show();
+            pricingInput.setError("Please enter pricing in details'");
+            Toast.makeText(this, "Please enter pricing details", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -246,12 +262,20 @@ public class ProviderDashboardActivity extends AppCompatActivity
 
         // Handle image upload or save directly
         if (selectedImageUri != null) {
-            Log.d(TAG, "Image selected, uploading to Firebase Storage...");
-            StorageHelper.uploadImageToFirebase(this, selectedImageUri, imageUrl -> {
-                Log.d(TAG, "Image upload callback received, URL: " + imageUrl);
+            String uriString = selectedImageUri.toString();
+
+            // Check if image is already uploaded (HTTP/HTTPS = already on Firebase)
+            if (uriString.startsWith("http://") || uriString.startsWith("https://")) {
+                Log.d(TAG, "Image already on Firebase, skipping upload");
                 saveServiceToFirestore(title, description, pricing, category,
-                        area, availability, contactPreference, imageUrl);
-            });
+                        area, availability, contactPreference, uriString);
+            } else {
+                Log.d(TAG, "Local image, uploading to Firebase...");
+                StorageHelper.uploadImageToFirebase(this, selectedImageUri, imageUrl -> {
+                    saveServiceToFirestore(title, description, pricing, category,
+                            area, availability, contactPreference, imageUrl);
+                });
+            }
         } else {
             Log.d(TAG, "No image selected, prompting user...");
             // Ask user if they want to continue without image
@@ -395,7 +419,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
      *  Add to Firestore collection
      *  On success → clear form + exit Activity
      *  On failure → show Toast error
-     */
+
     private void saveServiceToFirestore(String title, String description, String pricing,
                                         String category, String area, String availability,
                                         String contactPreference, String imageUrl) {
@@ -434,7 +458,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
         serviceData.put("rating", 0.0);
         serviceData.put("timestamp", System.currentTimeMillis());
 
-        var servicesRef = firestore.collection("providers")
+        CollectionReference servicesRef = firestore.collection("providers")
                 .document(providerId)
                 .collection("services");
 
@@ -445,6 +469,14 @@ public class ProviderDashboardActivity extends AppCompatActivity
                     .addOnSuccessListener(ref -> {
                         savingDialog.dismiss();
                         Toast.makeText(this, "Service updated!", Toast.LENGTH_LONG).show();
+                        // Clear the form and reset for new entry
+                        editingServiceId = null;
+                        clearForm();
+                        selectedImageUri = null;
+                        //finish();
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                         finish();
                     })
                     .addOnFailureListener(e -> {
@@ -458,6 +490,9 @@ public class ProviderDashboardActivity extends AppCompatActivity
                     .addOnSuccessListener(ref -> {
                         savingDialog.dismiss();
                         Toast.makeText(this, "Service added successfully!", Toast.LENGTH_LONG).show();
+                        // Clear the form for next entry
+                        clearForm();
+                        selectedImageUri = null;
                         finish();
                     })
                     .addOnFailureListener(e -> {
@@ -466,6 +501,55 @@ public class ProviderDashboardActivity extends AppCompatActivity
                     });
         }
     }
+     */
+
+    private void saveServiceToFirestore(String title, String description, String pricing,
+                                        String category, String area, String availability,
+                                        String contactPreference, String imageUrl) {
+
+        String providerId = FirebaseAuth.getInstance().getCurrentUser() != null
+                ? FirebaseAuth.getInstance().getCurrentUser().getUid()
+                : null;
+
+        ProviderService service = new ProviderService();
+        service.setProviderId(providerId);
+        service.setServiceTitle(title);
+        service.setDescription(description);
+        service.setPricing(pricing);
+        service.setCategory(category);
+        service.setServiceArea(area);
+        service.setAvailability(availability);
+        service.setContactPreference(contactPreference);
+        service.setImageUrl(imageUrl != null ? imageUrl : "");
+        service.setStatus("Active");
+        service.setRating(0.0); // keep for future rating system
+        service.setTimestamp(System.currentTimeMillis());
+        if (editingServiceId != null) service.setId(editingServiceId);
+
+        ProgressDialog savingDialog = new ProgressDialog(this);
+        savingDialog.setMessage("Saving service...");
+        savingDialog.setCancelable(false);
+        savingDialog.show();
+
+        ProviderServiceController controller = new ProviderServiceController();
+        controller.saveOrUpdateService(providerId, service, new ProviderServiceDatabase.OnServiceSaveListener() {
+            @Override
+            public void onSuccess(String serviceId) {
+                savingDialog.dismiss();
+                Toast.makeText(ProviderDashboardActivity.this, "Service saved successfully!", Toast.LENGTH_SHORT).show();
+                clearForm();
+                finish();
+            }
+
+            @Override
+            public void onError(String error) {
+                savingDialog.dismiss();
+                Toast.makeText(ProviderDashboardActivity.this, "Save failed: " + error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
     // =========================================================
     // IMAGE PICKER
     // =========================================================
@@ -565,9 +649,13 @@ public class ProviderDashboardActivity extends AppCompatActivity
     private String getText(TextInputEditText editText) {
         return editText.getText() != null ? editText.getText().toString().trim() : "";
     }
-
+/*
     private String getSelectedItem(Spinner spinner) {
         return spinner.getSelectedItem() != null ? spinner.getSelectedItem().toString() : "";
+    }
+*/
+    private String getSelectedItem(MaterialAutoCompleteTextView autoCompleteTextView) {
+        return autoCompleteTextView.getText() != null ? autoCompleteTextView.getText().toString().trim() : "";
     }
     // =========================================================
     // Resets all input fields to default state
@@ -576,7 +664,8 @@ public class ProviderDashboardActivity extends AppCompatActivity
         serviceTitleInput.setText("");
         descriptionInput.setText("");
         pricingInput.setText("");
-        serviceAreaSpinner.setSelection(0);
+        //serviceAreaSpinner.setSelection(0);
+        serviceAreaSpinner.setText("", false);
         mon.setChecked(false);
         tue.setChecked(false);
         wed.setChecked(false);
@@ -623,7 +712,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
                         areas.add(doc.getId());
                     }
                     Collections.sort(areas);
-                    areas.add(0, "Select Service Area");
+                    //areas.add(0, "Select Service Area");
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(
                             this, android.R.layout.simple_spinner_item, areas);
@@ -708,7 +797,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
 
                     var doc = query.getDocuments().get(0);
 
-                    // ✅ Store the document ID so we can UPDATE it later
+                    // Store the document ID so we can UPDATE it later
                     editingServiceId = doc.getId();
                     Log.d(TAG, "Draft loaded - Document ID: " + editingServiceId);
 
@@ -761,13 +850,8 @@ public class ProviderDashboardActivity extends AppCompatActivity
     // RESTORE UI STATE HELPERS
     // =========================================================
     // used when retrieving saved data
-    private void setSpinnerSelection(Spinner spinner, String value) {
-        for (int i = 0; i < spinner.getCount(); i++) {
-            if (spinner.getItemAtPosition(i).toString().equals(value)) {
-                spinner.setSelection(i);
-                return;
-            }
-        }
+    private void setSpinnerSelection(MaterialAutoCompleteTextView autoCompleteTextView, String value) {
+        autoCompleteTextView.setText(value, false);  // 'false' prevents dropdown from showing
     }
     // used when retrieving saved data
     private void setAvailabilityCheckboxes(String availability) {
