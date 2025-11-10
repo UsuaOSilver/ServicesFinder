@@ -64,13 +64,24 @@
         android:id="@+id/authTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:elevation="4dp"
         app:tabMode="fixed"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/design_default_color_primary"
         app:tabTextColor="@color/darkgrey"
-        app:tabSelectedTextColor="@color/design_default_color_primary" />
+        app:tabTextAppearance="@style/CustomTabText"
+        app:tabSelectedTextColor="@color/design_default_color_primary">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SIGN IN"            />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SIGN UP"/>
+
+    </com.google.android.material.tabs.TabLayout>
 
     <!-- Scrollable Content -->
     <ScrollView
@@ -156,11 +167,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Sign In"
+                        android:text="SIGN IN"
                         android:textSize="16sp"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:backgroundTint="@color/darkslategray" />
+                        android:backgroundTint="@color/design_default_color_primary" />
 
                     <!-- Cancel Button (Right) -->
                     <Button
@@ -168,10 +178,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Cancel"
+                        android:text="CANCEL"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:backgroundTint="@color/darkslategray"
+                        android:backgroundTint="@color/design_default_color_primary"
                         android:textColor="@android:color/white"
                         android:layout_marginStart="8dp" />
                 </LinearLayout>
@@ -322,12 +331,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Create"
-                        android:textAllCaps="false"
+                        android:text="CREATE"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:backgroundTint="@color/darkslategray" />
+                        android:backgroundTint="@color/design_default_color_primary" />
 
                     <!-- Cancel Button -->
                     <Button
@@ -335,11 +343,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Cancel"
-                        android:textAllCaps="false"
+                        android:text="CANCEL"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:backgroundTint="@color/darkslategray"
+                        android:backgroundTint="@color/design_default_color_primary"
                         android:textColor="@android:color/white"
                         android:layout_marginStart="8dp" />
                 </LinearLayout>

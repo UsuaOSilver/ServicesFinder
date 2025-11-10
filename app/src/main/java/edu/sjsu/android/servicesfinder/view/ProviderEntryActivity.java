@@ -79,11 +79,13 @@ public class ProviderEntryActivity extends AppCompatActivity
         signUpConfirmPassword = findViewById(R.id.signUpConfirmPassword);
         signUpButton = findViewById(R.id.signUpButton);
         signUpCancelButton = findViewById(R.id.signUpCancelButton);
+
+        signInEmail.setText("minhha@yahoo.com");
+        signInPassword.setText("123456");
+
     }
 
     private void setupTabs() {
-        tabLayout.addTab(tabLayout.newTab().setText("Sign In"));
-        tabLayout.addTab(tabLayout.newTab().setText("Sign Up"));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) showSignIn(); else showSignUp();
