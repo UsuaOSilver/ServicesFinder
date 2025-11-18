@@ -1,6 +1,7 @@
 package edu.sjsu.android.servicesfinder.view;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.bumptech.glide.Glide;
 import edu.sjsu.android.servicesfinder.R;
 import edu.sjsu.android.servicesfinder.databinding.ActivityServiceDetailBinding;
@@ -51,14 +54,18 @@ public class ServiceDetailActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);      // Enable back button in the ActionBar
             getSupportActionBar().setTitle("Service Details");
+            // Set ActionBar background color
+            getSupportActionBar().setBackgroundDrawable(
+                    new ColorDrawable(ContextCompat.getColor(this, R.color.sf_primary))
+            );
         }
 
-        getIntentExtras();                                              // Retrieves data passed from the main activity
+        getIntentExtras();  // Retrieves data passed from the main activity
         displayServiceInfo();
         setupActionButtons();
     }
 
-    /** Retrieves service and provider data passed from previous activity */
+    // Retrieves service and provider data passed from previous activity
     private void getIntentExtras() {
         Intent intent = getIntent();
 
@@ -78,7 +85,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         providerAddress = intent.getStringExtra("providerAddress");
     }
 
-    /** Displays all service and provider info in UI */
+    // Displays all service and provider info in UI
     private void displayServiceInfo() {
         // Title
         binding.serviceDetailTitle.setText(serviceTitle);
@@ -120,7 +127,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         }
 
         // Provider name
-        binding.providerDetailName.setText("Provider: " + providerName);
+        binding.providerDetailName.setText(providerName);
 
         // Provider contact
         StringBuilder contactInfo = new StringBuilder();
@@ -129,11 +136,11 @@ public class ServiceDetailActivity extends AppCompatActivity {
         }
         if (providerEmail != null && !providerEmail.isEmpty()) {
             if (contactInfo.length() > 0) contactInfo.append("\n");
-            contactInfo.append(" Envelope: ").append(providerEmail);
+            contactInfo.append(" Email: ").append(providerEmail);
         }
         if (providerAddress != null && !providerAddress.isEmpty()) {
             if (contactInfo.length() > 0) contactInfo.append("\n");
-            contactInfo.append(" Map: ").append(providerAddress);
+            contactInfo.append(" Address: ").append(providerAddress);
         }
         binding.providerDetailContact.setText(contactInfo.toString());
 
@@ -150,7 +157,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         }
     }
 
-    /** Sets up call, email, and map buttons */
+    // Sets up call, email, and map buttons
     private void setupActionButtons() {
         // Call
         binding.callButton.setOnClickListener(v -> {
