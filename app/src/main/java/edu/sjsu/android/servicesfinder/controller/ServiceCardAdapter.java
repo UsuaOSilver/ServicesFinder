@@ -1,5 +1,6 @@
 package edu.sjsu.android.servicesfinder.controller;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ import edu.sjsu.android.servicesfinder.R;
 import edu.sjsu.android.servicesfinder.model.Provider;
 import edu.sjsu.android.servicesfinder.model.ProviderService;
 
-/**
+/* ****************************************************************************
  * RecyclerView Adapter, displays services on the Home screen.
  * Each card shows:
  *   - service title
@@ -30,7 +31,7 @@ import edu.sjsu.android.servicesfinder.model.ProviderService;
  *   - availability (days)
  *   - category (example: Home, Automotive)
  *   - service image from Firebase Storage
- */
+ *********************************************************************************/
 public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.ServiceCardViewHolder> {
 
     private final Context context;
@@ -51,14 +52,14 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
         this.serviceItems = new ArrayList<>();
     }
 
-    /**
-     * Allow Activity/Fragment to receive click events
-     */
+    /* ****************************************************************
+     * Set listener for Activity/Fragment to receive click events
+     ******************************************************************/
     public void setOnServiceClickListener(OnServiceClickListener listener) {
         this.listener = listener;
     }
 
-    /**
+    /* ****************************************************************
      * Convert incoming map to our flat list
      * Input shape:
      *     Provider -> [Service1, Service2]
@@ -66,7 +67,8 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
      *     ServiceItem(Provider, Service1)
      *     ServiceItem(Provider, Service2)
      * Then RecyclerView can display each as a card.
-     */
+     ****************************************************************/
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(Map<Provider, List<ProviderService>> providerServiceMap) {
         serviceItems.clear(); // remove previous content
 
@@ -85,7 +87,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
     }
 
      // Accepts already-prepared items. Useful when sorted externally.
-
+     @SuppressLint("NotifyDataSetChanged")
     public void setServiceItems(List<ServiceItem> items) {
         this.serviceItems = items;
         notifyDataSetChanged();
@@ -130,7 +132,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
      // reusable object holding references to UI elements
      // Avoids expensive findViewById() calls repeatedly.
 
-    static class ServiceCardViewHolder extends RecyclerView.ViewHolder {
+    public static class ServiceCardViewHolder extends RecyclerView.ViewHolder {
 
         // UI views found inside item_service_card.xml
         private final ImageView serviceImage;

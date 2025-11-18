@@ -7,10 +7,10 @@ import edu.sjsu.android.servicesfinder.database.ProviderServiceDatabase;
 import edu.sjsu.android.servicesfinder.model.Provider;
 import edu.sjsu.android.servicesfinder.model.ProviderService;
 
-/**
- * HomeController - Business logic for home screen
- * Handles loading, searching, and filtering providers with services
- */
+/* ******************************************************************************************
+ * HOMECONTROLLER - BUSINESS LOGIC FOR HOME SCREEN
+ * HANDLES LOADING, SEARCHING, AND FILTERING PROVIDERS WITH SERVICES
+ *******************************************************************************************/
 public class HomeController {
 
     private static final String TAG = "HomeController";
@@ -30,9 +30,9 @@ public class HomeController {
         this.listener = listener;
     }
 
-    /**
+    /* ****************************************************************
      * Load all providers with their services
-     */
+     *****************************************************************/
     public void loadAllProvidersWithServices() {
         database.getAllProvidersWithServices(new ProviderServiceDatabase.OnProvidersWithServicesLoadedListener() {
             @Override
@@ -57,10 +57,9 @@ public class HomeController {
             }
         });
     }
-
-    /**
+    /* ****************************************************************
      * Search providers and services
-     */
+     *****************************************************************/
     public void searchProvidersAndServices(String query) {
         lastSearchQuery = query;
 
@@ -90,10 +89,9 @@ public class HomeController {
             }
         });
     }
-
-    /**
+    /* ****************************************************************
      * Filter by category
-     */
+     *****************************************************************/
     public void filterByCategory(String category) {
         database.getProvidersByCategory(category, new ProviderServiceDatabase.OnProvidersWithServicesLoadedListener() {
             @Override

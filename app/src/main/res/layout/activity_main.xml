@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5">
+    android:background="?attr/colorSurface">
 
     <!-- Top Bar -->
     <LinearLayout
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@color/darkslategray"
+        android:background="?attr/colorPrimary"
         android:padding="12dp">
 
         <ImageView
@@ -38,7 +38,7 @@
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:autoSizeTextType="uniform"
                 android:autoSizeMinTextSize="16sp"
                 android:autoSizeMaxTextSize="36sp"/>
@@ -50,7 +50,7 @@
                 android:text="Browse available services"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:autoSizeTextType="uniform"
                 android:autoSizeMinTextSize="12sp"
                 android:autoSizeMaxTextSize="26sp"/>
@@ -68,7 +68,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="?attr/colorSurface"
             app:elevation="4dp">
 
             <LinearLayout
@@ -81,7 +81,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="8dp"
+                    app:cardCornerRadius="16dp"
                     app:cardElevation="2dp">
 
                     <EditText
@@ -116,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:textColor="@color/purple_700"
+                    android:textColor="?attr/colorPrimary"
                     android:paddingTop="4dp"
                     android:visibility="gone"/>
             </LinearLayout>
@@ -173,7 +173,7 @@
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
-    <!-- Bottom CTA -->
+    <!-- Bottom CALL-TO-ACTION -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -198,8 +198,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Provider Access"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/chocolate"
+            android:textColor="?attr/colorOnSecondary"
+            android:textStyle="bold"
+            android:backgroundTint="?attr/colorSecondary"
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="10sp"
             android:autoSizeMaxTextSize="16sp"/>

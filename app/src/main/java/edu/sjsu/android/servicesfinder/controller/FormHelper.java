@@ -12,18 +12,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-//*******************************************************************************************
-// Focused on extracting data from UI components and formatting it for storage
-// - Collecting data from UI components
-// - Formatting data for storage
-// - Converting UI selections to strings
-//*******************************************************************************************
+/* ******************************************************************************************
+ FOCUSED ON EXTRACTING DATA FROM UI COMPONENTS AND FORMATTING IT FOR STORAGE
+ - COLLECTING DATA FROM UI COMPONENTS
+ - FORMATTING DATA FOR STORAGE
+ - CONVERTING UI SELECTIONS TO STRINGS
+*******************************************************************************************/
 public class FormHelper {
 
-    /**
-     * Get selected availability days from checkboxes
-     * @return Comma-separated string of days (e.g., "Mon, Tue, Fri")
-     */
+    /* *************************************************************************************
+     * GET SELECTED AVAILABILITY DAYS FROM CHECKBOXES
+     * RETURN COMMA-SEPARATED STRING OF DAYS (E.G., "MON, TUE, FRI")
+     ****************************************************************************************/
     public static String getSelectedAvailability(CheckBox mon, CheckBox tue, CheckBox wed,
                                                  CheckBox thu, CheckBox fri, CheckBox sat, CheckBox sun) {
         List<String> days = new ArrayList<>();
@@ -37,11 +37,11 @@ public class FormHelper {
         return String.join(", ", days);
     }
 
-    /**
-     * Format category selection map into readable string
-     * @param selectedItems Map of category -> services
-     * @return Formatted string (e.g., "Plumbing: Pipes, Toilets | Electrical: Wiring")
-     */
+    /* *************************************************************************************
+     * FORMAT CATEGORY SELECTION MAP INTO READABLE STRING
+     * GET SELECTEDITEMS MAP OF CATEGORY -> SERVICES
+     * RETURN FORMATTED STRING (E.G., "PLUMBING: PIPES, TOILETS | ELECTRICAL: WIRING")
+     ****************************************************************************************/
     public static String formatCategoryFromSelection(Map<String, Set<String>> selectedItems) {
         List<String> summary = new ArrayList<>();
         for (Map.Entry<String, Set<String>> entry : selectedItems.entrySet()) {
@@ -52,33 +52,24 @@ public class FormHelper {
         return String.join(" | ", summary);
     }
 
-    /**
+    /* ***************************************************************
      * Get selected contact preference from RadioGroup
-     * @param radioGroup RadioGroup containing contact options
-     * @param activity Activity context to find RadioButton
-     * @return Selected radio button text
-     */
+     ****************************************************************/
     public static String getSelectedContactPreference(RadioGroup radioGroup, android.app.Activity activity) {
         int selectedId = radioGroup.getCheckedRadioButtonId();
         if (selectedId == -1) return "";
         RadioButton radioButton = activity.findViewById(selectedId);
         return radioButton != null ? radioButton.getText().toString() : "";
     }
-
-    /**
+    /* ***************************************************************
      * Get text from TextInputEditText
-     * @param editText TextInputEditText to get text from
-     * @return Trimmed text or empty string
-     */
+     ****************************************************************/
     public static String getText(TextInputEditText editText) {
         return editText.getText() != null ? editText.getText().toString().trim() : "";
     }
-
-    /**
+    /* ***************************************************************
      * Get selected item from MaterialAutoCompleteTextView
-     * @param autoCompleteTextView MaterialAutoCompleteTextView to get text from
-     * @return Trimmed text or empty string
-     */
+     ****************************************************************/
     public static String getSelectedItem(MaterialAutoCompleteTextView autoCompleteTextView) {
         return autoCompleteTextView.getText() != null ? autoCompleteTextView.getText().toString().trim() : "";
     }

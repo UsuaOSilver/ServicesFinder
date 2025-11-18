@@ -35,13 +35,11 @@
 
         <activity
             android:name=".view.ProviderEntryActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:exported="true"/>
         <activity
             android:name=".view.ServiceDetailActivity"
             android:label="Service Details"
-            android:parentActivityName=".view.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+            android:parentActivityName=".view.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.MainActivity" />
@@ -49,8 +47,8 @@
         <activity
             android:name=".view.EditProfileActivity"
             android:label="Profile Editing"
-            android:parentActivityName=".view.ProviderDashboardActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:parentActivityName=".view.ProviderDashboardActivity">
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".view.MainActivity" />

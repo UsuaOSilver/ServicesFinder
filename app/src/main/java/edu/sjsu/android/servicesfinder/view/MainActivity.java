@@ -8,141 +8,122 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import edu.sjsu.android.servicesfinder.R;
 import edu.sjsu.android.servicesfinder.controller.HomeController;
 import edu.sjsu.android.servicesfinder.controller.ServiceCardAdapter;
+import edu.sjsu.android.servicesfinder.databinding.ActivityMainBinding;
 import edu.sjsu.android.servicesfinder.model.Provider;
 import edu.sjsu.android.servicesfinder.model.ProviderService;
 
-/**
- * MainActivity - Home screen with service listing, search, and filters
- * Shows all services with embedded provider info
- */
+/* *******************************************************************************************
+ * MainActivity - Home screen showing service list, search bar, filters, sorting.
+ * Uses ViewBinding instead of findViewById.
+ ******************************************************************************************* */
 public class MainActivity extends AppCompatActivity
         implements HomeController.HomeControllerListener,
         ServiceCardAdapter.OnServiceClickListener {
 
     private static final String TAG = "MainActivity";
-    private static final int SEARCH_DELAY_MS = 300; // 300ms debounce
+    private static final int SEARCH_DELAY_MS = 300;
 
-    // UI Components
-    private EditText searchEditText;
-    private ChipGroup filterChipGroup;
-    private RecyclerView servicesRecyclerView;
-    private ProgressBar loadingProgressBar;
-    private View emptyStateView;
-    private TextView emptyStateText;
-    private Button providerBtn;
-    private TextView resultCountText;
-
-    // Controllers and Adapters
+    private ActivityMainBinding binding;   // ViewBinding reference
     private HomeController homeController;
     private ServiceCardAdapter serviceAdapter;
-
-    // Search debounce
     private Handler searchHandler;
     private Runnable searchRunnable;
 
-    // Current state
     private String currentSearchQuery = "";
     private String currentCategoryFilter = "";
     private SortOption currentSortOption = SortOption.MOST_RECENT;
 
+    /* *******************************************************************************************
+     * onCreate
+     ******************************************************************************************* */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+        // Inflate using ViewBinding
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        initializeComponents();
-        setupSearchWithDebounce();
+        if (getSupportActionBar() != null) getSupportActionBar().hide();
+
+        // Setup core components
+        homeController = new HomeController();
+        homeController.setListener(this);
+        searchHandler = new Handler(Looper.getMainLooper());
+
+        initializeUI();
+        setupSearchBox();
         setupFilterChips();
         setupProviderButton();
         setupRecyclerView();
 
-        // Load initial data
         showLoading();
         homeController.loadAllProvidersWithServices();
     }
 
-    private void initializeComponents() {
-        searchEditText = findViewById(R.id.searchEditText);
-        filterChipGroup = findViewById(R.id.filterChipGroup);
-        servicesRecyclerView = findViewById(R.id.servicesRecyclerView);
-        loadingProgressBar = findViewById(R.id.loadingProgressBar);
-        emptyStateView = findViewById(R.id.emptyStateView);
-        emptyStateText = findViewById(R.id.emptyStateText);
-        providerBtn = findViewById(R.id.providerBtn);
-        resultCountText = findViewById(R.id.resultCountText);
-
-        homeController = new HomeController();
-        homeController.setListener(this);
-
-        searchHandler = new Handler(Looper.getMainLooper());
+    /* *******************************************************************************************
+     * Initialize UI via binding
+     ******************************************************************************************* */
+    private void initializeUI() {
+        // Binding already exposes all views; no findViewById needed
     }
 
+    /* *******************************************************************************************
+     * Setup RecyclerView for Services
+     ******************************************************************************************* */
     private void setupRecyclerView() {
-        servicesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.servicesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         serviceAdapter = new ServiceCardAdapter(this);
         serviceAdapter.setOnServiceClickListener(this);
-        servicesRecyclerView.setAdapter(serviceAdapter);
+        binding.servicesRecyclerView.setAdapter(serviceAdapter);
     }
 
-    private void setupSearchWithDebounce() {
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    /* *******************************************************************************************
+     * Search box with debounce
+     ******************************************************************************************* */
+    private void setupSearchWithDebounce(TextWatcher watcher) {
+        binding.searchEditText.addTextChangedListener(watcher);
+    }
+
+    private void setupSearchBox() {
+        binding.searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Cancel previous search
-                if (searchRunnable != null) {
-                    searchHandler.removeCallbacks(searchRunnable);
-                }
 
-                // Schedule new search after 300ms
+                if (searchRunnable != null)
+                    searchHandler.removeCallbacks(searchRunnable);
+
                 searchRunnable = () -> performSearch(s.toString());
                 searchHandler.postDelayed(searchRunnable, SEARCH_DELAY_MS);
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
         });
     }
 
+    /* *******************************************************************************************
+     * Filter chips
+     ******************************************************************************************* */
     private void setupFilterChips() {
-        // Predefined categories based on Firebase structure
         String[] categories = {
-                "All",
-                "Home Services",
-                "Automotive",
-                "Health & Wellness",
-                "Hair Care",
-                "Pet Services",
-                "Education"
+                "All", "Home Services", "Automotive",
+                "Health & Wellness", "Hair Care",
+                "Pet Services", "Education"
         };
 
         for (String category : categories) {
@@ -150,55 +131,52 @@ public class MainActivity extends AppCompatActivity
             chip.setText(category);
             chip.setCheckable(true);
 
-            if (category.equals("All")) {
-                chip.setChecked(true);
-            }
+            if (category.equals("All")) chip.setChecked(true);
 
-            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            chip.setOnCheckedChangeListener((button, isChecked) -> {
                 if (isChecked) {
-
-                    // Uncheck other chips
-                    for (int i = 0; i < filterChipGroup.getChildCount(); i++) {
-                        Chip otherChip = (Chip) filterChipGroup.getChildAt(i);
-                        if (otherChip != chip) {
-                            otherChip.setChecked(false);
-                        }
-                    }
+                    uncheckOtherChips(chip);
 
                     if (category.equals("All")) {
-                        // Clear search and category filter
                         currentCategoryFilter = "";
                         currentSearchQuery = "";
-                        searchEditText.setText("");
-
-                        // Always reload full dataset
+                        binding.searchEditText.setText("");
                         showLoading();
                         homeController.loadAllProvidersWithServices();
                         return;
                     }
 
-                    // For other categories
                     currentCategoryFilter = category;
                     applyFilters();
                 }
             });
 
-
-            filterChipGroup.addView(chip);
+            binding.filterChipGroup.addView(chip);
         }
     }
 
-    private void setupProviderButton() {
-        providerBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ProviderEntryActivity.class);
-            startActivity(intent);
-        });
+    private void uncheckOtherChips(Chip selected) {
+        for (int i = 0; i < binding.filterChipGroup.getChildCount(); i++) {
+            Chip other = (Chip) binding.filterChipGroup.getChildAt(i);
+            if (other != selected) other.setChecked(false);
+        }
     }
 
+    /* *******************************************************************************************
+     * Provider Button
+     ******************************************************************************************* */
+    private void setupProviderButton() {
+        binding.providerBtn.setOnClickListener(v ->
+                startActivity(new Intent(this, ProviderEntryActivity.class))
+        );
+    }
+
+    /* *******************************************************************************************
+     * Perform Search
+     ******************************************************************************************* */
     private void performSearch(String query) {
         currentSearchQuery = query.trim();
-
-        Log.d(TAG, "Performing search: " + currentSearchQuery);
+        Log.d(TAG, "Searching: " + currentSearchQuery);
 
         if (currentSearchQuery.isEmpty()) {
             homeController.loadAllProvidersWithServices();
@@ -208,62 +186,56 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /* *******************************************************************************************
+     * Apply Filters
+     ******************************************************************************************* */
     private void applyFilters() {
         showLoading();
 
         if (currentCategoryFilter.isEmpty()) {
-            if (currentSearchQuery.isEmpty()) {
+            if (currentSearchQuery.isEmpty())
                 homeController.loadAllProvidersWithServices();
-            } else {
+            else
                 homeController.searchProvidersAndServices(currentSearchQuery);
-            }
         } else {
             homeController.filterByCategory(currentCategoryFilter);
         }
     }
 
+    /* *******************************************************************************************
+     * Convert & Sort Provider-Service Data
+     ******************************************************************************************* */
     private void applySorting(Map<Provider, List<ProviderService>> data) {
         List<ServiceCardAdapter.ServiceItem> items = new ArrayList<>();
 
-        // Convert map to list of ServiceItems
+        // Flatten provider → services
         for (Map.Entry<Provider, List<ProviderService>> entry : data.entrySet()) {
             for (ProviderService service : entry.getValue()) {
                 items.add(new ServiceCardAdapter.ServiceItem(entry.getKey(), service));
             }
         }
 
-        // Sort based on current option
         switch (currentSortOption) {
-            case RATING:
-                // Sort by rating (placeholder - all are 0 currently)
-                Collections.sort(items, (a, b) ->
-                        Double.compare(0, 0)); // Replace with actual rating
-                break;
-
             case PRICE_LOW_TO_HIGH:
-                Collections.sort(items, (a, b) -> {
-                    double priceA = extractPrice(a.service.getPricing());
-                    double priceB = extractPrice(b.service.getPricing());
-                    return Double.compare(priceA, priceB);
-                });
+                Collections.sort(items, (a, b) ->
+                        Double.compare(extractPrice(a.service.getPricing()),
+                                extractPrice(b.service.getPricing())));
                 break;
 
             case PRICE_HIGH_TO_LOW:
-                Collections.sort(items, (a, b) -> {
-                    double priceA = extractPrice(a.service.getPricing());
-                    double priceB = extractPrice(b.service.getPricing());
-                    return Double.compare(priceB, priceA);
-                });
+                Collections.sort(items, (a, b) ->
+                        Double.compare(extractPrice(b.service.getPricing()),
+                                extractPrice(a.service.getPricing())));
                 break;
 
             case MOST_RECENT:
                 Collections.sort(items, (a, b) ->
-                        Long.compare(b.service.getTimestamp(), a.service.getTimestamp()));
+                        Long.compare(b.service.getTimestamp(),
+                                a.service.getTimestamp()));
                 break;
 
+            case RATING:
             case POPULAR:
-                // Sort by popularity (placeholder)
-                // You can implement this based on view count, rating count, etc.
                 break;
         }
 
@@ -272,137 +244,118 @@ public class MainActivity extends AppCompatActivity
     }
 
     private double extractPrice(String pricing) {
-        if (pricing == null || pricing.isEmpty()) {
-            return 0;
-        }
+        if (pricing == null || pricing.isEmpty()) return 0;
 
         try {
-            // Extract numeric part (e.g., "$50" -> 50, "$25/hour" -> 25)
-            String numericPart = pricing.replaceAll("[^0-9.]", "");
-            return Double.parseDouble(numericPart);
-        } catch (NumberFormatException e) {
+            return Double.parseDouble(pricing.replaceAll("[^0-9.]", ""));
+        } catch (Exception e) {
             return 0;
         }
     }
 
+    /* *******************************************************************************************
+     * UI Helpers
+     ******************************************************************************************* */
     private void showLoading() {
-        loadingProgressBar.setVisibility(View.VISIBLE);
-        servicesRecyclerView.setVisibility(View.GONE);
-        emptyStateView.setVisibility(View.GONE);
+        binding.loadingProgressBar.setVisibility(View.VISIBLE);
+        binding.servicesRecyclerView.setVisibility(View.GONE);
+        binding.emptyStateView.setVisibility(View.GONE);
     }
 
     private void showContent() {
-        loadingProgressBar.setVisibility(View.GONE);
-        servicesRecyclerView.setVisibility(View.VISIBLE);
-        emptyStateView.setVisibility(View.GONE);
+        binding.loadingProgressBar.setVisibility(View.GONE);
+        binding.servicesRecyclerView.setVisibility(View.VISIBLE);
+        binding.emptyStateView.setVisibility(View.GONE);
     }
 
-    private void showEmptyState(String message) {
-        loadingProgressBar.setVisibility(View.GONE);
-        servicesRecyclerView.setVisibility(View.GONE);
-        emptyStateView.setVisibility(View.VISIBLE);
-        emptyStateText.setText(message);
+    private void showEmptyState(String msg) {
+        binding.loadingProgressBar.setVisibility(View.GONE);
+        binding.servicesRecyclerView.setVisibility(View.GONE);
+        binding.emptyStateView.setVisibility(View.VISIBLE);
+        binding.emptyStateText.setText(msg);
     }
 
     private void updateResultCount(int count) {
         if (count == 0) {
-            resultCountText.setVisibility(View.GONE);
+            binding.resultCountText.setVisibility(View.GONE);
         } else {
-            resultCountText.setVisibility(View.VISIBLE);
-            String text = count + (count == 1 ? " service found" : " services found");
-            resultCountText.setText(text);
+            binding.resultCountText.setVisibility(View.VISIBLE);
+            binding.resultCountText.setText(
+                    count + (count == 1 ? " service found" : " services found")
+            );
         }
     }
 
-    // ==================== HomeControllerListener Callbacks ====================
-
+    /* *******************************************************************************************
+     * HomeController Callbacks
+     ******************************************************************************************* */
     @Override
-    public void onProvidersWithServicesLoaded(Map<Provider, List<ProviderService>> providerServiceMap) {
-        Log.d(TAG, "Loaded " + providerServiceMap.size() + " providers");
-
-        if (providerServiceMap.isEmpty()) {
-            showEmptyState("No services available yet.\nCheck back soon!");
-        } else {
+    public void onProvidersWithServicesLoaded(Map<Provider, List<ProviderService>> map) {
+        if (map.isEmpty()) showEmptyState("No services available yet.");
+        else {
             showContent();
-            applySorting(providerServiceMap);
+            applySorting(map);
         }
     }
 
     @Override
-    public void onSearchResultsLoaded(Map<Provider, List<ProviderService>> providerServiceMap, String query) {
-        Log.d(TAG, "Search results for: " + query);
-
-        if (providerServiceMap.isEmpty()) {
-            showEmptyState("No results found for \"" + query + "\"");
-        } else {
+    public void onSearchResultsLoaded(Map<Provider, List<ProviderService>> map, String query) {
+        if (map.isEmpty()) showEmptyState("No results for \"" + query + "\"");
+        else {
             showContent();
-            applySorting(providerServiceMap);
+            applySorting(map);
         }
     }
 
     @Override
     public void onSearchResultsEmpty(String query) {
-        showEmptyState("No results found for \"" + query + "\"\n\nTry different keywords or filters");
+        showEmptyState("No results for \"" + query + "\"");
     }
 
     @Override
-    public void onProviderDetailsLoaded(Provider provider, List<ProviderService> services) {
-        // Not used in main activity
-    }
+    public void onProviderDetailsLoaded(Provider provider, List<ProviderService> services) {}
 
     @Override
     public void onNoDataAvailable() {
-        showEmptyState("No services available in your area yet.\n\nTry expanding filters or check back soon!");
+        showEmptyState("No data available.");
     }
 
     @Override
     public void onError(String errorMessage) {
-        Log.e(TAG, "Error: " + errorMessage);
-        Toast.makeText(this, "Error: " + errorMessage, Toast.LENGTH_LONG).show();
-        showEmptyState("Unable to load services.\n\n" + errorMessage);
+        showEmptyState("Error: " + errorMessage);
     }
 
-    // ==================== ServiceCardAdapter.OnServiceClickListener ====================
-
+    /* *******************************************************************************************
+     * RecyclerView click → open detail page
+     ******************************************************************************************* */
     @Override
     public void onServiceClick(ServiceCardAdapter.ServiceItem item) {
-        Log.d(TAG, "Service clicked: " + item.service.getServiceTitle());
-
-        // Open service detail activity
-        Intent intent = new Intent(this, ServiceDetailActivity.class);
-        intent.putExtra("providerId", item.provider.getId());
-        intent.putExtra("providerName", item.provider.getFullName());
-        intent.putExtra("providerPhone", item.provider.getPhone());
-        intent.putExtra("providerEmail", item.provider.getEmail());
-        intent.putExtra("providerAddress", item.provider.getAddress());
-        intent.putExtra("serviceId", item.service.getId());
-        intent.putExtra("serviceTitle", item.service.getServiceTitle());
-        intent.putExtra("serviceDescription", item.service.getDescription());
-        intent.putExtra("servicePricing", item.service.getPricing());
-        intent.putExtra("serviceCategory", item.service.getCategory());
-        intent.putExtra("serviceArea", item.service.getServiceArea());
-        intent.putExtra("serviceAvailability", item.service.getAvailability());
-        intent.putExtra("serviceContactPreference", item.service.getContactPreference());
-        intent.putExtra("serviceImageUrl", item.service.getImageUrl());
-        startActivity(intent);
+        Intent i = new Intent(this, ServiceDetailActivity.class);
+        i.putExtra("providerId", item.provider.getId());
+        i.putExtra("providerName", item.provider.getFullName());
+        i.putExtra("providerPhone", item.provider.getPhone());
+        i.putExtra("providerEmail", item.provider.getEmail());
+        i.putExtra("providerAddress", item.provider.getAddress());
+        i.putExtra("serviceId", item.service.getId());
+        i.putExtra("serviceTitle", item.service.getServiceTitle());
+        i.putExtra("serviceDescription", item.service.getDescription());
+        i.putExtra("servicePricing", item.service.getPricing());
+        i.putExtra("serviceCategory", item.service.getCategory());
+        i.putExtra("serviceArea", item.service.getServiceArea());
+        i.putExtra("serviceAvailability", item.service.getAvailability());
+        i.putExtra("serviceContactPreference", item.service.getContactPreference());
+        i.putExtra("serviceImageUrl", item.service.getImageUrl());
+        startActivity(i);
     }
 
-    // ==================== Sort Options ====================
-
-    private enum SortOption {
-        RATING,
-        PRICE_LOW_TO_HIGH,
-        PRICE_HIGH_TO_LOW,
-        MOST_RECENT,
-        POPULAR
-    }
-
+    /* *******************************************************************************************
+     * Lifecycle
+     ******************************************************************************************* */
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (searchHandler != null && searchRunnable != null) {
+        if (searchHandler != null && searchRunnable != null)
             searchHandler.removeCallbacks(searchRunnable);
-        }
     }
 
     @Override
@@ -412,4 +365,14 @@ public class MainActivity extends AppCompatActivity
         homeController.loadAllProvidersWithServices();
     }
 
+    /* *******************************************************************************************
+     * Sort Options
+     ******************************************************************************************* */
+    private enum SortOption {
+        RATING,
+        PRICE_LOW_TO_HIGH,
+        PRICE_HIGH_TO_LOW,
+        MOST_RECENT,
+        POPULAR
+    }
 }

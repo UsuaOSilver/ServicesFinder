@@ -48,6 +48,8 @@ public class CatalogueDatabase {
 
                         // Get embedded services array
                         List<String> services = (List<String>) doc.get("services");
+                        //List<String> services = doc.get("services", new GenericTypeIndicator<List<String>>() {});
+
 
                         // Only add if services exist and are not empty
                         if (services != null && !services.isEmpty()) {

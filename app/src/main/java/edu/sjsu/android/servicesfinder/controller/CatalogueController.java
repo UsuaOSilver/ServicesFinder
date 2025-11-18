@@ -11,10 +11,10 @@ import edu.sjsu.android.servicesfinder.database.ServiceDatabase;
 import edu.sjsu.android.servicesfinder.model.Catalogue;
 import edu.sjsu.android.servicesfinder.model.Service;
 
-/**
- * Controller for Catalogue business logic
- * Coordinates between View and Database layers
- */
+/* =========================================================
+ * CONTROLLER FOR CATALOGUE BUSINESS LOGIC
+ * COORDINATES BETWEEN VIEW AND DATABASE LAYERS
+ ***********************************************************/
 public class CatalogueController {
 
     private final CatalogueDatabase catalogueDatabase;
@@ -28,11 +28,12 @@ public class CatalogueController {
         this.listener = listener;
     }
 
-    /**
-     * Load catalogue map for dropdown (Catalogue Title -> List of Service Names)
-     * This is formatted specifically for MultiSelectDropdown
-     * Uses embedded services array from catalogue documents
-     */
+    /* ****************************************************************************
+     * LOAD CATALOGUE MAP FOR DROPDOWN (CATALOGUE TITLE -> LIST OF SERVICE NAMES)
+     * THIS IS FORMATTED SPECIFICALLY FOR MULTISELECTDROPDOWN
+     * USES EMBEDDED SERVICES ARRAY FROM CATALOGUE DOCUMENTS
+     ***********************************************************************/
+
     public void loadCatalogueMapForDropdown() {
         catalogueDatabase.getCatalogueMapWithEmbeddedServices(new CatalogueDatabase.OnCatalogueMapLoadedListener() {
             @Override
@@ -51,9 +52,9 @@ public class CatalogueController {
         });
     }
 
-    /**
-     * Listener interface for callbacks to View
-     */
+    /* *********************************************************************
+     * LISTENER INTERFACE FOR CALLBACKS TO VIEW
+     **************************************************************************/
     public interface CatalogueControllerListener {
         void onCataloguesLoaded(List<Catalogue> catalogues);
         void onCatalogueWithServicesLoaded(Catalogue catalogue, List<Service> services);

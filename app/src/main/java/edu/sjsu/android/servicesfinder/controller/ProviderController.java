@@ -14,16 +14,14 @@ import edu.sjsu.android.servicesfinder.model.Provider;
 
 
 
-/**
- * ProviderController - Business Logic Layer
- *
+/* *****************************************************************************************
+ * PROVIDERCONTROLLER  *
  * Handles:
  * - Provider registration (FirebaseAuth or Firestore)
  * - Provider login validation
  * - Provider data loading
  * - Input validation (prevent invalid input) and sanitization (remove dangerous characters)
- *
- */
+ ***********************************************************************************************/
 public class ProviderController {
 
     private final ProviderDatabase providerDatabase;
@@ -44,9 +42,9 @@ public class ProviderController {
         return listener;
     }
 
-    // =========================================================
+    /* ****************************************************************************************
     // REGISTER PROVIDER
-    // =========================================================
+    ****************************************************************************************/
     public void registerProvider(Provider provider, ProviderDatabase.OnProviderOperationListener debugFlow) {
         provider.setFullName(FirestoreHelper.sanitizeString(provider.getFullName()));
         provider.setEmail(FirestoreHelper.sanitizeString(provider.getEmail()));
@@ -66,9 +64,9 @@ public class ProviderController {
         });
     }
 
-    // =========================================================
+    /* ****************************************************************************************
     // LOAD PROVIDER
-    // =========================================================
+    ******************************************************************************************/
     public void loadProviderById(String providerId) {
         if (providerId == null || providerId.trim().isEmpty()) {
             if (listener != null) listener.onError("Provider ID is required");
@@ -88,9 +86,9 @@ public class ProviderController {
         });
     }
 
-    // =========================================================
+    /* *****************************************************************************************
     // SIGN-UP
-    // =========================================================
+    ******************************************************************************************/
     public void signUp(String fullName, String email, String phone,
                        String address, String password) {
 
@@ -118,9 +116,9 @@ public class ProviderController {
         }
     }
 
-    // =========================================================
+    /* *****************************************************************************************
     // SIGN-IN
-    // =========================================================
+    ******************************************************************************************/
     public interface AuthCallback {
         void onSuccess(String providerId);
         void onError(String message);
@@ -137,9 +135,11 @@ public class ProviderController {
                 })
                 .addOnFailureListener(e -> callback.onError("Email sign-in failed: " + e.getMessage()));
     }
-
-    /** Phone-based sign-in via Firestore */
+    /* *****************************************************************************************
+    // Phone-based sign-in via Firestore
+    ******************************************************************************************/
     public void signInWithPhone(String phone, String password, AuthCallback callback) {
+        phone = phone.replaceAll("[^0-9]", "");
         providerDatabase.getProviderByPhone(phone, new ProviderDatabase.OnProviderLoadedListener() {
             @Override
             public void onSuccess(Provider provider) {
@@ -156,9 +156,9 @@ public class ProviderController {
         });
     }
 
-    // =========================================================
+    /* **************************************************************************************
     // SAVE PROVIDER
-    // =========================================================
+    **************************************************************************************/
     private void createAndSaveProvider(String uid, String fullName, String email,
                                        String phone, String address, String password) {
         Provider provider = new Provider();
@@ -192,22 +192,19 @@ public class ProviderController {
         });
     }
 
-    // =========================================================
+    /* ***************************************************************************************
     // LISTENER
-    // =========================================================
+    ******************************************************************************************/
     public interface ProviderControllerListener {
         void onProviderLoaded(Provider provider);
         void onSignUpSuccess(String providerId);
         void onError(String errorMessage);
     }
 
-    // =========================================================
-    // ACCOUNT SETTINGS METHODS
-    // =========================================================
-    /**
-     * Updates the current user's Firebase password.
-     * Validates input and triggers success/error callback.
-     */
+    /* ***************************************************************************************
+    //  Updates password in Firebase password.
+    //  Validates input and triggers success/error callback.
+    ******************************************************************************************/
     public void updatePassword(String newPassword, ProviderControllerListener callback) {
         if (newPassword == null || newPassword.trim().isEmpty()) {
             callback.onError("Password cannot be empty");
@@ -241,10 +238,10 @@ public class ProviderController {
                 .addOnFailureListener(e -> callback.onError("Failed to update password: " + e.getMessage()));
     }
 
-    /**
+    /* ***************************************************************************************
      * Updates the current user's profile fields in Firestore.
      * Accepts full name and email, sanitizes input, and updates Firestore document.
-     */
+     ****************************************************************************************/
     public void updateProfile(String fullName, String email, String phone, String address, String password, ProviderControllerListener callback) {
         Map<String, Object> updates = new HashMap<>();
         updates.put("fullName", fullName);
@@ -283,9 +280,9 @@ public class ProviderController {
         }
     }
 
-    // ============================================
+    /* ************************************************
     // REPLACE YOUR deleteAccount METHOD WITH THIS
-    // ============================================
+    ***************************************************/
 
     public void deleteAccount(DeleteAccountCallback callback) {
         FirebaseUser user = auth.getCurrentUser();
@@ -335,61 +332,17 @@ public class ProviderController {
         });
     }
 
-// ============================================
-
+    /* ******************************************************
     // Callback for ProviderDashboardActivity
+    ********************************************************/
     public interface DeleteAccountCallback {
         void onSuccess(String message);
         void onError(String error);
     }
 
-    /// ////////////////////////////////////////////////
-    public void cloneProviderToNewAccount(String oldUid, String newEmail, String fullName, String phone, String address, ProviderControllerListener callback) {
-        providerDatabase.getProviderById(oldUid, new ProviderDatabase.OnProviderLoadedListener() {
-            @Override
-            public void onSuccess(Provider oldProvider) {
-                String password = oldProvider.getPassword(); // reuse old password
-
-                auth.createUserWithEmailAndPassword(newEmail, password)
-                        .addOnSuccessListener(result -> {
-                            FirebaseUser newUser = result.getUser();
-                            if (newUser == null) {
-                                callback.onError("New user creation failed");
-                                return;
-                            }
-
-                            Provider newProvider = new Provider();
-                            newProvider.setId(newUser.getUid());
-                            newProvider.setFullName(fullName);
-                            newProvider.setEmail(newEmail);
-                            newProvider.setPhone(phone);
-                            newProvider.setAddress(address);
-                            newProvider.setPassword(password);
-
-                            registerProvider(newProvider, new ProviderDatabase.OnProviderOperationListener() {
-                                @Override
-                                public void onSuccess(String message) {
-                                    callback.onSignUpSuccess("New provider created");
-                                }
-
-                                @Override
-                                public void onError(String errorMessage) {
-                                    callback.onError("Failed to save new provider: " + errorMessage);
-                                }
-                            });
-                        })
-                        .addOnFailureListener(e -> callback.onError("Failed to create new account: " + e.getMessage()));
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                callback.onError("Failed to load old provider: " + errorMessage);
-            }
-        });
-    }
-    /// ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    // We have to verify email with free Firebase, we use "create new and delete old" to change email
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* ***************************************************************************************************
+     We can not to verify email with free Firebase, so e use "create new and delete old" to change email
+    *******************************************************************************************************/
     public void cloneProviderWithServices(String oldUid, String newEmail, String fullName, String phone, String address, ProviderControllerListener callback) {
         providerDatabase.getProviderById(oldUid, new ProviderDatabase.OnProviderLoadedListener() {
             @Override

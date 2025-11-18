@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import edu.sjsu.android.servicesfinder.R;
+import edu.sjsu.android.servicesfinder.databinding.ActivityServiceDetailBinding;
 
 /**
  * ServiceDetailActivity - Shows complete service details with contact options
@@ -32,30 +33,20 @@ public class ServiceDetailActivity extends AppCompatActivity {
     private String providerEmail;
     private String providerAddress;
 
-    // UI Components
-    private ImageView serviceImageView;
-    private TextView serviceTitleText;
-    private TextView servicePricingText;
-    private TextView serviceDescriptionText;
-    private TextView serviceCategoryText;
-    private TextView serviceAreaText;
-    private TextView serviceAvailabilityText;
-    private TextView providerNameText;
-    private TextView providerContactText;
-    private Button callButton;
-    private Button emailButton;
-    private Button locationButton;
+    // === VIEW BINDING ===
+    private ActivityServiceDetailBinding binding;
+
     /*
-    Entry point of the Activity. Initializes the layout, enables the back button in the ActionBar,
- * sets the title, and triggers the sequence of data extraction, view initialization, data binding, and action setup.
- *
-
-
+     * Entry point of the Activity. Initializes the layout, enables the back button in the ActionBar,
+     * sets the title, and triggers the sequence of data extraction, view initialization, data binding, and action setup.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_service_detail);               // Initializes the layout
+
+        // === VIEW BINDING INFLATE ===
+        binding = ActivityServiceDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);      // Enable back button in the ActionBar
@@ -63,7 +54,6 @@ public class ServiceDetailActivity extends AppCompatActivity {
         }
 
         getIntentExtras();                                              // Retrieves data passed from the main activity
-        initializeViews();
         displayServiceInfo();
         setupActionButtons();
     }
@@ -88,80 +78,64 @@ public class ServiceDetailActivity extends AppCompatActivity {
         providerAddress = intent.getStringExtra("providerAddress");
     }
 
-    /** Initializes all UI view references */
-    private void initializeViews() {
-        serviceImageView = findViewById(R.id.serviceDetailImage);
-        serviceTitleText = findViewById(R.id.serviceDetailTitle);
-        servicePricingText = findViewById(R.id.serviceDetailPricing);
-        serviceDescriptionText = findViewById(R.id.serviceDetailDescription);
-        serviceCategoryText = findViewById(R.id.serviceDetailCategory);
-        serviceAreaText = findViewById(R.id.serviceDetailArea);
-        serviceAvailabilityText = findViewById(R.id.serviceDetailAvailability);
-        providerNameText = findViewById(R.id.providerDetailName);
-        providerContactText = findViewById(R.id.providerDetailContact);
-        callButton = findViewById(R.id.callButton);
-        emailButton = findViewById(R.id.emailButton);
-        locationButton = findViewById(R.id.locationButton);
-    }
-
     /** Displays all service and provider info in UI */
     private void displayServiceInfo() {
         // Title
-        serviceTitleText.setText(serviceTitle);
+        binding.serviceDetailTitle.setText(serviceTitle);
 
         // Pricing
         if (servicePricing != null && !servicePricing.isEmpty()) {
-            servicePricingText.setText(servicePricing);
-            servicePricingText.setVisibility(View.VISIBLE);
+            binding.serviceDetailPricing.setText(servicePricing);
+            binding.serviceDetailPricing.setVisibility(View.VISIBLE);
         } else {
-            servicePricingText.setVisibility(View.GONE);
+            binding.serviceDetailPricing.setVisibility(View.GONE);
         }
 
         // Description
         if (serviceDescription != null && !serviceDescription.isEmpty()) {
-            serviceDescriptionText.setText(serviceDescription);
+            binding.serviceDetailDescription.setText(serviceDescription);
         } else {
-            serviceDescriptionText.setText("No description available");
+            binding.serviceDetailDescription.setText("No description available");
         }
 
         // Category
         if (serviceCategory != null && !serviceCategory.isEmpty()) {
-            serviceCategoryText.setText("📂 " + serviceCategory);
+            binding.serviceDetailCategory.setText(" Category: " + serviceCategory);
         } else {
-            serviceCategoryText.setVisibility(View.GONE);
+            binding.serviceDetailCategory.setVisibility(View.GONE);
         }
 
         // Area
         if (serviceArea != null && !serviceArea.isEmpty()) {
-            serviceAreaText.setText("📍 Service Area: " + serviceArea);
+            binding.serviceDetailArea.setText(" Location: Service Area: " + serviceArea);
         } else {
-            serviceAreaText.setVisibility(View.GONE);
+            binding.serviceDetailArea.setVisibility(View.GONE);
         }
 
         // Availability
         if (serviceAvailability != null && !serviceAvailability.isEmpty()) {
-            serviceAvailabilityText.setText("📅 Available: " + serviceAvailability);
+            binding.serviceDetailAvailability.setText(" Calendar: Available: " + serviceAvailability);
         } else {
-            serviceAvailabilityText.setVisibility(View.GONE);
+            binding.serviceDetailAvailability.setVisibility(View.GONE);
         }
 
         // Provider name
-        providerNameText.setText("Provider: " + providerName);
+        binding.providerDetailName.setText("Provider: " + providerName);
 
         // Provider contact
         StringBuilder contactInfo = new StringBuilder();
         if (providerPhone != null && !providerPhone.isEmpty()) {
-            contactInfo.append("📞 ").append(formatPhone(providerPhone));
+            contactInfo.append(" Phone: ").append(formatPhone(providerPhone));
         }
         if (providerEmail != null && !providerEmail.isEmpty()) {
             if (contactInfo.length() > 0) contactInfo.append("\n");
-            contactInfo.append("✉️ ").append(providerEmail);
+            contactInfo.append(" Envelope: ").append(providerEmail);
         }
         if (providerAddress != null && !providerAddress.isEmpty()) {
             if (contactInfo.length() > 0) contactInfo.append("\n");
-            contactInfo.append("📍 ").append(providerAddress);
+            contactInfo.append(" Map: ").append(providerAddress);
         }
-        providerContactText.setText(contactInfo.toString());
+        binding.providerDetailContact.setText(contactInfo.toString());
 
         // Service image
         if (serviceImageUrl != null && !serviceImageUrl.isEmpty()) {
@@ -170,16 +144,16 @@ public class ServiceDetailActivity extends AppCompatActivity {
                     .placeholder(R.drawable.ic_service_placeholder)
                     .error(R.drawable.ic_service_placeholder)
                     .centerCrop()
-                    .into(serviceImageView);
+                    .into(binding.serviceDetailImage);
         } else {
-            serviceImageView.setImageResource(R.drawable.ic_service_placeholder);
+            binding.serviceDetailImage.setImageResource(R.drawable.ic_service_placeholder);
         }
     }
 
     /** Sets up call, email, and map buttons */
     private void setupActionButtons() {
         // Call
-        callButton.setOnClickListener(v -> {
+        binding.callButton.setOnClickListener(v -> {
             if (providerPhone != null && !providerPhone.isEmpty()) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + providerPhone));
@@ -190,7 +164,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         });
 
         // Email
-        emailButton.setOnClickListener(v -> {
+        binding.emailButton.setOnClickListener(v -> {
             if (providerEmail != null && !providerEmail.isEmpty()) {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setData(Uri.parse("mailto:" + providerEmail));
@@ -208,7 +182,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         });
 
         // Location
-        locationButton.setOnClickListener(v -> {
+        binding.locationButton.setOnClickListener(v -> {
             if (providerAddress != null && !providerAddress.isEmpty()) {
                 Uri mapUri = Uri.parse("geo:0,0?q=" + Uri.encode(providerAddress));
                 Intent intent = new Intent(Intent.ACTION_VIEW, mapUri);
@@ -228,23 +202,22 @@ public class ServiceDetailActivity extends AppCompatActivity {
 
         // Hide or disable buttons when missing data
         if (providerPhone == null || providerPhone.isEmpty()) {
-            callButton.setVisibility(View.GONE); // completely hide
+            binding.callButton.setVisibility(View.GONE);
         } else {
-            callButton.setVisibility(View.VISIBLE);
+            binding.callButton.setVisibility(View.VISIBLE);
         }
 
         if (providerEmail == null || providerEmail.isEmpty()) {
-            emailButton.setVisibility(View.GONE); // hide email button
+            binding.emailButton.setVisibility(View.GONE);
         } else {
-            emailButton.setVisibility(View.VISIBLE);
+            binding.emailButton.setVisibility(View.VISIBLE);
         }
 
         if (providerAddress == null || providerAddress.isEmpty()) {
-            locationButton.setVisibility(View.GONE);
+            binding.locationButton.setVisibility(View.GONE);
         } else {
-            locationButton.setVisibility(View.VISIBLE);
+            binding.locationButton.setVisibility(View.VISIBLE);
         }
-
     }
 
     /** Formats a 10-digit phone number as (XXX) XXX-XXXX */
@@ -264,5 +237,14 @@ public class ServiceDetailActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    /* =========================================================
+       ON DESTROY (PREVENT MEMORY LEAK)
+       ========================================================= */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null; // Prevent memory leaks
     }
 }

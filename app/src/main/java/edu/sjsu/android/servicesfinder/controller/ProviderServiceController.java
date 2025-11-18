@@ -77,9 +77,10 @@ public class ProviderServiceController {
                 })
                 .addOnFailureListener(e -> listener.onError("Failed to load draft: " + e.getMessage()));
     }
-
-    // ------------------ LOAD SERVICE AREAS ------------------
-    /** Loads all service areas from Firestore -> returns a sorted list of area names (doc IDs). */
+    /* ****************************************************************************************
+    LOAD SERVICE AREAS
+    Loads all service areas from Firestore -> returns a sorted list of area names
+    ****************************************************************************************/
     public void loadServiceAreas(ServiceAreaListener listener) {
         firestore.collection("service_areas")
                 .get()

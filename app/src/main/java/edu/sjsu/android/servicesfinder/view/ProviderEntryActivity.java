@@ -1,25 +1,25 @@
 package edu.sjsu.android.servicesfinder.view;
 
 import static android.content.ContentValues.TAG;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.tabs.TabLayout;
-import edu.sjsu.android.servicesfinder.R;
 import edu.sjsu.android.servicesfinder.controller.SessionManager;
 import edu.sjsu.android.servicesfinder.controller.ProviderController;
+import edu.sjsu.android.servicesfinder.databinding.ActivityProviderEntryBinding;
 import edu.sjsu.android.servicesfinder.model.Provider;
 
-/**
+/* ************************************************************************************************
  * ProviderEntryActivity
  * ------------------------------------------------------------
  * Handles both Sign-In and Sign-Up for Providers.
@@ -30,22 +30,12 @@ import edu.sjsu.android.servicesfinder.model.Provider;
  *  Call: ProviderController for logic & database actions
  *  Use: activity_provider_entry.xml
  *
- */
+ *************************************************************************************************/
 public class ProviderEntryActivity extends AppCompatActivity
         implements ProviderController.ProviderControllerListener {
 
-    /* -------------------------- UI COMPONENTS -------------------------- */
-    private TabLayout tabLayout;
-    private View signInLayout, signUpLayout;
-
-    // Sign-In fields
-    private TextInputEditText signInEmailOrPhone, signInPassword;
-    private Button signInButton, signInCancelButton;
-
-    // Sign-Up fields
-    private TextInputEditText signUpFullName, signUpEmail, signUpPhone;
-    private TextInputEditText signUpAddress, signUpPassword, signUpConfirmPassword;
-    private Button signUpButton, signUpCancelButton;
+    /* -------------------------- VIEW BINDING -------------------------- */
+    private ActivityProviderEntryBinding binding;
 
     /* -------------------------- CONTROLLER ----------------------------- */
     private ProviderController providerController;
@@ -55,17 +45,26 @@ public class ProviderEntryActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_provider_entry);
+
+        // === VIEW BINDING INFLATE ===
+        binding = ActivityProviderEntryBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         setTitle("Provider Authentication");
 
-        // Initialize controller (acts as business logic layer)
+        // Initialize controller
         providerController = new ProviderController(this);
         providerController.setListener(this);
 
         // Prepare UI
-        initializeViews();
         setupTabs();
         setupButtons();
+
+        // Apply phone formatters
+        setupPhoneFormatters();
+
+        // Pre-fill for testing/demo
+        binding.signInEmailOrPhone.setText("vananh@gmail.com");
+        binding.signInPassword.setText("123456");
 
         // Default tab = Sign-In
         showSignIn();
@@ -73,32 +72,68 @@ public class ProviderEntryActivity extends AppCompatActivity
 
     /* =========================================================
        INITIALIZATION METHODS
-       ========================================================= */
-    private void initializeViews() {
-        tabLayout = findViewById(R.id.authTabLayout);
-        signInLayout = findViewById(R.id.signInLayout);
-        signUpLayout = findViewById(R.id.signUpLayout);
+    ========================================================= */
+    private void setupPhoneFormatters() {
+        // Apply automatic US phone formatting (###-###-####)
+        // for signUpPhone
+        binding.signUpPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher("US"));
 
-        // Sign-In views
-        signInEmailOrPhone = findViewById(R.id.signInEmailOrPhone);
-        signInPassword = findViewById(R.id.signInPassword);
-        signInButton = findViewById(R.id.signInButton);
-        signInCancelButton = findViewById(R.id.signInCancelButton);
+        // for signInPhone, complicated because it relate to email
+        binding.signInEmailOrPhone.addTextChangedListener(new TextWatcher() {
+            private boolean isFormatting = false;
 
-        // Sign-Up views
-        signUpFullName = findViewById(R.id.signUpFullName);
-        signUpEmail = findViewById(R.id.signUpEmail);
-        signUpPhone = findViewById(R.id.signUpPhone);
-        signUpAddress = findViewById(R.id.signUpAddress);
-        signUpPassword = findViewById(R.id.signUpPassword);
-        signUpConfirmPassword = findViewById(R.id.signUpConfirmPassword);
-        signUpButton = findViewById(R.id.signUpButton);
-        signUpCancelButton = findViewById(R.id.signUpCancelButton);
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isFormatting) return;
+
+                String input = s.toString();
+
+                // If ANY letter exists → treat as email → DO NOTHING
+                if (input.matches(".*[a-zA-Z].*")) {
+                    return;
+                }
+
+                // Keep only digits
+                String digits = input.replaceAll("[^0-9]", "");
+
+                if (digits.isEmpty()) {
+                    return;
+                }
+
+                if (digits.length() > 10) {
+                    digits = digits.substring(0, 10);
+                }
+
+                // Format ###-###-####
+                StringBuilder sb = new StringBuilder();
+                int len = digits.length();
+
+                for (int i = 0; i < len; i++) {
+                    if (i == 3 || i == 6) {
+                        sb.append('-');
+                    }
+                    sb.append(digits.charAt(i));
+                }
+
+                String formatted = sb.toString();
+
+                // Prevent infinite loop
+                isFormatting = true;
+                s.replace(0, s.length(), formatted);
+                isFormatting = false;
+            }
+        });
     }
 
     private void setupTabs() {
         // Toggle between Sign-In and Sign-Up layouts
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        binding.authTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) showSignIn(); else showSignUp();
             }
@@ -108,39 +143,39 @@ public class ProviderEntryActivity extends AppCompatActivity
     }
 
     private void setupButtons() {
-        signInButton.setOnClickListener(v -> handleSignIn());
-        signUpButton.setOnClickListener(v -> handleSignUp());
-        signInCancelButton.setOnClickListener(v -> finish());
-        signUpCancelButton.setOnClickListener(v -> finish());
+        binding.signInButton.setOnClickListener(v -> handleSignIn());
+        binding.signUpButton.setOnClickListener(v -> handleSignUp());
+        binding.signInCancelButton.setOnClickListener(v -> finish());
+        binding.signUpCancelButton.setOnClickListener(v -> finish());
     }
 
     /* =========================================================
        TAB SWITCHING
        ========================================================= */
     private void showSignIn() {
-        signInLayout.setVisibility(View.VISIBLE);
-        signUpLayout.setVisibility(View.GONE);
+        binding.signInLayout.setVisibility(View.VISIBLE);
+        binding.signUpLayout.setVisibility(View.GONE);
     }
 
     private void showSignUp() {
-        signInLayout.setVisibility(View.GONE);
-        signUpLayout.setVisibility(View.VISIBLE);
+        binding.signInLayout.setVisibility(View.GONE);
+        binding.signUpLayout.setVisibility(View.VISIBLE);
     }
 
     /* =========================================================
        SIGN-IN LOGIC
        ========================================================= */
     private void handleSignIn() {
-        String emailOrPhone = getText(signInEmailOrPhone);
-        String password = getText(signInPassword);
+        String emailOrPhone = getText(binding.signInEmailOrPhone);
+        String password = getText(binding.signInPassword);
 
         // Validation
         if (TextUtils.isEmpty(emailOrPhone)) {
-            signInEmailOrPhone.setError("Required");
+            binding.signInEmailOrPhone.setError("Required");
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            signInPassword.setError("Required");
+            binding.signInPassword.setError("Required");
             return;
         }
 
@@ -157,7 +192,6 @@ public class ProviderEntryActivity extends AppCompatActivity
                         public void onSuccess(String providerId) {
                             Log.d(TAG, "signInWithEmail SUCCESS, providerId=" + providerId);
                             hideLoading();
-                            // now load provider doc from Firestore
                             providerController.loadProviderById(providerId);
                         }
 
@@ -165,7 +199,6 @@ public class ProviderEntryActivity extends AppCompatActivity
                         public void onError(String msg) {
                             Log.e(TAG, "signInWithEmail ERROR: " + msg, new Exception("signInWithEmail"));
                             hideLoading();
-                            // call the Activity's onError (this WON'T recurse now)
                             ProviderEntryActivity.this.onError(msg);
                         }
                     });
@@ -191,17 +224,16 @@ public class ProviderEntryActivity extends AppCompatActivity
         }
     }
 
-
     /* =========================================================
        SIGN-UP LOGIC (EMAIL OPTIONAL)
        ========================================================= */
     private void handleSignUp() {
-        String fullName = getText(signUpFullName);
-        String email    = getText(signUpEmail);
-        String phone    = getText(signUpPhone);
-        String address  = getText(signUpAddress);
-        String password = getText(signUpPassword);
-        String confirm  = getText(signUpConfirmPassword);
+        String fullName = getText(binding.signUpFullName);
+        String email    = getText(binding.signUpEmail);
+        String phone    = getText(binding.signUpPhone);
+        String address  = getText(binding.signUpAddress);
+        String password = getText(binding.signUpPassword);
+        String confirm  = getText(binding.signUpConfirmPassword);
 
         // Validate all inputs
         if (!validateSignUpInputs(fullName, email, phone, address, password, confirm))
@@ -218,15 +250,15 @@ public class ProviderEntryActivity extends AppCompatActivity
        ========================================================= */
     private boolean validateSignUpInputs(String fullName, String email, String phone,
                                          String address, String password, String confirm) {
-        if (TextUtils.isEmpty(fullName)) { signUpFullName.setError("Required"); return false; }
+        if (TextUtils.isEmpty(fullName)) { binding.signUpFullName.setError("Required"); return false; }
         if (!TextUtils.isEmpty(email) && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            signUpEmail.setError("Invalid email"); return false;
+            binding.signUpEmail.setError("Invalid email"); return false;
         }
         String digits = phone.replaceAll("[^0-9]", "");
-        if (digits.length() != 10) { signUpPhone.setError("10 digits"); return false; }
-        if (TextUtils.isEmpty(address)) { signUpAddress.setError("Required"); return false; }
-        if (password.length() < 6) { signUpPassword.setError("Min 6 chars"); return false; }
-        if (!password.equals(confirm)) { signUpConfirmPassword.setError("Mismatch"); return false; }
+        if (digits.length() != 10) { binding.signUpPhone.setError("10 digits"); return false; }
+        if (TextUtils.isEmpty(address)) { binding.signUpAddress.setError("Required"); return false; }
+        if (password.length() < 6) { binding.signUpPassword.setError("Min 6 chars"); return false; }
+        if (!password.equals(confirm)) { binding.signUpConfirmPassword.setError("Mismatch"); return false; }
         return true;
     }
 
@@ -304,12 +336,12 @@ public class ProviderEntryActivity extends AppCompatActivity
     }
 
     private void clearSignUpForm() {
-        signUpFullName.setText("");
-        signUpEmail.setText("");
-        signUpPhone.setText("");
-        signUpAddress.setText("");
-        signUpPassword.setText("");
-        signUpConfirmPassword.setText("");
+        binding.signUpFullName.setText("");
+        binding.signUpEmail.setText("");
+        binding.signUpPhone.setText("");
+        binding.signUpAddress.setText("");
+        binding.signUpPassword.setText("");
+        binding.signUpConfirmPassword.setText("");
     }
 
     private void launchProviderDashboard() {
@@ -318,4 +350,12 @@ public class ProviderEntryActivity extends AppCompatActivity
         finish();
     }
 
+    /* =========================================================
+       ON DESTROY (PREVENT MEMORY LEAK)
+       ========================================================= */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null; // Prevent memory leaks
+    }
 }

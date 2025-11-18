@@ -1,9 +1,100 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.ServicesFinder" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ============================================= -->
+    <!-- BASE APPLICATION THEME                        -->
+    <!-- ============================================= -->
+    <style name="Base.Theme.ServicesFinder"
+        parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- PRIMARY BRAND COLORS -->
+        <item name="colorPrimary">@color/sf_primary</item>
+        <item name="colorOnPrimary">@color/sf_on_primary</item>
+
+        <!-- SECONDARY COLORS -->
+        <item name="colorSecondary">@color/sf_secondary</item>
+        <item name="colorOnSecondary">@color/sf_on_secondary</item>
+
+        <!-- SURFACES -->
+        <item name="colorSurface">@color/sf_surface</item>
+        <item name="colorOnSurface">@color/sf_on_surface</item>
+        <item name="colorSurfaceVariant">@color/sf_surface_variant</item>
+
+        <!-- CARD COLORS -->
+        <item name="colorPrimaryContainer">@color/sf_card</item>
+        <item name="colorOnPrimaryContainer">@color/sf_on_card</item>
+
+        <!-- REQUIRED ERROR COLORS -->
+        <item name="colorError">@color/sf_error</item>
+        <item name="colorOnError">@color/sf_on_error</item>
+        <item name="colorErrorContainer">@color/sf_error_container</item>
+        <item name="colorOnErrorContainer">@color/sf_on_error_container</item>
+
+        <!-- GLOBAL SHAPE -->
+        <item name="shapeAppearanceSmallComponent">@style/Shape.Rounded</item>
+        <item name="shapeAppearanceMediumComponent">@style/Shape.Rounded</item>
+        <item name="shapeAppearanceLargeComponent">@style/Shape.Rounded</item>
+
+        <!-- ============================================= -->
+        <!-- ADD CUSTOM BUTTON STYLES (Primary + Secondary) -->
+        <!-- ============================================= -->
+        <item name="materialButtonStyle">@style/SF.PrimaryButton</item>
+
     </style>
 
-    <style name="Theme.ServicesFinder" parent="Base.Theme.ServicesFinder" />
+    <!-- PUBLIC THEME -->
+    <style name="Theme.ServicesFinder"
+        parent="Base.Theme.ServicesFinder" />
+
+    <!-- GLOBAL ROUNDED SHAPE -->
+    <style name="Shape.Rounded" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <!-- ============================================= -->
+    <!-- PROFESSIONAL BUTTON STYLES                    -->
+    <!-- ============================================= -->
+
+    <!-- Primary Button (GREEN FILLED) -->
+    <style name="SF.PrimaryButton" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/sf_primary</item>
+        <item name="android:textColor">@color/sf_on_primary</item>
+        <item name="cornerRadius">16dp</item>
+    </style>
+    <!-- Secondary Button (VERY LIGHT FILLED) -->
+    <!-- 1. ShapeAppearance – 18dp rounded corners -->
+    <style name="ShapeAppearance.Rounded16" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <!-- 2. Secondary Button – FORCED ROUNDED (WORKS 100%) -->
+    <style name="SF.SecondaryButton" parent="Widget.MaterialComponents.Button">
+        <!-- Background (light green fill) -->
+        <item name="backgroundTint">#FBF0E9</item>
+
+        <!-- Text color -->
+        <item name="android:textColor">@color/sf_primary</item>
+
+        <!-- Border -->
+        <item name="strokeColor">@color/sf_primary</item>
+        <item name="strokeWidth">2dp</item>
+
+        <!-- Ripple effect -->
+        <item name="rippleColor">@color/sf_surface</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Rounded16</item>
+        <!-- Extra insurance for older devices -->
+        <item name="enforceMaterialTheme">true</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+    </style>
+
+
+
+
+
+
 </resources>

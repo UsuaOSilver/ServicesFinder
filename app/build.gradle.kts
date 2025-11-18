@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-    id("com.google.gms.google-services") version "4.4.0" apply false  // ✅ Add version
+    id("com.google.gms.google-services") version "4.4.0" apply false
 }
 
 android {
@@ -15,6 +15,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildFeatures {
+        viewBinding = true
     }
 
     buildTypes {
@@ -33,7 +36,7 @@ android {
     }
 }
 
-// ✅ Apply plugin AFTER android block
+// Apply plugin
 apply(plugin = "com.google.gms.google-services")
 
 dependencies {
@@ -42,8 +45,8 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
 
-    // ✅ Firebase Firestore
-    implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
+    // Firebase Firestore
+    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.firebaseui:firebase-ui-firestore:9.1.1")
     // Firebase Storage

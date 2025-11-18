@@ -12,7 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/beige">
+    android:background="?attr/colorSurface">
 
     <!-- ==================== TOOLBAR (NEW) ==================== -->
     <!-- Title bar with Provider Dashboard title and Settings icon placeholder
@@ -23,9 +23,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/darkgreen"
+        android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        app:titleTextColor="@color/white">
+        app:titleTextColor="?attr/colorOnPrimary">
 
         <!-- Custom content inside Toolbar: Title on left, Settings button on right -->
         <LinearLayout
@@ -41,12 +41,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Provider Dashboard"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Settings Button (Icon)
-                 Uses selectableItemBackgroundBorderless for ripple effect -->
+            <!-- Settings Button (Icon)  -->
             <ImageButton
                 android:id="@+id/settingsButton"
                 android:layout_width="48dp"
@@ -76,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Service Title"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 app:boxBackgroundColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -91,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Catalogue"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="16dp">
 
@@ -118,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Description"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="16dp">
 
@@ -136,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Pricing"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="16dp">
 
@@ -323,22 +322,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingBottom="10dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp">
-        <Button
+        android:padding="24dp">
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/saveBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="SAVE"
-            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:cornerRadius="0dp"
-            android:backgroundTint="@color/design_default_color_primary"
+            style="@style/SF.PrimaryButton"
             android:layout_marginEnd="30dp"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -346,9 +342,7 @@
             android:text="CANCEL"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:cornerRadius="0dp"
-            android:backgroundTint="@color/design_default_color_primary"
-            android:textColor="@android:color/white"
+            style="@style/SF.SecondaryButton"
             android:layout_marginStart="30dp" />
     </LinearLayout>
 </LinearLayout>
