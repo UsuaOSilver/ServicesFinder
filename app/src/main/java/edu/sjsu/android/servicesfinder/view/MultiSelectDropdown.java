@@ -1,6 +1,9 @@
 package edu.sjsu.android.servicesfinder.view;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.text.SpannableString;
@@ -12,6 +15,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.*;
 import androidx.core.content.ContextCompat;
+
+import com.google.android.material.button.MaterialButton;
+
 import java.util.*;
 import edu.sjsu.android.servicesfinder.R;
 
@@ -306,35 +312,84 @@ public class MultiSelectDropdown {
             btnRow.setGravity(Gravity.CENTER);                  // Center buttons horizontally
             btnRow.setPadding(16, 12, 16, 12);   // Add padding around buttons
 
-            // ==================== CANCEL BUTTON ====================
-            Button cancel = new Button(context);
-            cancel.setText("Cancel");
+            // ==================== DONE BUTTON ====================
+            MaterialButton done = new MaterialButton(context);
+            done.setText("DONE");
 
-            // Create rounded background
-            GradientDrawable cancelBg = new GradientDrawable();
-            cancelBg.setCornerRadius(8);  // 8dp rounded corners
-            cancelBg.setColor(ContextCompat.getColor(context, R.color.design_default_color_primary));
+            // Apply background tint (solid color)
+            done.setBackgroundTintList(ColorStateList.valueOf(
+                    ContextCompat.getColor(context, R.color.sf_primary)));
 
-            // Remove extra height
-            cancel.setMinHeight(0);
-            cancel.setMinimumHeight(0);
-            cancel.setIncludeFontPadding(false);
+            // Apply stroke color and width
+            done.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.sf_primary)));
+            done.setStrokeWidth(2);
 
-            // Layout parameters: WRAP_CONTENT (button sizes to text)
-            LinearLayout.LayoutParams cancelParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,    // Width: wrap content
-                    ViewGroup.LayoutParams.WRAP_CONTENT     // Height: wrap content
+            // Apply rounded corners (16dp converted to px)
+            done.setCornerRadius((int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 16, context.getResources().getDisplayMetrics()
+            ));
+
+            // text color
+            done.setTextColor(ContextCompat.getColor(context, R.color.sf_on_primary));
+
+            //Remove elevation animation if desired
+            done.setStateListAnimator(null);
+
+            // Layout parameters: WRAP_CONTENT with margin
+            LinearLayout.LayoutParams doneParams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
             );
-            cancelParams.setMargins(0, 10, 120, 0); // Right margin: 120dp (creates space between buttons)
+            doneParams.setMargins(0, 10, 120, 0); // right margin: 120dp
+            done.setLayoutParams(doneParams);
 
-            // Apply styling
+            // minimum width for consistency
+            done.setMinWidth((int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 120, context.getResources().getDisplayMetrics()
+            ));
+
+            // Done button behavior
+            done.setOnClickListener(v -> {
+                updateText();
+                dismiss();
+            });
+
+            // ==================== CANCEL BUTTON ====================
+            MaterialButton cancel = new MaterialButton(context);
+            cancel.setText("CANCEL");
+
+            // Apply background tint (solid color)
+            cancel.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FBF0E9")));
+
+            // Apply stroke color and width
+            cancel.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.sf_primary)));
+            cancel.setStrokeWidth(2);
+
+            // Apply rounded corners (16dp converted to px)
+            cancel.setCornerRadius((int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 16, context.getResources().getDisplayMetrics()
+            ));
+
+            // text color
+            cancel.setTextColor(ContextCompat.getColor(context, R.color.sf_primary));
+
+            //Remove elevation animation if desired
+            cancel.setStateListAnimator(null);
+
+            // Layout parameters: WRAP_CONTENT with margin
+            LinearLayout.LayoutParams cancelParams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            cancelParams.setMargins(120, 10, 0, 0); // Left margin: 120dp
             cancel.setLayoutParams(cancelParams);
-            cancel.setBackground(cancelBg);
-            cancel.setTextColor(ContextCompat.getColor(context, R.color.white));
-            cancel.setStateListAnimator(null);  // Remove Material Design elevation animation
-            cancel.setMinWidth(120);            // Minimum width for consistency
 
-            // Cancel button behavior: Restore previous selections and close
+            // minimum width for consistency
+            cancel.setMinWidth((int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 120, context.getResources().getDisplayMetrics()
+            ));
+
+            // Cancel button behavior
             cancel.setOnClickListener(v -> {
                 selectedItems.clear();
                 selectedItems.putAll(deepCopy(backupSelection));
@@ -342,43 +397,9 @@ public class MultiSelectDropdown {
                 updateText();
             });
 
-            // ==================== DONE BUTTON ====================
-            Button done = new Button(context);
-            done.setText("Done");
-
-            // Create rounded background
-            GradientDrawable doneBg = new GradientDrawable();
-            doneBg.setCornerRadius(8);  // 8dp rounded corners
-            doneBg.setColor(ContextCompat.getColor(context, R.color.design_default_color_primary));
-
-            // Remove extra height
-            done.setMinHeight(0);
-            done.setMinimumHeight(0);
-            done.setIncludeFontPadding(false);
-
-            // Layout parameters: WRAP_CONTENT (button sizes to text)
-            LinearLayout.LayoutParams doneParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            );
-            doneParams.setMargins(120, 10, 0, 0); // Left margin: 120dp (creates space between buttons)
-
-            // Apply styling
-            done.setLayoutParams(doneParams);
-            done.setBackground(doneBg);
-            done.setTextColor(ContextCompat.getColor(context, R.color.white));
-            done.setStateListAnimator(null);
-            done.setMinWidth(120);
-
-            // Done button behavior: Save selections and close
-            done.setOnClickListener(v -> {
-                updateText();   // Update display with final selections
-                dismiss();      // Close popup
-            });
-
         // ==================== ADD BUTTONS TO ROW ====================
-        btnRow.addView(cancel);
         btnRow.addView(done);
+        btnRow.addView(cancel);
 
         // ==================== ADD BUTTON ROW TO CONTAINER ====================
         container.addView(btnRow);

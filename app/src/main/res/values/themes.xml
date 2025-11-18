@@ -61,6 +61,8 @@
         <item name="backgroundTint">@color/sf_primary</item>
         <item name="android:textColor">@color/sf_on_primary</item>
         <item name="cornerRadius">16dp</item>
+        <item name="strokeColor">@color/sf_primary</item>
+        <item name="strokeWidth">2dp</item>
     </style>
     <!-- Secondary Button (VERY LIGHT FILLED) -->
     <!-- 1. ShapeAppearance – 18dp rounded corners -->
