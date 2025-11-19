@@ -54,7 +54,6 @@
                     Toast.makeText(EditProfileActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
                     finish();
                 }
-
                 @Override
                 public void onError(String msg) {
                     Toast.makeText(EditProfileActivity.this, "Error: " + msg, Toast.LENGTH_LONG).show();
@@ -140,7 +139,6 @@
                                         "New account created with services cloned", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
-
                             @Override
                             public void onError(String errorMessage) {
                                 Toast.makeText(EditProfileActivity.this,

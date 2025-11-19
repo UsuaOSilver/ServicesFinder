@@ -61,6 +61,11 @@ public class ProviderEntryActivity extends AppCompatActivity
 
         // Apply phone formatters
         setupPhoneFormatters();
+
+        binding.signInEmailOrPhone.setText("vananh@gmail.com");
+        binding.signInPassword.setText("123456");
+
+
         // Default tab = Sign-In
         showSignIn();
     }

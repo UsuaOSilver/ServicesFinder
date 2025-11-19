@@ -198,7 +198,7 @@ public class ProviderController {
     ******************************************************************************************/
     public interface ProviderControllerListener {
         void onProviderLoaded(Provider provider);
-        void onSignUpSuccess(String providerId);
+        void onSignUpSuccess(String providerId); // alse used for PasswordUpdateSuccess
         void onError(String errorMessage);
     }
 

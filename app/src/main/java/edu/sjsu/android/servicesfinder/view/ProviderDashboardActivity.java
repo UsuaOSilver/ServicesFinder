@@ -13,6 +13,7 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.*;
@@ -23,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,6 +43,7 @@ import edu.sjsu.android.servicesfinder.database.ProviderServiceDatabase;
 import edu.sjsu.android.servicesfinder.database.StorageHelper;
 import edu.sjsu.android.servicesfinder.databinding.ActivityProviderDashboardBinding;
 import edu.sjsu.android.servicesfinder.model.Catalogue;
+import edu.sjsu.android.servicesfinder.model.Provider;
 import edu.sjsu.android.servicesfinder.model.ProviderService;
 import edu.sjsu.android.servicesfinder.model.Service;
 
@@ -126,6 +129,18 @@ public class ProviderDashboardActivity extends AppCompatActivity
 
         providerServiceController = new ProviderServiceController();
         controller = new ProviderController(this);
+        controller.setListener(new ProviderController.ProviderControllerListener() {
+            @Override
+            public void onProviderLoaded(Provider provider) {}
+            @Override
+            public void onSignUpSuccess(String msg) {
+                Toast.makeText(ProviderDashboardActivity.this, msg, Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onError(String errorMessage) {
+                Toast.makeText(ProviderDashboardActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Setup UI
         binding.catalogueDropdown.setEnabled(false);
@@ -554,7 +569,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
             confirmDeleteAccount();
         });
     }
-
+    /*
     private void openChangePasswordDialog() {
         int padding = (int) (20 * getResources().getDisplayMetrics().density);
         TextView title = new TextView(this);
@@ -613,6 +628,41 @@ public class ProviderDashboardActivity extends AppCompatActivity
         Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
+     */
+    // Change Password Dialog =============================================================================
+    private void openChangePasswordDialog() {
+
+        // Inflate XML layout
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_change_password, null);
+
+        EditText input = view.findViewById(R.id.passwordInput);
+        MaterialButton updateBtn = view.findViewById(R.id.UpdatePasswordButton);
+        MaterialButton cancelBtn = view.findViewById(R.id.CancelButton);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        updateBtn.setOnClickListener(v -> {
+            String newPassword = input.getText().toString().trim();
+
+            if (newPassword.length() < 6) {
+                input.setError("Password must be at least 6 characters");
+                return;
+            }
+            controller.updatePassword(newPassword, controller.getListener());
+            dialog.dismiss();
+        });
+
+        cancelBtn.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+        input.requestFocus();
+        Objects.requireNonNull(dialog.getWindow())
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
+
+
+    // Change ProfileDialog =============================================================================
     private void openChangeProfileDialog() {
         Intent intent = new Intent(ProviderDashboardActivity.this, EditProfileActivity.class);
         startActivity(intent);
