@@ -28,12 +28,13 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="52dp">
 
             <TextView
                 android:id="@+id/appTitle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1.2"
                 android:text="Services Finder"
                 android:singleLine="true"
                 android:ellipsize="end"
@@ -41,19 +42,22 @@
                 android:textColor="?attr/colorOnPrimary"
                 android:autoSizeTextType="uniform"
                 android:autoSizeMinTextSize="16sp"
-                android:autoSizeMaxTextSize="36sp"/>
+                android:autoSizeMaxTextSize="60sp"
+                android:includeFontPadding="false"/>
 
             <TextView
                 android:id="@+id/appSubtitle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.8"
                 android:text="Browse available services"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:textColor="?attr/colorOnPrimary"
                 android:autoSizeTextType="uniform"
+                android:includeFontPadding="false"
                 android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="26sp"/>
+                android:autoSizeMaxTextSize="36sp"/>
         </LinearLayout>
     </LinearLayout>
 
