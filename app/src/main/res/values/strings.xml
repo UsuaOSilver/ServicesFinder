@@ -335,4 +335,20 @@
     <string name="tue_wed">Tue/Wed</string>
     <string name="hair_care">Hair Care</string>
 
+    <!-- ============================================ -->
+    <!-- REVIEW -->
+    <!-- ============================================ -->
+
+    <string name="action_add_review">Add Review</string>
+    <string name="label_reviews">Reviews</string>
+    <string name="label_no_reviews_yet">No reviews yet. Be the first to review!</string>
+    <string name="dialog_title_add_review">Add Review</string>
+    <string name="label_rating">Rating</string>
+    <string name="label_comment">Comment</string>
+    <string name="hint_enter_comment">Share your experience with this provider…</string>
+    <string name="error_select_rating">Please select a rating</string>
+    <string name="success_review_submitted">Review submitted successfully!</string>
+    <string name="error_review_submit_failed">Failed to submit review</string>
+    <string name="action_submit">Submit</string>
+
 </resources>

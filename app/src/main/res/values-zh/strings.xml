@@ -337,4 +337,13 @@
     <string name="tue_wed">周二/周三</string>
     <string name="hair_care">美发护理</string>
 
+    <!-- ============================================ -->
+    <!-- REVIEW -->
+    <!-- ============================================ -->
+
+    <string name="action_add_review">添加评价</string>
+    <string name="label_reviews">评价</string>
+    <string name="label_no_reviews_yet">还没有任何评价，赶快来留下第一条吧！</string>
+
+
 </resources>

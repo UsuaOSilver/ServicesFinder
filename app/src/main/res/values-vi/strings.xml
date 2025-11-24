@@ -334,4 +334,13 @@
     <string name="tue_wed">Thứ Ba/Thứ Tư</string>
     <string name="hair_care">Chăm sóc tóc</string>
 
+    <!-- ============================================ -->
+    <!-- REVIEW -->
+    <!-- ============================================ -->
+
+    <string name="action_add_review">Thêm đánh giá</string>
+    <string name="label_reviews">Đánh giá</string>
+    <string name="label_no_reviews_yet">Chưa có đánh giá nào. Hãy là người đầu tiên!</string>
+
+
 </resources>

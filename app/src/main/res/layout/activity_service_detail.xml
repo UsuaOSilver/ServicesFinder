@@ -194,5 +194,75 @@
                     android:layout_marginStart="4dp" />
             </LinearLayout>
         </LinearLayout>
+        <!-- CUSTOMER EVIEW  -->
+        <!-- Add Review Button -->
+        <Button
+            android:id="@+id/addReviewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/action_add_review"
+            android:textAllCaps="false"
+            android:textSize="18dp"
+            android:backgroundTint="@color/transparent"
+            android:textColor="@color/peru"
+            android:drawableStart="@drawable/ic_review"
+            style="?android:attr/borderlessButtonStyle"/>
+
+        <!-- Average Rating Display -->
+        <LinearLayout
+            android:id="@+id/ratingSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/averageRatingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/reviewCountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="(0 reviews)"
+                android:textSize="14sp"
+                android:textColor="@color/gray"/>
+        </LinearLayout>
+
+        <!-- Reviews Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/label_reviews"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <!-- Reviews List (RecyclerView) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="false"/>
+
+        <!-- No Reviews Message -->
+        <TextView
+            android:id="@+id/noReviewsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/label_no_reviews_yet"
+            android:textAlignment="center"
+            android:textColor="@color/gray"
+            android:visibility="gone"/>
+
     </LinearLayout>
 </ScrollView>

@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import edu.sjsu.android.servicesfinder.R;
+import edu.sjsu.android.servicesfinder.database.ReviewDatabase;
 import edu.sjsu.android.servicesfinder.model.Provider;
 import edu.sjsu.android.servicesfinder.model.ProviderService;
 
@@ -167,9 +168,12 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
          // Bind data from ServiceItem -> UI views
 
         public void bind(ServiceItem item, OnServiceClickListener listener) {
-
             Provider provider = item.provider;
             ProviderService service = item.service;
+
+            ReviewDatabase reviewDb = new ReviewDatabase();
+            String pid = provider.getId();   // or provider.getUid(), whichever exists
+
 
             // Title
             serviceTitle.setText(service.getServiceTitle());
@@ -194,8 +198,25 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
             // Rating placeholder  (You can replace with average rating logic later)
 
             //providerRating.setText("⭐ New");
-            providerRating.setText(itemView.getContext().getString(R.string.new_service));
-            providerRating.setVisibility(View.VISIBLE);
+            //providerRating.setText(itemView.getContext().getString(R.string.new_service));
+            //providerRating.setVisibility(View.VISIBLE);
+            reviewDb.getAverageRating(pid, new ReviewDatabase.OnRatingCalculatedListener() {
+                @Override
+                public void onRatingCalculated(float averageRating, int totalReviews) {
+                    if (totalReviews == 0) {
+                        providerRating.setText(itemView.getContext().getString(R.string.new_service));
+                    } else {
+                        providerRating.setText(String.format("⭐ %.1f", averageRating));
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+                    providerRating.setText("⭐ --");
+                }
+            });
+
+
 
             // Location derived from serviceArea OR provider address
             String location = service.getServiceArea();

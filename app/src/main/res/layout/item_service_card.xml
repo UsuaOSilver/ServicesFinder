@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/_4_7"
                     android:textSize="12sp"
-                    android:textColor="#FF9800"
+                    android:textColor="@color/red"
                     android:layout_marginStart="8dp" />
 
                 <View

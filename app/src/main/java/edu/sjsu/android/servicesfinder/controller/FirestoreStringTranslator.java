@@ -62,12 +62,6 @@ public class FirestoreStringTranslator {
         // Log current device locale at startup
         Resources res = context.getResources();
         String currentLocale = res.getConfiguration().locale.toString();
-        Log.e("TRACE_TRANSLATOR", "════════════════════════════════════════════════════════");
-        Log.e("TRACE_TRANSLATOR", "FirestoreStringTranslator initialized");
-        Log.e("TRACE_TRANSLATOR", "Device locale: " + currentLocale);
-        Log.e("TRACE_TRANSLATOR", "Language: " + res.getConfiguration().locale.getLanguage());
-        Log.e("TRACE_TRANSLATOR", "Country: " + res.getConfiguration().locale.getCountry());
-        Log.e("TRACE_TRANSLATOR", "════════════════════════════════════════════════════════");
     }
 
     public static FirestoreStringTranslator get(Context context) {
@@ -80,20 +74,6 @@ public class FirestoreStringTranslator {
     // Helper: Get fresh Resources with current device locale
     private Resources getLocalResources() {
         Resources localRes = context.getResources();
-
-        // DEBUG: Verify it's loading the correct locale
-        Log.e("TRACE_TRANSLATOR", "    [DEBUG] getLocalResources() accessed");
-        Log.e("TRACE_TRANSLATOR", "    [DEBUG] Config locale: " + localRes.getConfiguration().locale);
-
-        // Test by loading a known resource
-        try {
-            String testCat = localRes.getString(R.string.cat_cleaning_maintenance);
-            Log.e("TRACE_TRANSLATOR", "    [DEBUG] Test load cat_cleaning_maintenance: \"" + testCat + "\"");
-            Log.e("TRACE_TRANSLATOR", "    [DEBUG] Is it Chinese? " + testCat.equals("清洁与维护"));
-        } catch (Exception e) {
-            Log.e("TRACE_TRANSLATOR", "    [DEBUG] Failed to load test resource!", e);
-        }
-
         return localRes;
     }
 
@@ -106,15 +86,9 @@ public class FirestoreStringTranslator {
         Context enContext = context.createConfigurationContext(enConfig);
         Resources enRes = enContext.getResources();
 
-        // DEBUG: Verify it's actually loading English
-        Log.e("TRACE_TRANSLATOR", "    [DEBUG] getEnglishResources() created");
-        Log.e("TRACE_TRANSLATOR", "    [DEBUG] Config locale: " + enRes.getConfiguration().locale);
-
         // Test by loading a known resource
         try {
             String testCat = enRes.getString(R.string.cat_cleaning_maintenance);
-            Log.e("TRACE_TRANSLATOR", "    [DEBUG] Test load cat_cleaning_maintenance: \"" + testCat + "\"");
-            Log.e("TRACE_TRANSLATOR", "    [DEBUG] Is it English? " + testCat.equals("Cleaning & Maintenance"));
         } catch (Exception e) {
             Log.e("TRACE_TRANSLATOR", "    [DEBUG] Failed to load test resource!", e);
         }
@@ -167,9 +141,6 @@ public class FirestoreStringTranslator {
     // ----------------------------------------------------------------------
     public String translateCategoryName(String english) {
         if (english == null || english.trim().isEmpty()) return "";
-
-        Log.e("TRACE_TRANSLATOR", "  → translateCategoryName() input: \"" + english + "\"");
-
         try {
             Resources localRes = getLocalResources();
             Resources enRes = getEnglishResources();
@@ -192,23 +163,14 @@ public class FirestoreStringTranslator {
 
                 if (englishValue.equalsIgnoreCase(english)) {
                     String localized = localRes.getString(resId);
-
-                    Log.e("TRACE_TRANSLATOR", "    ✓ MATCH FOUND!");
-                    Log.e("TRACE_TRANSLATOR", "      English: \"" + englishValue + "\"");
-                    Log.e("TRACE_TRANSLATOR", "      Localized: \"" + localized + "\"");
-                    Log.e("TRACE_TRANSLATOR", "      Status: " + (englishValue.equals(localized) ? "⚠️ NOT TRANSLATED (same as English)" : "✓ TRANSLATED"));
-
                     return localized;
                 }
             }
-
-            Log.e("TRACE_TRANSLATOR", "    ✗ NO MATCH after checking " + matchAttempts + " resources");
         } catch (Exception e) {
             Log.e("Translator", "translateCategoryName error", e);
         }
 
         String fallback = capitalize(english);
-        Log.e("TRACE_TRANSLATOR", "    → Using fallback capitalize(): \"" + fallback + "\"");
         return fallback;
     }
 
@@ -217,10 +179,7 @@ public class FirestoreStringTranslator {
     // ----------------------------------------------------------------------
     public String translateServiceNameToLocal(String englishKey) {
         if (englishKey == null || englishKey.trim().isEmpty()) return "";
-
-        Log.e("TRACE_TRANSLATOR", "  → translateServiceNameToLocal() input: \"" + englishKey + "\"");
-
-        try {
+       try {
             Resources localRes = getLocalResources();
             Resources enRes = getEnglishResources();
 
@@ -240,12 +199,6 @@ public class FirestoreStringTranslator {
 
                 if (enValue.equalsIgnoreCase(englishKey)) {
                     String localized = localRes.getString(resId);
-
-                    Log.e("TRACE_TRANSLATOR", "    ✓ MATCH FOUND!");
-                    Log.e("TRACE_TRANSLATOR", "      English: \"" + enValue + "\"");
-                    Log.e("TRACE_TRANSLATOR", "      Localized: \"" + localized + "\"");
-                    Log.e("TRACE_TRANSLATOR", "      Status: " + (enValue.equals(localized) ? "⚠️ NOT TRANSLATED (same as English)" : "✓ TRANSLATED"));
-
                     return localized;
                 }
             }
@@ -256,7 +209,6 @@ public class FirestoreStringTranslator {
         }
 
         String fallback = capitalize(englishKey);
-        Log.e("TRACE_TRANSLATOR", "    → Using fallback capitalize(): \"" + fallback + "\"");
         return fallback;
     }
 

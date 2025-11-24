@@ -65,37 +65,19 @@ public class HomeController {
     }
 
     public void loadAllProvidersWithServices() {
-        Log.e("TRACE", "════════════════════════════════════════════════════════");
-        Log.e("TRACE", "START: loadAllProvidersWithServices() called");
-        Log.e("TRACE", "════════════════════════════════════════════════════════");
-
         database.getAllProvidersWithServices(context, new ProviderServiceDatabase.OnProvidersWithServicesLoadedListener() {
 
             @Override
             public void onSuccess(Map<Provider, List<ProviderService>> providerServiceMap) {
                 cachedData = providerServiceMap;
 
-                Log.e("TRACE", "");
-                Log.e("TRACE", "────────────────────────────────────────────────────────");
-                Log.e("TRACE", "DATABASE SUCCESS: Received " + providerServiceMap.size() + " providers");
-                Log.e("TRACE", "────────────────────────────────────────────────────────");
-
                 FirestoreStringTranslator translator = FirestoreStringTranslator.get(context);
-
-                Log.e("TRACE", "TRANSLATION PIPELINE: Starting...");
-                Log.e("TRACE", "");
-
                 int providerIndex = 0;
                 for (Map.Entry<Provider, List<ProviderService>> entry : providerServiceMap.entrySet()) {
                     Provider provider = entry.getKey();
                     List<ProviderService> services = entry.getValue();
 
                     providerIndex++;
-                    Log.e("TRACE", "┌─ Provider #" + providerIndex + " ─────────────────────────");
-                    Log.e("TRACE", "│  ID: " + provider.getId());
-                    Log.e("TRACE", "│  Name: " + provider.getFullName());
-                    Log.e("TRACE", "│  Services count: " + services.size());
-                    Log.e("TRACE", "└─────────────────────────────────────────────────");
 
                     int serviceIndex = 0;
                     for (ProviderService service : services) {
@@ -103,11 +85,6 @@ public class HomeController {
 
                         String originalTitle = service.getServiceTitle();
                         String originalCategory = service.getCategory();
-
-                        Log.e("TRACE", "");
-                        Log.e("TRACE", "  ▼ Service #" + serviceIndex + " BEFORE translation:");
-                        Log.e("TRACE", "    • Title: \"" + originalTitle + "\" (custom name - not translated)");
-                        Log.e("TRACE", "    • Category: \"" + originalCategory + "\"");
 
                         // DON'T translate service title - it's a custom name entered by the provider
                         // if (originalTitle != null) {
@@ -122,20 +99,10 @@ public class HomeController {
                             service.setCategory(localizedCategory);
 
                             boolean catChanged = !originalCategory.equals(localizedCategory);
-                            Log.e("TRACE", "    → Translated Category: \"" + localizedCategory + "\" " +
-                                    (catChanged ? "✓ CHANGED" : "✗ UNCHANGED"));
-                        }
 
-                        Log.e("TRACE", "");
+                        }
                     }
                 }
-
-                Log.e("TRACE", "");
-                Log.e("TRACE", "════════════════════════════════════════════════════════");
-                Log.e("TRACE", "TRANSLATION COMPLETE - Forwarding to UI listener");
-                Log.e("TRACE", "════════════════════════════════════════════════════════");
-                Log.e("TRACE", "");
-
                 if (listener != null) {
                     if (providerServiceMap.isEmpty()) {
                         listener.onNoDataAvailable();
@@ -147,11 +114,6 @@ public class HomeController {
 
             @Override
             public void onError(String errorMessage) {
-                Log.e("TRACE", "");
-                Log.e("TRACE", "════════════════════════════════════════════════════════");
-                Log.e("TRACE", "ERROR loading providers: " + errorMessage);
-                Log.e("TRACE", "════════════════════════════════════════════════════════");
-
                 if (listener != null) {
                     listener.onError(errorMessage);
                 }

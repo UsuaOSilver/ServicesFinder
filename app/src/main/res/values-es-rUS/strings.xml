@@ -285,4 +285,12 @@
     <string name="tue_wed">Mar/Mié</string>
     <string name="hair_care">Cuidado del cabello</string>
 
+    <!-- ============================================ -->
+    <!-- REVIEW -->
+    <!-- ============================================ -->
+
+    <string name="action_add_review">Agregar reseña</string>
+    <string name="label_reviews">Reseñas</string>
+    <string name="label_no_reviews_yet">Aún no hay reseñas. ¡Sé el primero!</string>
+
 </resources>
