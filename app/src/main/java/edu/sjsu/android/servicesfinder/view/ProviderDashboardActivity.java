@@ -1,6 +1,7 @@
 package edu.sjsu.android.servicesfinder.view;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -33,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.util.*;
 import edu.sjsu.android.servicesfinder.R;
+import edu.sjsu.android.servicesfinder.controller.FirestoreStringTranslator;
 import edu.sjsu.android.servicesfinder.controller.FormHelper;
 import edu.sjsu.android.servicesfinder.controller.ProviderController;
 import edu.sjsu.android.servicesfinder.controller.SessionManager;
@@ -64,8 +66,6 @@ import edu.sjsu.android.servicesfinder.model.Service;
  **********************************************************************************************************/
 public class ProviderDashboardActivity extends AppCompatActivity
         implements CatalogueController.CatalogueControllerListener {
-
-    private static final String TAG = "ProviderDashboard";
 
     // === VIEW BINDING ===
     private ActivityProviderDashboardBinding binding;
@@ -117,7 +117,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
         // === VIEW BINDING INFLATE ===
         binding = ActivityProviderDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setTitle("Provider Dashboard");
+        setTitle(getString(R.string.title_provider_dashboard));
 
         // Initialize Firebase
         firestore = FirebaseFirestore.getInstance();
@@ -144,7 +144,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
 
         // Setup UI
         binding.catalogueDropdown.setEnabled(false);
-        binding.catalogueDropdown.setText("Loading catalogues...");
+        binding.catalogueDropdown.setText(getString(R.string.progress_loading_catalogues));
         catalogueDropdown = new MultiSelectDropdown(this, binding.catalogueDropdown, new HashMap<>());
 
         // Load initial data
@@ -170,6 +170,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
     // SAVE SERVICE
     // =========================================================
     private void handleSave() {
+        Log.d("DEBUG", "handleSave: entered method");
         // Safely get providerId
         String providerId = SessionManager.getProviderId(this);
 
@@ -186,7 +187,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
         }
 
         if (providerId == null) {
-            Toast.makeText(this, "No provider ID found. Please log in again.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.error_no_provider_id), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -195,89 +196,121 @@ public class ProviderDashboardActivity extends AppCompatActivity
         String description = FormHelper.getText(binding.descriptionInput);
         String pricing = FormHelper.getText(binding.pricingInput);
         String area = FormHelper.getSelectedItem(binding.serviceAreaSpinner);
-        String availability = FormHelper.getSelectedAvailability(
+
+        FormHelper formHelper = new FormHelper(this);
+        String availability = formHelper.getSelectedAvailability(
                 binding.mon, binding.tue, binding.wed, binding.thu,
                 binding.fri, binding.sat, binding.sun);
-        String contactPreference = FormHelper.getSelectedContactPreference(binding.contactPreferenceGroup, this);
+
+        //String contactPreference = FormHelper.getSelectedContactPreference(binding.contactPreferenceGroup, this);
+        String localizedContactPreference =
+                FormHelper.getSelectedContactPreference(binding.contactPreferenceGroup, this);
+
+        // convert localized → English before save
+        String contactPreference =
+                FirestoreStringTranslator.get(this).reverseContactPreference(localizedContactPreference);
+
+
+        /*
+        Map<String, Set<String>> selectedItems = catalogueDropdown.getSelectedItems();
+        String category = FormHelper.formatCategoryFromSelection(selectedItems);
+        // SAVE ONLY ENGLISH KEYS
+        String categoryToSave = FirestoreStringTranslator.get(this)
+                .buildEnglishCategoryString(selectedItems);
+        */
+        // === KEEP YOUR EXISTING CODE (DO NOT DELETE) ===
         Map<String, Set<String>> selectedItems = catalogueDropdown.getSelectedItems();
         String category = FormHelper.formatCategoryFromSelection(selectedItems);
 
-        // Validate inputs
+        Log.d("DEBUG", "handleSave: about to call reverseTranslateSelection with selectedItems=" + selectedItems);
+        Map<String, Set<String>> englishSelection = FirestoreStringTranslator.get(this)
+                .reverseTranslateSelection(selectedItems);
+
+        String categoryToSave = FirestoreStringTranslator.get(this)
+                .buildEnglishCategoryString(englishSelection);
+
+
+
+
         if (title.isEmpty()) {
-            binding.serviceTitleInput.setError("Required");
-            Toast.makeText(this, "Please enter service title", Toast.LENGTH_SHORT).show();
+            binding.serviceTitleInput.setError(getString(R.string.error_required));
+            Toast.makeText(this, getString(R.string.validation_enter_title), Toast.LENGTH_SHORT).show();
             return;
         }
         if (description.isEmpty()) {
-            binding.descriptionInput.setError("Required");
-            Toast.makeText(this, "Please enter description", Toast.LENGTH_SHORT).show();
+            binding.descriptionInput.setError(getString(R.string.error_required));
+            Toast.makeText(this, getString(R.string.validation_enter_description), Toast.LENGTH_SHORT).show();
             return;
         }
         if (pricing.isEmpty()) {
-            binding.pricingInput.setError("Required");
-            Toast.makeText(this, "Please enter pricing details", Toast.LENGTH_SHORT).show();
+            binding.pricingInput.setError(getString(R.string.error_required));
+            Toast.makeText(this, getString(R.string.validation_enter_pricing), Toast.LENGTH_SHORT).show();
             return;
         }
         if (area.equals("Select Service Area") || area.isEmpty()) {
-            Toast.makeText(this, "Please select service area", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.validation_select_area), Toast.LENGTH_SHORT).show();
             return;
         }
         if (availability.isEmpty()) {
-            Toast.makeText(this, "Please select at least one day", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.validation_select_availability), Toast.LENGTH_SHORT).show();
             return;
         }
         if (contactPreference.isEmpty()) {
-            Toast.makeText(this, "Please select contact preference", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.validation_select_contact), Toast.LENGTH_SHORT).show();
             return;
         }
         if (category.isEmpty()) {
-            Toast.makeText(this, "Please select catalogue & services", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.validation_select_category), Toast.LENGTH_SHORT).show();
             return;
         }
+
 
         // 5. Handle image upload or direct save
         if (selectedImageUri != null) {
             String uriString = selectedImageUri.toString();
 
             if (uriString.startsWith("http://") || uriString.startsWith("https://")) {
-                saveServiceToFirestore(title, description, pricing, category,
+                saveServiceToFirestore(title, description, pricing, categoryToSave, //**here***********
                         area, availability, contactPreference, providerId, uriString);
             } else {
                 String finalProviderId = providerId;
                 StorageHelper.uploadImageToFirebase(this, selectedImageUri, providerId, imageUrl -> {
-                    saveServiceToFirestore(title, description, pricing, category,
+                    saveServiceToFirestore(title, description, pricing, categoryToSave,
                             area, availability, contactPreference, finalProviderId, imageUrl);
                 });
             }
         } else {
             String finalProviderId1 = providerId;
             new AlertDialog.Builder(this)
-                    .setTitle("No Image")
-                    .setMessage("Do you want to add a service without an image?")
-                    .setPositiveButton("Yes, Continue", (dialog, which) -> {
-                        saveServiceToFirestore(title, description, pricing, category,
+                    .setTitle(getString(R.string.dialog_no_image_title))
+                    .setMessage(getString(R.string.dialog_no_image_message))
+                    .setPositiveButton(getString(R.string.action_continue_without_image), (dialog, which) -> {
+                        saveServiceToFirestore(title, description, pricing, categoryToSave,
                                 area, availability, contactPreference, finalProviderId1, null);
                     })
-                    .setNegativeButton("Add Image", (dialog, which) -> showImagePickerDialog())
+                    .setNegativeButton(getString(R.string.action_add_image), (dialog, which) -> showImagePickerDialog())
                     .show();
+
         }
     }
 
-    private String getImageUploadErrorMessage(Exception e) {
+    private String getImageUploadErrorMessage(Context context, Exception e) {
         String message = e.getMessage();
-        if (message == null) return "Unknown upload error";
+        if (message == null) return context.getString(R.string.error_upload_unknown);
+
         if (message.contains("permission") || message.contains("PERMISSION_DENIED")) {
-            return "Permission denied. Please check Firebase Storage rules.";
+            return context.getString(R.string.error_upload_permission);
         } else if (message.contains("network") || message.contains("UNAVAILABLE")) {
-            return "Network error. Check your internet connection.";
+            return context.getString(R.string.error_upload_network);
         } else if (message.contains("quota")) {
-            return "Storage quota exceeded.";
+            return context.getString(R.string.error_upload_quota);
         } else if (message.contains("unauthorized") || message.contains("UNAUTHENTICATED")) {
-            return "Not authorized. Please sign in again.";
+            return context.getString(R.string.error_upload_unauthorized);
         } else {
-            return "Upload failed: " + message;
+            return context.getString(R.string.error_upload_failed, message);
         }
     }
+
 
     // =========================================================
     // SAVE SERVICE TO FIRESTORE
@@ -286,7 +319,9 @@ public class ProviderDashboardActivity extends AppCompatActivity
                                         String category, String area, String availability,
                                         String contactPreference, String providerId, String imageUrl) {
         if (providerId == null || providerId.isEmpty()) {
-            Toast.makeText(this, "Error: No provider ID found (login/session issue).", Toast.LENGTH_LONG).show();
+            String context = getString(R.string.error_context_login_session);
+            String message = getString(R.string.error_no_provider_id_1, context);
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -306,16 +341,19 @@ public class ProviderDashboardActivity extends AppCompatActivity
         if (editingServiceId != null) service.setId(editingServiceId);
 
         ProgressDialog savingDialog = new ProgressDialog(this);
-        savingDialog.setMessage("Saving service...");
+        savingDialog.setMessage(getString(R.string.progress_saving_service));
         savingDialog.setCancelable(false);
         savingDialog.show();
 
         ProviderServiceController controller = new ProviderServiceController();
-        controller.saveOrUpdateService(providerId, service, new ProviderServiceDatabase.OnServiceSaveListener() {
+        controller.saveOrUpdateService(this,providerId, service, new ProviderServiceDatabase.OnServiceSaveListener() {
             @Override
             public void onSuccess(String serviceId) {
                 savingDialog.dismiss();
-                Toast.makeText(ProviderDashboardActivity.this, "Service saved successfully!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProviderDashboardActivity.this,
+                        getString(R.string.success_service_saved),
+                        Toast.LENGTH_SHORT).show();
+
                 clearForm();
                 finish();
             }
@@ -323,7 +361,10 @@ public class ProviderDashboardActivity extends AppCompatActivity
             @Override
             public void onError(String error) {
                 savingDialog.dismiss();
-                Toast.makeText(ProviderDashboardActivity.this, "Save failed: " + error, Toast.LENGTH_LONG).show();
+                Toast.makeText(ProviderDashboardActivity.this,
+                        getString(R.string.error_service_save_failed, error),
+                        Toast.LENGTH_LONG).show();
+
             }
         });
     }
@@ -333,19 +374,23 @@ public class ProviderDashboardActivity extends AppCompatActivity
     // =========================================================
     private void showImagePickerDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Select Image")
-                .setItems(new String[]{"Choose from Gallery", "Take a Photo"}, (dialog, which) -> {
+                .setTitle(getString(R.string.dialog_select_image_title))
+                .setItems(new String[]{
+                        getString(R.string.dialog_option_gallery),
+                        getString(R.string.dialog_option_camera)
+                }, (dialog, which) -> {
                     if (which == 0) openGallery();
                     else if (which == 1) openCamera();
                 })
-                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .setNegativeButton(getString(R.string.action_cancel), (dialog, which) -> dialog.dismiss())
                 .show();
     }
+
 
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        galleryLauncher.launch(Intent.createChooser(intent, "Select a photo"));
+        galleryLauncher.launch(Intent.createChooser(intent, getString(R.string.chooser_select_photo)));
     }
 
     private void openCamera() {
@@ -360,12 +405,13 @@ public class ProviderDashboardActivity extends AppCompatActivity
 
     private void handleCancel() {
         new AlertDialog.Builder(this)
-                .setTitle("Discard changes?")
-                .setMessage("Are you sure you want to cancel without saving?")
-                .setPositiveButton("Yes", (dialog, which) -> finish())
-                .setNegativeButton("No", null)
+                .setTitle(getString(R.string.dialog_discard_title))
+                .setMessage(getString(R.string.dialog_discard_message))
+                .setPositiveButton(getString(R.string.action_yes), (dialog, which) -> finish())
+                .setNegativeButton(getString(R.string.action_no), null)
                 .show();
     }
+
 
     // =========================================================
     // LOADING DIALOGS
@@ -377,7 +423,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
             loadingDialog = new ProgressDialog(this);
             loadingDialog.setCancelable(false);
         }
-        loadingDialog.setMessage("Loading catalogues...");
+        loadingDialog.setMessage(getString(R.string.progress_loading_catalogues));
         loadingDialog.show();
     }
 
@@ -391,7 +437,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
     // LOAD SERVICE AREAS FROM FIREBASE
     // =========================================================
     private void loadServiceAreas() {
-        providerServiceController.loadServiceAreas(new ProviderServiceController.ServiceAreaListener() {
+        providerServiceController.loadServiceAreas(this, new ProviderServiceController.ServiceAreaListener() {
             @Override
             public void onLoaded(List<String> areas) {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -405,8 +451,10 @@ public class ProviderDashboardActivity extends AppCompatActivity
 
             @Override
             public void onError(String message) {
-                Log.e(TAG, message);
-                Toast.makeText(ProviderDashboardActivity.this, "Failed to load areas", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProviderDashboardActivity.this,
+                        getString(R.string.error_load_areas_failed),
+                        Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -424,31 +472,57 @@ public class ProviderDashboardActivity extends AppCompatActivity
     @Override
     public void onCatalogueWithServicesLoaded(Catalogue catalogue, List<Service> services) {}
 
+    /*
     @Override
     public void onCatalogueMapLoaded(Map<String, List<String>> catalogueMap) {
         hideLoadingDialog();
 
         if (catalogueMap.isEmpty()) {
-            Toast.makeText(this, "No catalogues available", Toast.LENGTH_LONG).show();
-            binding.catalogueDropdown.setText("No catalogues available");
+            binding.catalogueDropdown.setText(getString(R.string.empty_state_no_catalogues));
             binding.catalogueDropdown.setEnabled(false);
             return;
         }
 
         cataloguesLoaded = true;
         binding.catalogueDropdown.setEnabled(true);
-        binding.catalogueDropdown.setText("Select Catalogue & Services");
+        binding.catalogueDropdown.setText(getString(R.string.hint_select_catalogue_services));
         catalogueDropdown.updateCatalogueMap(catalogueMap);
 
-        Toast.makeText(this, "Catalogues loaded", Toast.LENGTH_SHORT).show();
+        loadLastServiceDraft();
+    }
+    */
+    @Override
+    public void onCatalogueMapLoaded(Map<String, List<String>> englishCatalogueMap) {
+        hideLoadingDialog();
+
+        if (englishCatalogueMap.isEmpty()) {
+            binding.catalogueDropdown.setText(getString(R.string.empty_state_no_catalogues));
+            binding.catalogueDropdown.setEnabled(false);
+            return;
+        }
+
+        cataloguesLoaded = true;
+        binding.catalogueDropdown.setEnabled(true);
+        binding.catalogueDropdown.setText(getString(R.string.hint_select_catalogue_services));
+
+        // ONE LINE — FULLY AUTOMATIC TRANSLATION FOR ANY LANGUAGE
+        Map<String, List<String>> translatedMap =
+                FirestoreStringTranslator.get(this)
+                        .translateCatalogueMap(englishCatalogueMap);
+
+        catalogueDropdown.updateCatalogueMap(translatedMap);
+
         loadLastServiceDraft();
     }
 
     @Override
     public void onError(String errorMessage) {
         hideLoadingDialog();
-        Toast.makeText(this, "Error loading catalogues: " + errorMessage, Toast.LENGTH_LONG).show();
-        binding.catalogueDropdown.setText("Failed to load catalogues");
+        Toast.makeText(this,
+                getString(R.string.error_loading_catalogues, errorMessage),
+                Toast.LENGTH_LONG).show();
+
+        binding.catalogueDropdown.setText(getString(R.string.fallback_catalogue_load_failed));
         binding.catalogueDropdown.setEnabled(false);
     }
 
@@ -457,10 +531,9 @@ public class ProviderDashboardActivity extends AppCompatActivity
     // =========================================================
     private void loadLastServiceDraft() {
         String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        Log.d(TAG, "Loading last service draft for provider: " + uid);
 
         ProviderServiceController controller = new ProviderServiceController();
-        controller.loadLastServiceDraft(uid, new ProviderServiceController.OnDraftLoadedListener() {
+        controller.loadLastServiceDraft(this, uid, new ProviderServiceController.OnDraftLoadedListener() {
             @Override
             public void onDraftLoaded(ProviderServiceController.ServiceDraft draft) {
                 editingServiceId = draft.getId();
@@ -481,28 +554,54 @@ public class ProviderDashboardActivity extends AppCompatActivity
                 if (draft.getContactPreference() != null) {
                     UIHelper.setRadioSelection(binding.contactPreferenceGroup, draft.getContactPreference(), ProviderDashboardActivity.this);
                 }
-
+                /*
                 if (draft.getCategory() != null && !draft.getCategory().isEmpty()) {
                     catalogueDropdown.setSelectedItemsFromCategory(draft.getCategory());
                 }
+                */
+
+                // Restore saved category selection (English saved in Firestore)
+                if (draft.getCategory() != null && !draft.getCategory().isEmpty()) {
+                    String saved = draft.getCategory().trim();
+
+                    // Try to parse as clean English first (new format)
+                    Map<String, Set<String>> englishMap = FirestoreStringTranslator.parseEnglishCategoryString(saved);
+
+                    if (!englishMap.isEmpty()) {
+                        // It's clean English → convert to current language
+                        Map<String, Set<String>> localizedMap = FirestoreStringTranslator.getLocalizedCategoryMap(englishMap);
+                        String localizedText = FirestoreStringTranslator.get(ProviderDashboardActivity.this)
+                                .buildLocalizedCategoryString(localizedMap);
+                        catalogueDropdown.setSelectedItemsFromCategory(localizedText);
+                    } else {
+                        // Old broken format (any language) → just translate directly
+                        String localized = FirestoreStringTranslator.get(ProviderDashboardActivity.this).translateCategory(saved);
+                        catalogueDropdown.setSelectedItemsFromCategory(localized);
+                    }
+                }
+
 
                 if (draft.getImageUrl() != null && !draft.getImageUrl().isEmpty()) {
                     Glide.with(ProviderDashboardActivity.this).load(draft.getImageUrl()).into(binding.imagePreview);
                     binding.imagePreview.setVisibility(View.VISIBLE);
                     selectedImageUri = Uri.parse(draft.getImageUrl());
                 }
+                Toast.makeText(ProviderDashboardActivity.this,
+                        getString(R.string.info_previous_service_loaded),
+                        Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(ProviderDashboardActivity.this, "Previous service loaded", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onNoDraftFound() {
-                Log.d(TAG, "No draft found - starting with empty form");
+               // Log.d(TAG, "No draft found - starting with empty form");
             }
 
             @Override
             public void onError(String error) {
-                Toast.makeText(ProviderDashboardActivity.this, "Failed to load draft", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProviderDashboardActivity.this,
+                        getString(R.string.error_failed_to_load_draft),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -569,66 +668,6 @@ public class ProviderDashboardActivity extends AppCompatActivity
             confirmDeleteAccount();
         });
     }
-    /*
-    private void openChangePasswordDialog() {
-        int padding = (int) (20 * getResources().getDisplayMetrics().density);
-        TextView title = new TextView(this);
-        title.setText("Change Password");
-        title.setTextSize(20);
-        title.setTextColor(ContextCompat.getColor(this, R.color.white));
-        title.setTypeface(Typeface.DEFAULT_BOLD);
-        title.setPadding(padding, padding, padding, padding);
-
-        LinearLayout titleContainer = new LinearLayout(this);
-        titleContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.design_default_color_primary));
-        titleContainer.addView(title);
-
-        final EditText input = new EditText(this);
-        input.setHint("Enter new password");
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        input.setPadding(padding, padding, padding, padding);
-        input.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
-
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setCustomTitle(titleContainer)
-                .setView(input)
-                .setPositiveButton("Update", null)
-                .setNegativeButton("Cancel", null)
-                .create();
-
-        dialog.setOnShowListener(d -> {
-            Button updateBtn = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            Button cancelBtn = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-
-            updateBtn.setTextColor(ContextCompat.getColor(this, R.color.peru));
-            updateBtn.setTextSize(16);
-            updateBtn.setTypeface(Typeface.DEFAULT_BOLD);
-            cancelBtn.setTextColor(ContextCompat.getColor(this, R.color.peru));
-            cancelBtn.setTextSize(16);
-            cancelBtn.setTypeface(Typeface.DEFAULT_BOLD);
-
-            updateBtn.setOnClickListener(v -> {
-                String newPassword = input.getText().toString().trim();
-                if (newPassword.length() < 6) {
-                    input.setError("Password must be at least 6 characters");
-                    return;
-                }
-                controller.updatePassword(newPassword, controller.getListener());
-                dialog.dismiss();
-            });
-
-            cancelBtn.setOnClickListener(v -> {
-                dialog.dismiss();
-                //showSettingsDialog();
-            });
-        });
-
-        dialog.show();
-        input.requestFocus();
-        Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-    }
-
-     */
     // Change Password Dialog =============================================================================
     private void openChangePasswordDialog() {
 
@@ -647,7 +686,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
             String newPassword = input.getText().toString().trim();
 
             if (newPassword.length() < 6) {
-                input.setError("Password must be at least 6 characters");
+                input.setError(getString(R.string.error_password_too_short));
                 return;
             }
             controller.updatePassword(newPassword, controller.getListener());
@@ -669,32 +708,32 @@ public class ProviderDashboardActivity extends AppCompatActivity
     }
 
     private void confirmDeleteAccount() {
-        SpannableString FirstAsk = new SpannableString("Stop Your Business Here?");
+        SpannableString FirstAsk = new SpannableString(getString(R.string.dialog_stop_business));
         FirstAsk.setSpan(new StyleSpan(Typeface.BOLD),0, FirstAsk.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         FirstAsk.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.peru)),0, FirstAsk.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         FirstAsk.setSpan(new AbsoluteSizeSpan(22, true),0, FirstAsk.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         new MaterialAlertDialogBuilder(this)
                 .setTitle(FirstAsk)
-                .setMessage("Do you really want to stop your business here?")
+                .setMessage(getString(R.string.dialog_stop_business_message))
                 .setIcon(R.drawable.ic_delete_account)
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Yes, stop", (d, w) -> showSecondConfirmation())
+                .setNegativeButton(getString(R.string.action_cancel), null)
+                .setPositiveButton(getString(R.string.action_confirm_stop), (d, w) -> showSecondConfirmation())
                 .setCancelable(false)
                 .show();
     }
 
     private void showSecondConfirmation() {
-        SpannableString SecondAsk = new SpannableString("Delete Account Forever?");
+        SpannableString SecondAsk = new SpannableString(getString(R.string.dialog_delete_account_title));
         SecondAsk.setSpan(new StyleSpan(Typeface.BOLD),0, SecondAsk.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         SecondAsk.setSpan(new ForegroundColorSpan(Color.RED),0, SecondAsk.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         SecondAsk.setSpan(new AbsoluteSizeSpan(22, true),0, SecondAsk.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         new MaterialAlertDialogBuilder(this)
                 .setTitle(SecondAsk)
-                .setMessage("This action is irreversible. Your account, services, and all data will be permanently deleted.")
+                .setMessage(getString(R.string.dialog_delete_account_message))
                 .setIcon(R.drawable.ic_delete_account)
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Delete Forever", (dialog, which) -> {
+                .setNegativeButton(getString(R.string.action_cancel), null)
+                .setPositiveButton(getString(R.string.action_delete_forever), (dialog, which) -> {
                     controller.deleteAccount(new ProviderController.DeleteAccountCallback() {
                         @Override public void onSuccess(String message) {
                             Toast.makeText(ProviderDashboardActivity.this, message, Toast.LENGTH_LONG).show();

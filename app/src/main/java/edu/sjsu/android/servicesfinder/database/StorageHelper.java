@@ -11,6 +11,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import edu.sjsu.android.servicesfinder.R;
+
 /* *****************************************************************************************************
  * StorageHelper
  *
@@ -18,10 +20,6 @@ import com.google.firebase.storage.StorageReference;
  *  - Uploading image files to Firebase Storage
  *  - Returning a download URL when finished
  *  - Translating errors into user-friendly messages
- *
- * Notes:
- *  - Firebase Storage is for binary files (images, videos, PDFs)
- *  - Firestore stores only the download URL (not the file itself)
  **********************************************************************************************************/
 public class StorageHelper {
 
@@ -39,14 +37,14 @@ public class StorageHelper {
                                              String providerId, OnSuccessListener<String> callback) {
 
         if (imageUri == null) {
-            Toast.makeText(context, "No image selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.error_no_image_selected), Toast.LENGTH_SHORT).show();
             callback.onSuccess(null);
             return;
         }
 
         // Show progress dialog
         ProgressDialog dialog = new ProgressDialog(context);
-        dialog.setMessage("Uploading image...");
+        dialog.setMessage(context.getString(R.string.message_uploading_image));
         dialog.setCancelable(false);
         dialog.show();
 
@@ -59,46 +57,42 @@ public class StorageHelper {
                 .addOnSuccessListener(taskSnapshot -> {
                     fileRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
                         dialog.dismiss();
-                        Toast.makeText(context, "Image uploaded!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getString(R.string.success_image_uploaded), Toast.LENGTH_SHORT).show();
                         callback.onSuccess(downloadUri.toString());
                     });
                 })
                 .addOnFailureListener(e -> {
                     dialog.dismiss();
-                    String errorMsg = getImageUploadErrorMessage(e);
+                    String errorMsg = getImageUploadErrorMessage(context, e);
                     new AlertDialog.Builder(context)
-                            .setTitle("Upload Failed")
-                            .setMessage(errorMsg + "\n\nContinue without image?")
-                            .setPositiveButton("Continue", (d, w) -> callback.onSuccess(null))
-                            .setNegativeButton("Cancel", null)
+                            .setTitle(context.getString(R.string.dialog_title_upload_failed))
+                            .setMessage(context.getString(R.string.dialog_message_continue_without_image, errorMsg))
+                            .setPositiveButton(context.getString(R.string.action_continue), (d, w) -> callback.onSuccess(null))
+                            .setNegativeButton(context.getString(R.string.action_cancel), null)
                             .show();
                 })
                 .addOnProgressListener(snapshot -> {
                     double progress = (100.0 * snapshot.getBytesTransferred())
                             / snapshot.getTotalByteCount();
-                    dialog.setMessage("Uploading image... " + (int) progress + "%");
+                    dialog.setMessage(context.getString(R.string.message_uploading_image_progress, (int) progress));
                 });
     }
 
     // =======================================================================================
     // Converts confusing Firebase exceptions into friendly sentences.
     // =======================================================================================
-    private static String getImageUploadErrorMessage(Exception e) {
+    private static String getImageUploadErrorMessage(Context context, Exception e) {
         String message = e.getMessage();
-        if (message == null) return "Unknown upload error";
-
+        if (message == null) return context.getString(R.string.error_upload_unknown);
         if (message.contains("permission") || message.contains("PERMISSION_DENIED"))
-            return "Permission denied. Please check Firebase Storage rules.";
-
+            return context.getString(R.string.error_upload_permission_denied);
         if (message.contains("network") || message.contains("UNAVAILABLE"))
-            return "Network error. Check internet connection.";
-
+            return context.getString(R.string.error_upload_network);
         if (message.contains("quota"))
-            return "Storage quota exceeded.";
-
+            return context.getString(R.string.error_upload_quota);
         if (message.contains("unauthorized") || message.contains("UNAUTHENTICATED"))
-            return "Not authorized. Please sign in again.";
-
-        return "Upload failed: " + message;
+            return context.getString(R.string.error_upload_unauthorized);
+        return context.getString(R.string.error_upload_failed, message);
     }
+
 }

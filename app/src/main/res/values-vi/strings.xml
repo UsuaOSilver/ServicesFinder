@@ -1,0 +1,337 @@
+<resources>
+    <!-- ============================================ -->
+    <!-- APP BASICS -->
+    <!-- ============================================ -->
+    <string name="app_name">ServicesFinder</string>
+
+    <!-- ============================================ -->
+    <!-- MAIN SCREEN / HOME -->
+    <!-- ============================================ -->
+    <string name="services_finder">Tìm Dịch Vụ</string>
+    <string name="browse_available_services">Xem các dịch vụ hiện có</string>
+    <string name="search_services_providers_or_categories">🔍 Tìm dịch vụ, nhà cung cấp hoặc danh mục</string>
+    <string name="search_icon">🔍</string>
+    <string name="no_services_available">Hiện chưa có dịch vụ nào</string>
+    <string name="want_to_supply_services">Muốn cung cấp dịch vụ?</string>
+    <string name="provider_access">Truy cập</string>
+
+
+
+    <plurals name="services_found">
+        <item quantity="one">Đã tìm thấy %d dịch vụ</item>
+        <item quantity="other">Đã tìm thấy %d dịch vụ</item>
+    </plurals>
+
+
+
+
+    <!-- ============================================ -->
+    <!-- SERVICE DETAIL SCREEN -->
+    <!-- ============================================ -->
+    <string name="title_service_details">Chi tiết Dịch vụ</string>
+    <string name="description">Mô tả</string>
+    <string name="provider_information">Thông tin Nhà cung cấp</string>
+
+    <!-- Labels with icons -->
+    <string name="label_category_prefix">📂 Danh mục: %1$s</string>
+    <string name="label_location_service_area">📍 Khu vực phục vụ: %1$s</string>
+    <string name="label_calendar_availability">📅 Lịch làm việc: %1$s</string>
+    <string name="label_preferred_contact">💬 Nên Liên lạc bằng: %1$s</string>
+    <string name="label_phone_prefix">📞 Điện thoại: %1$s</string>
+    <string name="label_email_prefix">✉️ Email: %1$s</string>
+    <string name="label_address_prefix">📍 Địa chỉ: %1$s</string>
+    <string name="label_no_description">Không có mô tả</string>
+
+    <!-- Action Buttons -->
+    <string name="icon_call">📞 Gọi</string>
+    <string name="icon_email">✉️ Email</string>
+    <string name="icon_map">📍 Bản đồ</string>
+
+    <!-- Email Template -->
+    <string name="email_subject_inquiry">Hỏi về dịch vụ %1$s</string>
+    <string name="email_body_inquiry">Chào %1$s,\n\nTôi quan tâm đến dịch vụ: %2$s\n\nBạn có thể cung cấp thêm thông tin không?\n\nXin cảm ơn!</string>
+    <string name="chooser_title_send_email">Gửi Email</string>
+
+    <!-- Placeholder / Preview -->
+    <string name="professional_haircut">Cắt tóc chuyên nghiệp</string>
+    <string name="_25">$25</string>
+    <string name="professional_haircut_service">Dịch vụ cắt tóc chuyên nghiệp...</string>
+    <string name="hair_care_cut_color_styling">📂 Chăm sóc tóc: Cắt, Nhuộm, Tạo kiểu</string>
+    <string name="service_area_san_jose">📍 Khu vực phục vụ: San Jose</string>
+    <string name="available_tue_wed">📅 Làm việc: Thứ Ba, Thứ Tư</string>
+    <string name="provider_john_doe">Nhà cung cấp: John Doe</string>
+    <string name="_123_456_7890_n_john_example_com_n_123_main_st_san_jose_ca">📞 (123) 456-7890\n✉️ john@example.com\n📍 123 Main St, San Jose, CA</string>
+
+    <!-- ============================================ -->
+    <!-- PROVIDER PORTAL / AUTHENTICATION -->
+    <!-- ============================================ -->
+    <string name="title_provider_authentication">Xác thực Nhà cung cấp</string>
+    <string name="provider_portal">Cổng Nhà cung cấp</string>
+    <string name="sign_in_or_create_an_account">Đăng nhập hoặc tạo tài khoản</string>
+    <string name="welcome_back">Chào mừng trở lại!</string>
+    <string name="sign_in_to_manage_your_services">Đăng nhập để quản lý dịch vụ</string>
+    <string name="create_account">Tạo tài khoản</string>
+    <string name="join_us_as_a_service_provider">Tham gia làm Nhà cung cấp dịch vụ</string>
+
+    <!-- Form Fields -->
+    <string name="email_or_phone">Email hoặc Số điện thoại</string>
+    <string name="password">Mật khẩu</string>
+    <string name="full_name_required">Họ tên đầy đủ<sup>*</sup></string>
+    <string name="phone_required">Số điện thoại<sup>*</sup></string>
+    <string name="address_required">Địa chỉ<sup>*</sup></string>
+    <string name="password_required">Mật khẩu<sup>*</sup> (tối thiểu 6 ký tự)</string>
+    <string name="confirm_password">Xác nhận mật khẩu<sup>*</sup></string>
+    <string name="required_field"><sup>*</sup>: Bắt buộc</string>
+
+    <!-- Buttons -->
+    <string name="sign_in">ĐĂNG NHẬP</string>
+    <string name="sign_up">ĐĂNG KÝ</string>
+    <string name="create">TẠO</string>
+    <string name="progress_signing_in">Đang đăng nhập...</string>
+
+    <!-- Form Actions -->
+    <string name="save">LƯU</string>
+    <string name="cancel">HỦY</string>
+    <string name="update">CẬP NHẬT</string>
+    <string name="save_change">LƯU THAY ĐỔI</string>
+
+    <!-- ============================================ -->
+    <!-- PROVIDER DASHBOARD -->
+    <!-- ============================================ -->
+    <string name="title_provider_dashboard">Bảng điều khiển Nhà cung cấp</string>
+    <string name="account_settings">Cài đặt tài khoản</string>
+    <string name="change_password">Đổi mật khẩu</string>
+    <string name="change_npassword">Đổi\nMật khẩu</string>
+    <string name="edit_nprofile">Chỉnh sửa\nHồ sơ</string>
+    <string name="delete_naccount">Xóa\nTài khoản</string>
+    <string name="profile_editing">Chỉnh sửa Hồ sơ</string>
+    <string name="enter_new_password">Nhập mật khẩu mới</string>
+
+    <!-- ============================================ -->
+    <!-- SERVICE FORM / ADD-EDIT SERVICE -->
+    <!-- ============================================ -->
+    <string name="service_title">Tên dịch vụ</string>
+    <string name="catalogue">Danh mục</string>
+    <string name="pricing">Giá</string>
+    <string name="service_area">Khu vực dịch vụ</string>
+    <string name="availability">Lịch làm việc</string>
+    <string name="preferred_contact">Hình thức liên lạc</string>
+    <string name="upload_service_image">Tải lên ảnh dịch vụ</string>
+
+    <!-- Days of Week -->
+    <string name="mon">T2</string>
+    <string name="tue">T3</string>
+    <string name="wed">T4</string>
+    <string name="thu">T5</string>
+    <string name="fri">T6</string>
+    <string name="sat">T7</string>
+    <string name="sun">CN</string>
+
+    <!-- Contact Preferences -->
+    <string name="contact_call">Gọi</string>
+    <string name="contact_text">Nhắn tin</string>
+    <string name="contact_email">Email</string>
+
+    <!-- Image Selection -->
+    <string name="chooser_select_photo">Chọn ảnh</string>
+    <string name="dialog_select_image_title">Chọn ảnh</string>
+    <string name="dialog_option_gallery">Chọn từ Thư viện</string>
+    <string name="dialog_option_camera">Chụp ảnh</string>
+
+    <!-- Catalogue Selection -->
+    <string name="hint_select_catalogue_services">Chọn Danh mục &amp; Dịch vụ</string>
+    <string name="action_done">XONG</string>
+    <string name="progress_loading_catalogues">Đang tải danh mục...</string>
+
+    <!-- ============================================ -->
+    <!-- VALIDATION MESSAGES -->
+    <!-- ============================================ -->
+    <string name="error_required">Bắt buộc</string>
+    <string name="validation_enter_title">Vui lòng nhập tên dịch vụ</string>
+    <string name="validation_enter_description">Vui lòng nhập mô tả</string>
+    <string name="validation_enter_pricing">Vui lòng nhập giá</string>
+    <string name="validation_select_area">Vui lòng chọn khu vực</string>
+    <string name="validation_select_availability">Vui lòng chọn ít nhất một ngày</string>
+    <string name="validation_select_contact">Vui lòng chọn hình thức liên lạc</string>
+    <string name="validation_select_category">Vui lòng chọn danh mục &amp; dịch vụ</string>
+    <string name="error_invalid_email">Email không hợp lệ</string>
+    <string name="error_phone_digits">10 chữ số</string>
+    <string name="error_password_mismatch">Không khớp</string>
+    <string name="error_password_too_short">Mật khẩu phải có ít nhất 6 ký tự</string>
+
+    <!-- ============================================ -->
+    <!-- DIALOGS -->
+    <!-- ============================================ -->
+    <string name="dialog_discard_title">Hủy thay đổi?</string>
+    <string name="dialog_discard_message">Bạn có chắc muốn thoát mà không lưu?</string>
+
+    <string name="dialog_no_image_title">Không có ảnh</string>
+    <string name="dialog_no_image_message">Bạn muốn tạo dịch vụ mà không có ảnh?</string>
+    <string name="action_add_image">Thêm ảnh</string>
+    <string name="action_continue_without_image">Tiếp tục</string>
+
+    <string name="dialog_title_upload_failed">Tải ảnh thất bại</string>
+    <string name="dialog_message_continue_without_image">%1$s\n\nTiếp tục không có ảnh?</string>
+
+    <string name="dialog_stop_business">Ngừng kinh doanh?</string>
+    <string name="dialog_stop_business_title">Ngừng kinh doanh tại đây?</string>
+    <string name="dialog_stop_business_message">Bạn có thực sự muốn ngừng kinh doanh?</string>
+    <string name="action_confirm_stop">Đồng ý</string>
+
+    <string name="dialog_delete_account_title">Xóa tài khoản vĩnh viễn?</string>
+    <string name="dialog_delete_account_message">Hành động này không thể hoàn tác. Tất cả dữ liệu và dịch vụ sẽ bị xóa vĩnh viễn.</string>
+    <string name="action_delete_forever">Xóa vĩnh viễn</string>
+
+    <string name="action_yes">Có</string>
+    <string name="action_no">Không</string>
+    <string name="action_continue">Tiếp tục</string>
+    <string name="action_cancel">Hủy</string>
+
+    <!-- ============================================ -->
+    <!-- SUCCESS MESSAGES -->
+    <!-- ============================================ -->
+    <string name="success_service_saved">Lưu dịch vụ thành công!</string>
+    <string name="success_provider_saved">Đã lưu nhà cung cấp</string>
+    <string name="success_provider_updated">Cập nhật nhà cung cấp thành công</string>
+    <string name="success_password_updated">Đổi mật khẩu thành công</string>
+    <string name="success_profile_updated">Cập nhật hồ sơ thành công</string>
+    <string name="success_account_deleted">Xóa tài khoản thành công</string>
+    <string name="success_account_created_with_services">Tài khoản mới đã được tạo kèm dịch vụ sao chép</string>
+    <string name="success_provider_and_services_deleted">Đã xóa nhà cung cấp và dịch vụ</string>
+    <string name="success_image_uploaded">Đã tải ảnh lên!</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Authentication -->
+    <!-- ============================================ -->
+    <string name="error_null_user">Không tìm thấy người dùng</string>
+    <string name="error_email_signin_failed">Đăng nhập bằng Email thất bại: %1$s</string>
+    <string name="error_invalid_password">Mật khẩu không đúng</string>
+    <string name="error_password_empty">Mật khẩu không được trống</string>
+    <string name="error_no_account_with_phone">Không có tài khoản với số điện thoại này</string>
+    <string name="error_no_authenticated_user">Chưa đăng nhập</string>
+    <string name="error_unauthenticated">Vui lòng đăng nhập để tiếp tục</string>
+    <string name="error_user_creation_failed">Tạo tài khoản thất bại</string>
+    <string name="sign_up_failed">Đăng ký thất bại: </string>
+    <string name="email_already_in_use">Email đã được sử dụng</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Provider -->
+    <!-- ============================================ -->
+    <string name="error_provider_not_signed_in">Nhà cung cấp chưa đăng nhập</string>
+    <string name="error_no_provider_id">Không tìm thấy ID nhà cung cấp. Vui lòng đăng nhập lại.</string>
+    <string name="error_missing_provider_id">Thiếu ID nhà cung cấp</string>
+    <string name="error_no_provider_id_1">Lỗi: Không tìm thấy ID nhà cung cấp (%1$s).</string>
+    <string name="error_context_login_session">Lỗi phiên đăng nhập</string>
+    <string name="provider_id_is_required">Cần có ID nhà cung cấp</string>
+    <string name="error_provider_not_found">Không tìm thấy nhà cung cấp</string>
+    <string name="error_provider_not_found_with_phone">Không tìm thấy nhà cung cấp với số điện thoại này</string>
+    <string name="error_fetching_provider">Lỗi tải nhà cung cấp: %1$s</string>
+    <string name="error_saving_provider">Lỗi lưu nhà cung cấp: </string>
+    <string name="error_failed_to_load_profile">Tải hồ sơ thất bại</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Services -->
+    <!-- ============================================ -->
+    <string name="error_service_title_required">Tên dịch vụ bắt buộc</string>
+    <string name="error_service_save_failed">Lưu thất bại: %1$s</string>
+    <string name="error_delete_services_failed">Xóa dịch vụ thất bại: %1$s</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Updates & Deletions -->
+    <!-- ============================================ -->
+    <string name="error_update_failed">Cập nhật thất bại: %1$s</string>
+    <string name="error_profile_update_failed">Lỗi cập nhật hồ sơ: %1$s</string>
+    <string name="error_password_update_failed">Lỗi cập nhật mật khẩu: %1$s</string>
+    <string name="error_password_updated_firestore_failed">Cập nhật mật khẩu trên Firebase thành công, nhưng lỗi khi lưu Firestore: %1$s</string>
+    <string name="error_account_delete_failed">Xóa tài khoản thất bại: %1$s</string>
+    <string name="error_provider_data_delete_failed">Lỗi xóa dữ liệu nhà cung cấp: %1$s</string>
+    <string name="error_delete_provider_failed">Lỗi xóa tài liệu nhà cung cấp: %1$s</string>
+    <string name="error_sign_out_then_delete">Vui lòng đăng xuất rồi đăng nhập lại trước khi xóa tài khoản</string>
+    <string name="error_old_account_delete_failed">Xóa tài khoản cũ thất bại</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Image Upload -->
+    <!-- ============================================ -->
+    <string name="error_no_image_selected">Chưa chọn ảnh</string>
+    <string name="error_upload_unknown">Lỗi tải ảnh không xác định</string>
+    <string name="error_upload_permission">Không có quyền. Kiểm tra quy tắc Firebase Storage.</string>
+    <string name="error_upload_permission_denied">Không có quyền. Kiểm tra quy tắc Firebase Storage.</string>
+    <string name="error_upload_network">Lỗi mạng. Kiểm tra kết nối Internet.</string>
+    <string name="error_upload_quota">Vượt quá dung lượng lưu trữ.</string>
+    <string name="error_upload_unauthorized">Không được phép. Vui lòng đăng nhập lại.</string>
+    <string name="error_upload_failed">Tải ảnh thất bại: %1$s</string>
+    <string name="message_uploading_image">Đang tải ảnh...</string>
+    <string name="message_uploading_image_progress">Đang tải ảnh... %1$d%%</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Data Loading -->
+    <!-- ============================================ -->
+    <string name="error_load_areas_failed">Lỗi tải khu vực: %1$s</string>
+    <string name="error_load_draft_failed">Lỗi tải bản nháp: %1$s</string>
+    <string name="error_failed_to_load_draft">Tải bản nháp thất bại</string>
+    <string name="error_no_catalogue_data">Không có dữ liệu danh mục</string>
+    <string name="error_loading_catalogues">Lỗi tải danh mục: %1$s</string>
+    <string name="fallback_catalogue_load_failed">Tải danh mục thất bại</string>
+    <string name="error_old_provider_load_failed">Lỗi tải nhà cung cấp cũ: %1$s</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Account Migration -->
+    <!-- ============================================ -->
+    <string name="error_migration_failed">Di chuyển dữ liệu thất bại: %1$s</string>
+    <string name="error_save_new_provider_failed">Lưu nhà cung cấp mới thất bại: %1$s</string>
+    <string name="error_new_account_creation_failed">Tạo tài khoản mới thất bại: %1$s</string>
+    <string name="warning_old_firebase_user_not_found">Đã sao chép nhà cung cấp, nhưng không tìm thấy người dùng Firebase cũ</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Network & General -->
+    <!-- ============================================ -->
+    <string name="error_unknown">Lỗi không xác định</string>
+    <string name="error_network_unavailable">Không có mạng. Vui lòng kiểm tra kết nối</string>
+    <string name="error_not_found">Không tìm thấy dữ liệu yêu cầu</string>
+    <string name="error_already_exists">Dữ liệu này đã tồn tại</string>
+    <string name="error_deadline_exceeded">Quá thời gian chờ. Vui lòng thử lại</string>
+    <string name="error_permission_denied">Bạn không có quyền truy cập</string>
+    <string name="error_generic">Lỗi: %1$s</string>
+    <string name="error_navigation">Lỗi điều hướng: %1$s</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Service Detail Screen -->
+    <!-- ============================================ -->
+    <string name="error_phone_unavailable">Không có số điện thoại</string>
+    <string name="error_email_unavailable">Không có email</string>
+    <string name="error_address_unavailable">Không có địa chỉ</string>
+    <string name="error_no_email_app">Không tìm thấy ứng dụng email</string>
+
+    <!-- ============================================ -->
+    <!-- EMPTY STATES -->
+    <!-- ============================================ -->
+    <string name="empty_state_no_services">Chưa có dịch vụ nào.</string>
+    <string name="empty_state_no_results">Không tìm thấy kết quả cho "%1$s"</string>
+    <string name="empty_state_no_data">Không có dữ liệu.</string>
+    <string name="empty_state_no_catalogues">Không có danh mục nào</string>
+
+    <!-- ============================================ -->
+    <!-- PROGRESS MESSAGES -->
+    <!-- ============================================ -->
+    <string name="progress_saving_service">Đang lưu dịch vụ...</string>
+
+    <!-- ============================================ -->
+    <!-- INFO MESSAGES -->
+    <!-- ============================================ -->
+    <string name="info_previous_service_loaded">Đã tải dịch vụ trước đó</string>
+    <string name="provider_prefix">Nhà cung cấp: %1$s</string>
+    <string name="new_service">⭐ Mới</string>
+
+    <!-- ============================================ -->
+    <!-- MISCELLANEOUS -->
+    <!-- ============================================ -->
+    <string name="service_name">Tên dịch vụ</string>
+    <string name="service_description_goes_here">Mô tả dịch vụ</string>
+    <string name="_0_00">$0.00</string>
+    <string name="haircut">Cắt tóc</string>
+    <string name="_4_7">⭐4.7</string>
+    <string name="san_jose">San Jose</string>
+    <string name="tue_wed">Thứ Ba/Thứ Tư</string>
+    <string name="hair_care">Chăm sóc tóc</string>
+
+</resources>

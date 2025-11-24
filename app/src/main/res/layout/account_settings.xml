@@ -29,7 +29,7 @@
             android:id="@+id/accountSettingsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Account Settings"
+            android:text="@string/account_settings"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -62,13 +62,13 @@
                 android:src="@drawable/ic_change_password"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
-                android:contentDescription="Change Password"
+                android:contentDescription="@string/change_password"
                 android:background="@color/transparent" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Change\nPassword"
+                android:text="@string/change_npassword"
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:paddingTop="4dp" />
@@ -95,7 +95,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit\nProfile"
+                android:text="@string/edit_nprofile"
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:paddingTop="4dp" />
@@ -122,7 +122,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete\nAccount"
+                android:text="@string/delete_naccount"
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:paddingTop="4dp" />

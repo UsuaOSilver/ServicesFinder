@@ -74,7 +74,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Service Title"
+                android:hint="@string/service_title"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 app:boxBackgroundColor="@color/white">
 
@@ -89,7 +89,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Catalogue"
+                android:hint="@string/catalogue"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="16dp">
@@ -116,7 +116,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Description"
+                android:hint="@string/description"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="16dp">
@@ -134,7 +134,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Pricing"
+                android:hint="@string/pricing"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="16dp">
@@ -151,7 +151,7 @@
                 android:id="@+id/serviceAreaLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Service Area"
+                android:hint="@string/service_area"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="16dp">
@@ -169,7 +169,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="     Availability"
+                android:text="@string/availability"
                 android:textColor="@color/gray"
                 android:layout_marginTop="16dp" />
 
@@ -187,24 +187,24 @@
                     android:layout_height="wrap_content">
                     <CheckBox
                         android:id="@+id/mon"
-                        android:text="Mon"
+                        android:text="@string/mon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <CheckBox
                         android:id="@+id/tue"
-                        android:text="Tue"
+                        android:text="@string/tue"
                         android:layout_marginStart="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <CheckBox
                         android:id="@+id/wed"
-                        android:text="Wed"
+                        android:text="@string/wed"
                         android:layout_marginStart="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <CheckBox
                         android:id="@+id/thu"
-                        android:text="Thu"
+                        android:text="@string/thu"
                         android:layout_marginStart="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -216,20 +216,21 @@
                     android:layout_height="wrap_content">
                     <CheckBox
                         android:id="@+id/fri"
-                        android:text="Fri"
+                        android:text="@string/fri"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
                     <CheckBox
                         android:id="@+id/sat"
-                        android:text="Sat"
+                        android:text="@string/sat"
                         android:layout_marginStart="28dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
                     <CheckBox
                         android:id="@+id/sun"
-                        android:text="Sun"
+                        android:text="@string/sun"
+                        android:textColor="@color/red"
                         android:layout_marginStart="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -241,7 +242,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="    Preferred Contact"
+                android:text="@string/preferred_contact"
                 android:textColor="@color/gray"
                 android:layout_marginTop="16dp" />
 
@@ -262,7 +263,7 @@
                         android:id="@+id/contactCall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Call"
+                        android:text="@string/contact_call"
                         android:checked="true"
                         android:layout_marginEnd="24dp" />
 
@@ -270,14 +271,14 @@
                         android:id="@+id/contactText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Text"
+                        android:text="@string/contact_text"
                         android:layout_marginEnd="24dp" />
 
                     <RadioButton
                         android:id="@+id/contactEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email" />
+                        android:text="@string/contact_email" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -292,7 +293,7 @@
                     android:id="@+id/uploadImageBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:text="Upload Service Image"
+                    android:text="@string/upload_service_image"
                     android:textAllCaps="false"
                     android:drawableStart="@drawable/ic_upload"
                     android:drawablePadding="8dp"
@@ -328,7 +329,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SAVE"
+            android:text="@string/save"
             android:textSize="16sp"
             android:textStyle="bold"
             style="@style/SF.PrimaryButton"
@@ -339,7 +340,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="CANCEL"
+            android:text="@string/cancel"
             android:textSize="16sp"
             android:textStyle="bold"
             style="@style/SF.SecondaryButton"

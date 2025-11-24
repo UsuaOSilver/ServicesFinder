@@ -1,17 +1,338 @@
 <resources>
+    <!-- ============================================ -->
+    <!-- APP BASICS -->
+    <!-- ============================================ -->
     <string name="app_name">ServicesFinder</string>
+
+    <!-- ============================================ -->
+    <!-- MAIN SCREEN / HOME -->
+    <!-- ============================================ -->
+    <string name="services_finder">Services Finder</string>
+    <string name="browse_available_services">Browse available services</string>
+    <string name="search_services_providers_or_categories">🔍 Search services, providers, or categories</string>
+    <string name="search_icon">🔍</string>
+    <string name="no_services_available">No services available</string>
+    <string name="want_to_supply_services">Want to supply services?</string>
+    <string name="provider_access">Provider Access</string>
+
+    <plurals name="services_found">
+        <item quantity="one">%d service found</item>
+        <item quantity="other">%d services found</item>
+    </plurals>
+
+    <!-- ============================================ -->
+    <!-- SERVICE DETAIL SCREEN -->
+    <!-- ============================================ -->
+    <string name="title_service_details">Service Details</string>
+    <string name="description">Description</string>
+    <string name="provider_information">Provider Information</string>
+
+    <!-- Labels with icons -->
+    <string name="label_category_prefix">📂 Category: %1$s</string>
+    <string name="label_location_service_area">📍 Service Area: %1$s</string>
+    <string name="label_calendar_availability">📅 Available: %1$s</string>
+    <string name="label_preferred_contact">💬 Preferred Contact: %1$s</string>
+    <string name="label_phone_prefix">📞 Phone: %1$s</string>
+    <string name="label_email_prefix">✉️ Email: %1$s</string>
+    <string name="label_address_prefix">📍 Address: %1$s</string>
+    <string name="label_no_description">No description available</string>
+
+    <!-- Action Buttons -->
+    <string name="icon_call">📞 Call</string>
+    <string name="icon_email">✉️ Email</string>
+    <string name="icon_map">📍 Map</string>
+
+    <!-- Email Template -->
+    <string name="email_subject_inquiry">Inquiry about %1$s</string>
+    <string name="email_body_inquiry">Hi %1$s,\n\nI am interested in your service: %2$s\n\nCould you please provide more information?\n\nThank you!</string>
+    <string name="chooser_title_send_email">Send Email</string>
+
+    <!-- Placeholder/Preview Text (for layout editor only) -->
+    <string name="professional_haircut">Professional Haircut</string>
+    <string name="_25">$25</string>
+    <string name="professional_haircut_service">Professional haircut service...</string>
+    <string name="hair_care_cut_color_styling">📂 Hair Care: Cut, Color, Styling</string>
+    <string name="service_area_san_jose">📍 Service Area: San Jose</string>
+    <string name="available_tue_wed">📅 Available: Tue, Wed</string>
+    <string name="provider_john_doe">Provider: John Doe</string>
+    <string name="_123_456_7890_n_john_example_com_n_123_main_st_san_jose_ca">📞 (123) 456-7890\n✉️ john@example.com\n📍 123 Main St, San Jose, CA</string>
+
+    <!-- ============================================ -->
+    <!-- PROVIDER PORTAL / AUTHENTICATION -->
+    <!-- ============================================ -->
+    <string name="title_provider_authentication">Provider Authentication</string>
+    <string name="provider_portal">Provider Portal</string>
+    <string name="sign_in_or_create_an_account">Sign in or create an account</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="sign_in_to_manage_your_services">Sign in to manage your services</string>
+    <string name="create_account">Create Account</string>
+    <string name="join_us_as_a_service_provider">Join us as a service provider</string>
+
+    <!-- Form Fields -->
+    <string name="email_or_phone">Email or Phone</string>
+    <string name="password">Password</string>
     <string name="full_name_required">Full Name<sup>*</sup></string>
     <string name="phone_required">Phone Number<sup>*</sup></string>
     <string name="address_required">Address<sup>*</sup></string>
     <string name="password_required">Password<sup>*</sup> (min 6 characters)</string>
     <string name="confirm_password">Confirm Password<sup>*</sup></string>
     <string name="required_field"><sup>*</sup>: Required field</string>
+
+    <!-- Buttons -->
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="create">CREATE</string>
+    <string name="progress_signing_in">Signing in...</string>
+
+    <!-- Form Actions -->
+    <string name="save">SAVE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="update">UPDATE</string>
+    <string name="save_change">SAVE CHANGE</string>
+
+    <!-- ============================================ -->
+    <!-- PROVIDER DASHBOARD -->
+    <!-- ============================================ -->
+    <string name="title_provider_dashboard">Provider Dashboard</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="change_password">Change Password</string>
+    <string name="change_npassword">Change\nPassword</string>
+    <string name="edit_nprofile">Edit\nProfile</string>
+    <string name="delete_naccount">Delete\nAccount</string>
+    <string name="profile_editing">Profile Editing</string>
+    <string name="enter_new_password">Enter new password</string>
+
+    <!-- ============================================ -->
+    <!-- SERVICE FORM / ADD-EDIT SERVICE -->
+    <!-- ============================================ -->
+    <string name="service_title">Service Title</string>
+    <string name="catalogue">Catalogue</string>
+    <string name="pricing">Pricing</string>
+    <string name="service_area">Service Area</string>
+    <string name="availability">Availability</string>
+    <string name="preferred_contact">Preferred Contact</string>
+    <string name="upload_service_image">Upload Service Image</string>
+
+    <!-- Days of Week -->
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="sun">Sun</string>
+
+    <!-- Contact Preferences -->
+    <string name="contact_call">Call</string>
+    <string name="contact_text">Text</string>
+    <string name="contact_email">Email</string>
+
+    <!-- Image Selection -->
+    <string name="chooser_select_photo">Select a photo</string>
+    <string name="dialog_select_image_title">Select Image</string>
+    <string name="dialog_option_gallery">Choose from Gallery</string>
+    <string name="dialog_option_camera">Take a Photo</string>
+
+    <!-- Catalogue Selection -->
+    <string name="hint_select_catalogue_services">Select Catalogue &amp; Services</string>
+    <string name="action_done">DONE</string>
+    <string name="progress_loading_catalogues">Loading catalogues...</string>
+
+    <!-- ============================================ -->
+    <!-- VALIDATION MESSAGES -->
+    <!-- ============================================ -->
+    <string name="error_required">Required</string>
+    <string name="validation_enter_title">Please enter service title</string>
+    <string name="validation_enter_description">Please enter description</string>
+    <string name="validation_enter_pricing">Please enter pricing details</string>
+    <string name="validation_select_area">Please select service area</string>
+    <string name="validation_select_availability">Please select at least one day</string>
+    <string name="validation_select_contact">Please select contact preference</string>
+    <string name="validation_select_category">Please select catalogue &amp; services</string>
+    <string name="error_invalid_email">Invalid email</string>
+    <string name="error_phone_digits">10 digits</string>
+    <string name="error_password_mismatch">Mismatch</string>
+    <string name="error_password_too_short">Password must be at least 6 characters</string>
+
+    <!-- ============================================ -->
+    <!-- DIALOGS -->
+    <!-- ============================================ -->
+    <!-- Discard Changes -->
+    <string name="dialog_discard_title">Discard changes?</string>
+    <string name="dialog_discard_message">Are you sure you want to cancel without saving?</string>
+
+    <!-- No Image -->
+    <string name="dialog_no_image_title">No Image</string>
+    <string name="dialog_no_image_message">Do you want to add a service without an image?</string>
+    <string name="action_add_image">Add Image</string>
+    <string name="action_continue_without_image">Yes, Continue</string>
+
+    <!-- Upload Failed -->
+    <string name="dialog_title_upload_failed">Upload Failed</string>
+    <string name="dialog_message_continue_without_image">%1$s\n\nContinue without image?</string>
+
+    <!-- Stop Business -->
+    <string name="dialog_stop_business">Stop Your Business Here?</string>
+    <string name="dialog_stop_business_title">Stop Your Business Here?</string>
+    <string name="dialog_stop_business_message">Do you really want to stop your business here?</string>
+    <string name="action_confirm_stop">Yes, stop</string>
+
+    <!-- Delete Account -->
+    <string name="dialog_delete_account_title">Delete Account Forever?</string>
+    <string name="dialog_delete_account_message">This action is irreversible. Your account, services, and all data will be permanently deleted.</string>
+    <string name="action_delete_forever">Delete Forever</string>
+
+    <!-- Common Actions -->
+    <string name="action_yes">Yes</string>
+    <string name="action_no">No</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_cancel">Cancel</string>
+
+    <!-- ============================================ -->
+    <!-- SUCCESS MESSAGES -->
+    <!-- ============================================ -->
+    <string name="success_service_saved">Service saved successfully!</string>
+    <string name="success_provider_saved">Provider saved</string>
+    <string name="success_provider_updated">Provider updated</string>
+    <string name="success_password_updated">Password updated successfully</string>
+    <string name="success_profile_updated">Profile updated successfully</string>
+    <string name="success_account_deleted">Account deleted successfully</string>
+    <string name="success_account_created_with_services">New account created with services cloned</string>
+    <string name="success_provider_and_services_deleted">Provider and services deleted</string>
+    <string name="success_image_uploaded">Image uploaded!</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Authentication -->
+    <!-- ============================================ -->
+    <string name="error_null_user">Null user returned</string>
+    <string name="error_email_signin_failed">Email sign-in failed: %1$s</string>
+    <string name="error_invalid_password">Invalid password</string>
+    <string name="error_password_empty">Password cannot be empty</string>
+    <string name="error_no_account_with_phone">No account found with this phone number</string>
+    <string name="error_no_authenticated_user">No authenticated user</string>
+    <string name="error_unauthenticated">Please sign in to continue</string>
+    <string name="error_user_creation_failed">New user creation failed</string>
+    <string name="sign_up_failed">"Sign-up failed: "</string>
+    <string name="email_already_in_use">Email already in use</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Provider -->
+    <!-- ============================================ -->
+    <string name="error_provider_not_signed_in">Provider not signed in</string>
+    <string name="error_no_provider_id">No provider ID found. Please log in again.</string>
+    <string name="error_missing_provider_id">Missing provider ID</string>
+    <string name="error_no_provider_id_1">Error: No provider ID found (%1$s).</string>
+    <string name="error_context_login_session">login/session issue</string>
+    <string name="provider_id_is_required">Provider ID is required</string>
+    <string name="error_provider_not_found">Provider not found</string>
+    <string name="error_provider_not_found_with_phone">No provider found with this phone</string>
+    <string name="error_fetching_provider">Error fetching provider: %1$s</string>
+    <string name="error_saving_provider">"Error saving provider: "</string>
+    <string name="error_failed_to_load_profile">Failed to load profile</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Services -->
+    <!-- ============================================ -->
+    <string name="error_service_title_required">Service title required</string>
+    <string name="error_service_save_failed">Save failed: %1$s</string>
+    <string name="error_delete_services_failed">Failed to delete services: %1$s</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Updates & Deletions -->
+    <!-- ============================================ -->
+    <string name="error_update_failed">Update failed: %1$s</string>
+    <string name="error_profile_update_failed">Failed to update profile: %1$s</string>
+    <string name="error_password_update_failed">Failed to update password: %1$s</string>
+    <string name="error_password_updated_firestore_failed">Password updated in Firebase, but failed in Firestore: %1$s</string>
+    <string name="error_account_delete_failed">Failed to delete account: %1$s</string>
+    <string name="error_provider_data_delete_failed">Failed to delete provider data: %1$s</string>
+    <string name="error_delete_provider_failed">Failed to delete provider document: %1$s</string>
+    <string name="error_sign_out_then_delete">Please sign out and sign in again, then try deleting your account</string>
+    <string name="error_old_account_delete_failed">Failed to delete old account</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Image Upload -->
+    <!-- ============================================ -->
+    <string name="error_no_image_selected">No image selected</string>
+    <string name="error_upload_unknown">Unknown upload error</string>
+    <string name="error_upload_permission">Permission denied. Please check Firebase Storage rules.</string>
+    <string name="error_upload_permission_denied">Permission denied. Please check Firebase Storage rules.</string>
+    <string name="error_upload_network">Network error. Check internet connection.</string>
+    <string name="error_upload_quota">Storage quota exceeded.</string>
+    <string name="error_upload_unauthorized">Not authorized. Please sign in again.</string>
+    <string name="error_upload_failed">Upload failed: %1$s</string>
+    <string name="message_uploading_image">Uploading image...</string>
+    <string name="message_uploading_image_progress">Uploading image... %1$d%%</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Data Loading -->
+    <!-- ============================================ -->
+    <string name="error_load_areas_failed">Failed to load areas: %1$s</string>
+    <string name="error_load_draft_failed">Failed to load draft: %1$s</string>
+    <string name="error_failed_to_load_draft">Failed to load draft</string>
+    <string name="error_no_catalogue_data">No catalogue data available</string>
+    <string name="error_loading_catalogues">Error loading catalogues: %1$s</string>
+    <string name="fallback_catalogue_load_failed">Failed to load catalogues</string>
+    <string name="error_old_provider_load_failed">Failed to load old provider: %1$s</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Account Migration -->
+    <!-- ============================================ -->
+    <string name="error_migration_failed">Migration failed: %1$s</string>
+    <string name="error_save_new_provider_failed">Failed to save new provider: %1$s</string>
+    <string name="error_new_account_creation_failed">Failed to create new account: %1$s</string>
+    <string name="warning_old_firebase_user_not_found">New provider cloned, but old FirebaseAuth user not found</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Network & General -->
+    <!-- ============================================ -->
+    <string name="error_unknown">Unknown error occurred</string>
+    <string name="error_network_unavailable">Network unavailable. Please check your connection</string>
+    <string name="error_not_found">Requested data not found</string>
+    <string name="error_already_exists">This data already exists</string>
+    <string name="error_deadline_exceeded">Request timed out. Please try again</string>
+    <string name="error_permission_denied">You don not have permission to access this data</string>
+    <string name="error_generic">Error: %1$s</string>
+    <string name="error_navigation">Navigation error: %1$s</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Service Detail Screen -->
+    <!-- ============================================ -->
+    <string name="error_phone_unavailable">Phone number not available</string>
+    <string name="error_email_unavailable">Email not available</string>
+    <string name="error_address_unavailable">Address not available</string>
+    <string name="error_no_email_app">No email app found</string>
+
+    <!-- ============================================ -->
+    <!-- EMPTY STATES -->
+    <!-- ============================================ -->
+    <string name="empty_state_no_services">No services available yet.</string>
+    <string name="empty_state_no_results">No results for "%1$s"</string>
+    <string name="empty_state_no_data">No data available.</string>
+    <string name="empty_state_no_catalogues">No catalogues available</string>
+
+    <!-- ============================================ -->
+    <!-- PROGRESS MESSAGES -->
+    <!-- ============================================ -->
+    <string name="progress_saving_service">Saving service...</string>
+
+    <!-- ============================================ -->
+    <!-- INFO MESSAGES -->
+    <!-- ============================================ -->
+    <string name="info_previous_service_loaded">Previous service loaded</string>
     <string name="provider_prefix">Provider: %1$s</string>
     <string name="new_service">⭐ New</string>
-    <plurals name="services_found">
-        <item quantity="one">%d service found</item>
-        <item quantity="other">%d services found</item>
-    </plurals>
 
+    <!-- ============================================ -->
+    <!-- MISCELLANEOUS (Card Preview / Testing) -->
+    <!-- ============================================ -->
+    <string name="service_name">Service Name</string>
+    <string name="service_description_goes_here">Service description goes here</string>
+    <string name="_0_00">$0.00</string>
+    <string name="haircut">Haircut</string>
+    <string name="_4_7">⭐4.7</string>
+    <string name="san_jose">San Jose</string>
+    <string name="tue_wed">Tue/Wed</string>
+    <string name="hair_care">Hair Care</string>
 
 </resources>

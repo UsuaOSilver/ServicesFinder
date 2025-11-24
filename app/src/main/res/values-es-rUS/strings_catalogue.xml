@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- CATEGORÍAS -->
+    <string name="cat_all">Todos</string>
+    <string name="cat_automotive_services">Servicios Automotrices</string>
+    <string name="cat_child_elder_care">Cuidado de Niños y Mayores</string>
+    <string name="cat_cleaning_maintenance">Limpieza y Mantenimiento</string>
+    <string name="cat_construction">Construcción</string>
+    <string name="cat_hair_care">Cuidado del Cabello</string>
+    <string name="cat_home_services">Servicios para el Hogar</string>
+    <string name="cat_moving_delivery">Mudanzas y Entregas</string>
+    <string name="cat_pet_services">Servicios para Mascotas</string>
+    <string name="cat_tech_digital_services">Servicios Tecnológicos y Digitales</string>
+    <string name="cat_education_services">Servicios Educativos</string>
+
+    <!-- SERVICIOS - Automotriz -->
+    <string name="svc_car_wash">Lavado de autos</string>
+    <string name="svc_oil_change">Cambio de aceite</string>
+    <string name="svc_tire_replacement">Reemplazo de llantas</string>
+    <string name="svc_battery_jumpstart">Arranque de batería</string>
+    <string name="svc_roadside_assistance">Asistencia en carretera</string>
+
+    <!-- Cuidado de niños y mayores -->
+    <string name="svc_babysitting">Cuidado de niños</string>
+    <string name="svc_elder_companionship">Acompañamiento a personas mayores</string>
+    <string name="svc_mobility_assistance">Asistencia de movilidad</string>
+    <string name="svc_medication_reminders">Recordatorios de medicamentos</string>
+    <string name="svc_in_home_nursing">Enfermería en casa</string>
+    <string name="svc_after_school_pickup">Recogida después de la escuela</string>
+
+    <!-- Limpieza y mantenimiento -->
+    <string name="svc_house_cleaning">Limpieza de casa</string>
+    <string name="svc_carpet_upholstery_cleaning">Limpieza de alfombras y tapicería</string>
+    <string name="svc_move_in_out_cleaning">Limpieza de mudanza (entrada/salida)</string>
+    <string name="svc_pool_cleaning">Limpieza de piscina</string>
+    <string name="svc_lawn_care">Cuidado del césped</string>
+    <string name="svc_window_washing">Limpieza de ventanas</string>
+
+    <!-- Construcción -->
+    <string name="svc_roofing">Techos</string>
+    <string name="svc_floor">Piso</string>
+    <string name="svc_wall">Muro/Pared</string>
+    <string name="svc_painting">Pintura</string>
+    <string name="svc_fence_gate_repair">Reparación de cercas y portones</string>
+    <string name="svc_cabinetry_carpentry">Carpintería y Muebles</string>
+    <string name="svc_landscaping_irrigation">Paisajismo e irrigación</string>
+
+    <!-- Cuidado del cabello -->
+    <string name="svc_haircut">Corte de cabello</string>
+    <string name="svc_styling">Peinado</string>
+    <string name="svc_color">Coloración</string>
+    <string name="svc_beard_grooming">Arreglo de barba</string>
+    <string name="svc_scalp_treatment">Tratamiento del cuero cabelludo</string>
+    <string name="svc_artificial_hair">Cabello artificial</string>
+
+    <!-- Servicios del hogar -->
+    <string name="svc_plumbing">Plomería</string>
+    <string name="svc_electrical_work">Trabajo eléctrico</string>
+    <string name="svc_appliance_repair">Reparación de electrodomésticos</string>
+    <string name="svc_pest_control">Control de plagas</string>
+    <string name="svc_furniture_arrangement">Arreglo de muebles</string>
+    <string name="svc_security_system_installation">Instalación de sistema de seguridad</string>
+
+    <!-- Mudanzas y entregas -->
+    <string name="svc_packing_unpacking">Empaque y desempaque</string>
+    <string name="svc_furniture_pickup">Recojo de muebles</string>
+    <string name="svc_courier_services">Servicios de mensajería</string>
+    <string name="svc_storage_organization">Organización de almacén</string>
+    <string name="svc_long_distance_moving">Mudanza de larga distancia</string>
+    <string name="svc_local_moving">Mudanza local</string>
+
+    <!-- Servicios para mascotas -->
+    <string name="svc_dog_walking">Paseo de perros</string>
+    <string name="svc_pet_grooming">Grooming de mascotas</string>
+    <string name="svc_pet_sitting">Cuidado de mascotas</string>
+    <string name="svc_pet_training">Entrenamiento de mascotas</string>
+
+    <!-- Tecnología y digital -->
+    <string name="svc_computer_repair">Reparación de computadoras</string>
+    <string name="svc_smartphone_repair">Reparación de celulares</string>
+    <string name="svc_website_design">Diseño de sitios web</string>
+    <string name="svc_graphic_design">Diseño gráfico</string>
+    <string name="svc_wi_fi_network_repair">Reparación de red y Wi-Fi</string>
+
+    <!-- Educación -->
+    <string name="svc_private_tutoring">Tutoría privada</string>
+    <string name="svc_online_tutoring">Tutoría en línea</string>
+    <string name="svc_music_lesson">Clase de música (piano, guitarra)</string>
+    <string name="svc_art_drawing">Arte y dibujo</string>
+    <string name="svc_language_lessons">Clases de idiomas (español, francés)</string>
+</resources>

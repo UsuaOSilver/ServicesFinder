@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:title="Profile Editing"
+        android:title="@string/profile_editing"
         app:titleTextColor="@android:color/white"
         android:navigationIcon="@drawable/ic_arrow_back" />
 
@@ -59,7 +59,7 @@
                     android:id="@+id/editProfileEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="@string/contact_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -121,7 +121,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="SAVE CHANGE"
+                    android:text="@string/save_change"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     style="@style/SF.PrimaryButton" />
@@ -131,7 +131,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="CANCEL"
+                    android:text="@string/cancel"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     style="@style/SF.SecondaryButton"

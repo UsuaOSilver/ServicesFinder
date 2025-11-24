@@ -1,5 +1,6 @@
 package edu.sjsu.android.servicesfinder.controller;
 
+import android.content.Context;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.sjsu.android.servicesfinder.R;
+
 /* ******************************************************************************************
  FOCUSED ON EXTRACTING DATA FROM UI COMPONENTS AND FORMATTING IT FOR STORAGE
  - COLLECTING DATA FROM UI COMPONENTS
@@ -19,14 +22,29 @@ import java.util.Set;
  - CONVERTING UI SELECTIONS TO STRINGS
 *******************************************************************************************/
 public class FormHelper {
+    private final Context context;
 
+    public FormHelper(Context context) {
+        this.context = context;
+    }
     /* *************************************************************************************
      * GET SELECTED AVAILABILITY DAYS FROM CHECKBOXES
      * RETURN COMMA-SEPARATED STRING OF DAYS (E.G., "MON, TUE, FRI")
      ****************************************************************************************/
-    public static String getSelectedAvailability(CheckBox mon, CheckBox tue, CheckBox wed,
+    public String getSelectedAvailability(CheckBox mon, CheckBox tue, CheckBox wed,
                                                  CheckBox thu, CheckBox fri, CheckBox sat, CheckBox sun) {
+
         List<String> days = new ArrayList<>();
+        /*
+        if (mon.isChecked()) days.add(context.getString(R.string.mon));
+        if (tue.isChecked()) days.add(context.getString(R.string.tue));
+        if (wed.isChecked()) days.add(context.getString(R.string.wed));
+        if (thu.isChecked()) days.add(context.getString(R.string.thu));
+        if (fri.isChecked()) days.add(context.getString(R.string.fri));
+        if (sat.isChecked()) days.add(context.getString(R.string.sat));
+        if (sun.isChecked()) days.add(context.getString(R.string.sun));
+        */
+        // not save translated
         if (mon.isChecked()) days.add("Mon");
         if (tue.isChecked()) days.add("Tue");
         if (wed.isChecked()) days.add("Wed");
@@ -34,6 +52,7 @@ public class FormHelper {
         if (fri.isChecked()) days.add("Fri");
         if (sat.isChecked()) days.add("Sat");
         if (sun.isChecked()) days.add("Sun");
+
         return String.join(", ", days);
     }
 

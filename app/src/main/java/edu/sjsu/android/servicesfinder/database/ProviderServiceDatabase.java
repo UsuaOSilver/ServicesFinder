@@ -1,5 +1,6 @@
 package edu.sjsu.android.servicesfinder.database;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -21,10 +22,7 @@ import edu.sjsu.android.servicesfinder.model.ProviderService;
  * Used for home screen display
  *************************************************************************************************/
 public class ProviderServiceDatabase {
-
-    private static final String TAG = "ProviderServiceDB";
     private final FirebaseFirestore db;
-
     public ProviderServiceDatabase() {
         this.db = FirestoreHelper.getInstance();
     }
@@ -33,7 +31,7 @@ public class ProviderServiceDatabase {
      * Load all providers with their services
      * Returns a map of Provider -> List of ProviderService
      ************************************************************************************/
-    public void getAllProvidersWithServices(OnProvidersWithServicesLoadedListener listener) {
+    public void getAllProvidersWithServices(Context context, OnProvidersWithServicesLoadedListener listener) {
         db.collection(FirestoreHelper.COLLECTION_PROVIDERS)
                 .get()
                 .addOnSuccessListener(providerSnapshot -> {
@@ -73,7 +71,6 @@ public class ProviderServiceDatabase {
                                     }
                                 })
                                 .addOnFailureListener(e -> {
-                                    Log.e(TAG, "Error loading services for provider: " + provider.getId(), e);
                                     pendingProviders[0]--;
                                     if (pendingProviders[0] == 0) {
                                         listener.onSuccess(providerServiceMap);
@@ -82,8 +79,7 @@ public class ProviderServiceDatabase {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error loading providers", e);
-                    listener.onError(FirestoreHelper.handleFirestoreError(e));
+                    listener.onError(FirestoreHelper.handleFirestoreError(context, e));
                 });
     }
 
@@ -91,9 +87,9 @@ public class ProviderServiceDatabase {
      * Search providers and services by keyword
      * Searches in: provider name, service title, service description, category, service area
      ***************************************************************************************************/
-    public void searchProvidersAndServices(String query, OnProvidersWithServicesLoadedListener listener) {
+    public void searchProvidersAndServices(Context context,String query, OnProvidersWithServicesLoadedListener listener) {
         if (query == null || query.trim().isEmpty()) {
-            getAllProvidersWithServices(listener);
+            getAllProvidersWithServices(context, listener);
             return;
         }
 
@@ -150,7 +146,6 @@ public class ProviderServiceDatabase {
                                     }
                                 })
                                 .addOnFailureListener(e -> {
-                                    Log.e(TAG, "Error loading services", e);
                                     pendingProviders[0]--;
                                     if (pendingProviders[0] == 0) {
                                         listener.onSuccess(filteredMap);
@@ -159,15 +154,14 @@ public class ProviderServiceDatabase {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error searching", e);
-                    listener.onError(FirestoreHelper.handleFirestoreError(e));
+                    listener.onError(FirestoreHelper.handleFirestoreError(context, e));
                 });
     }
 
     // =========================================================
     // Load services by category
     // =========================================================
-    public void getProvidersByCategory(String category, OnProvidersWithServicesLoadedListener listener) {
+    public void getProvidersByCategory(Context context, String category, OnProvidersWithServicesLoadedListener listener) {
         db.collection(FirestoreHelper.COLLECTION_PROVIDERS)
                 .get()
                 .addOnSuccessListener(providerSnapshot -> {
@@ -208,7 +202,6 @@ public class ProviderServiceDatabase {
                                     }
                                 })
                                 .addOnFailureListener(e -> {
-                                    Log.e(TAG, "Error loading services by category", e);
                                     pendingProviders[0]--;
                                     if (pendingProviders[0] == 0) {
                                         listener.onSuccess(categoryMap);
@@ -217,8 +210,7 @@ public class ProviderServiceDatabase {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error loading providers by category", e);
-                    listener.onError(FirestoreHelper.handleFirestoreError(e));
+                    listener.onError(FirestoreHelper.handleFirestoreError(context, e));
                 });
     }
     // =========================================================
@@ -244,7 +236,6 @@ public class ProviderServiceDatabase {
                 service.getServiceArea().toLowerCase().contains(query)) {
             return true;
         }
-
         return false;
     }
 
@@ -320,6 +311,4 @@ public class ProviderServiceDatabase {
         void onSuccess(String serviceId);
         void onError(String error);
     }
-
-
 }

@@ -31,10 +31,10 @@
                 android:id="@+id/serviceDetailTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Professional Haircut"
+                android:text="@string/professional_haircut"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="#212121"
+                android:textColor="@color/verydarkgray"
                 android:layout_marginBottom="8dp" />
 
             <!-- Service Pricing -->
@@ -42,7 +42,7 @@
                 android:id="@+id/serviceDetailPricing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$25"
+                android:text="@string/_25"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#4CAF50"
@@ -59,7 +59,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description"
+                android:text="@string/description"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#212121"
@@ -70,7 +70,7 @@
                 android:id="@+id/serviceDetailDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Professional haircut service..."
+                android:text="@string/professional_haircut_service"
                 android:textSize="14sp"
                 android:textColor="#666666"
                 android:lineSpacingExtra="4dp"
@@ -81,7 +81,7 @@
                 android:id="@+id/serviceDetailCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="📂 Hair Care: Cut, Color, Styling"
+                android:text="@string/hair_care_cut_color_styling"
                 android:textSize="13sp"
                 android:textColor="#666666"
                 android:layout_marginBottom="8dp" />
@@ -91,7 +91,7 @@
                 android:id="@+id/serviceDetailArea"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="📍 Service Area: San Jose"
+                android:text="@string/service_area_san_jose"
                 android:textSize="13sp"
                 android:textColor="#666666"
                 android:layout_marginBottom="8dp" />
@@ -101,26 +101,36 @@
                 android:id="@+id/serviceDetailAvailability"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="📅 Available: Tue, Wed"
+                android:text="@string/available_tue_wed"
                 android:textSize="13sp"
-                android:textColor="#666666"
-                android:layout_marginBottom="24dp" />
+                android:textColor="@color/grey"
+                android:layout_marginBottom="8dp" />
+            <!-- Preferred Contact -->
+            <TextView
+                android:id="@+id/serviceDetailPreferredContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="💬 Preferred Contact: Call"
+                android:textSize="13sp"
+                android:textColor="@color/grey"
+                android:layout_marginBottom="24dp"
+                android:visibility="gone" />
 
             <!-- Provider Section Divider -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E0E0E0"
+                android:background="@color/sf_surface_variant"
                 android:layout_marginBottom="16dp" />
 
             <!-- Provider Label -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Provider Information"
+                android:text="@string/provider_information"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#212121"
+                android:textColor="@color/verydarkgray"
                 android:layout_marginBottom="12dp" />
 
             <!-- Provider Name -->
@@ -128,10 +138,10 @@
                 android:id="@+id/providerDetailName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Provider: John Doe"
+                android:text="@string/provider_john_doe"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="#1976D2"
+                android:textColor="@color/teal_700"
                 android:layout_marginBottom="8dp" />
 
             <!-- Provider Contact -->
@@ -139,9 +149,9 @@
                 android:id="@+id/providerDetailContact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="📞 (123) 456-7890\n✉️ john@example.com\n📍 123 Main St, San Jose, CA"
+                android:text="@string/_123_456_7890_n_john_example_com_n_123_main_st_san_jose_ca"
                 android:textSize="13sp"
-                android:textColor="#666666"
+                android:textColor="@color/sf_on_surface"
                 android:lineSpacingExtra="4dp"
                 android:layout_marginBottom="24dp" />
 
@@ -157,7 +167,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="📞 Call"
+                    android:text="@string/icon_call"
                     android:backgroundTint="@color/design_default_color_primary"
                     android:textColor="@color/white"
                     android:layout_marginEnd="4dp" />
@@ -167,7 +177,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="✉️ Email"
+                    android:text="@string/icon_email"
                     android:backgroundTint="@color/lightseagreen"
                     android:textColor="@color/white"
                     android:layout_marginStart="4dp"
@@ -178,7 +188,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="📍 Map"
+                    android:text="@string/icon_map"
                     android:backgroundTint="@color/peru"
                     android:textColor="@color/white"
                     android:layout_marginStart="4dp" />

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- CATEGORIES -->
+    <string name="cat_all">All</string>
+    <string name="cat_automotive_services">Automotive Services</string>
+    <string name="cat_child_elder_care">Child &amp; Elder Care</string>
+    <string name="cat_cleaning_maintenance">Cleaning &amp; Maintenance</string>
+    <string name="cat_construction">Construction</string>
+    <string name="cat_hair_care">Hair Care</string>
+    <string name="cat_home_services">Home Services</string>
+    <string name="cat_moving_delivery">Moving &amp; Delivery</string>
+    <string name="cat_pet_services">Pet Services</string>
+    <string name="cat_tech_digital_services">Tech &amp; Digital Services</string>
+    <string name="cat_education_services">Education Services</string>
+
+    <!-- SERVICES - Automotive -->
+    <string name="svc_car_wash">Car wash</string>
+    <string name="svc_oil_change">Oil change</string>
+    <string name="svc_tire_replacement">Tire replacement</string>
+    <string name="svc_battery_jumpstart">Battery jumpstart</string>
+    <string name="svc_roadside_assistance">Roadside assistance</string>
+
+    <!-- Child & Elder Care -->
+    <string name="svc_babysitting">Babysitting</string>
+    <string name="svc_elder_companionship">Elder Companionship</string>
+    <string name="svc_mobility_assistance">Mobility Assistance</string>
+    <string name="svc_medication_reminders">Medication Reminders</string>
+    <string name="svc_in_home_nursing">In-home Nursing</string>
+    <string name="svc_after_school_pickup">After-school pickup</string>
+
+    <!-- Cleaning & Maintenance -->
+    <string name="svc_house_cleaning">House cleaning</string>
+    <string name="svc_carpet_upholstery_cleaning">Carpet &amp; upholstery cleaning</string>
+    <string name="svc_move_in_out_cleaning">Move-in/move-out cleaning</string>
+    <string name="svc_pool_cleaning">Pool cleaning</string>
+    <string name="svc_lawn_care">Lawn Care</string>
+    <string name="svc_window_washing">Window washing</string>
+
+    <!-- Construction -->
+    <string name="svc_roofing">Roofing</string>
+    <string name="svc_floor">Floor</string>
+    <string name="svc_wall">Wall</string>
+    <string name="svc_painting">Painting</string>
+    <string name="svc_fence_gate_repair">Fence &amp; Gate Repair</string>
+    <string name="svc_cabinetry_carpentry">Cabinetry &amp; Carpentry</string>
+    <string name="svc_landscaping_irrigation">Landscaping &amp; Irrigation</string>
+
+    <!-- Hair Care -->
+    <string name="svc_haircut">Haircut</string>
+    <string name="svc_styling">Styling</string>
+    <string name="svc_color">Color</string>
+    <string name="svc_beard_grooming">Beard grooming</string>
+    <string name="svc_scalp_treatment">Scalp treatment</string>
+    <string name="svc_artificial_hair">Artificial Hair</string>
+
+    <!-- Home Services -->
+    <string name="svc_plumbing">Plumbing</string>
+    <string name="svc_electrical_work">Electrical work</string>
+    <string name="svc_appliance_repair">Appliance repair</string>
+    <string name="svc_pest_control">Pest control</string>
+    <string name="svc_furniture_arrangement">Furniture arrangement</string>
+    <string name="svc_security_system_installation">Security system installation</string>
+
+    <!-- Moving & Delivery -->
+    <string name="svc_packing_unpacking">Packing &amp; Unpacking</string>
+    <string name="svc_furniture_pickup">Furniture Pickup</string>
+    <string name="svc_courier_services">Courier Services</string>
+    <string name="svc_storage_organization">Storage Organization</string>
+    <string name="svc_long_distance_moving">Long-distance moving</string>
+    <string name="svc_local_moving">Local Moving</string>
+
+    <!-- Pet Services -->
+    <string name="svc_dog_walking">Dog walking</string>
+    <string name="svc_pet_grooming">Pet grooming</string>
+    <string name="svc_pet_sitting">Pet sitting</string>
+    <string name="svc_pet_training">Pet training</string>
+
+    <!-- Tech & Digital -->
+    <string name="svc_computer_repair">Computer repair</string>
+    <string name="svc_smartphone_repair">Smartphone repair</string>
+    <string name="svc_website_design">Website design</string>
+    <string name="svc_graphic_design">Graphic design</string>
+    <string name="svc_wi_fi_network_repair">Wi-Fi/network repair</string>
+
+    <!-- Education -->
+    <string name="svc_private_tutoring">Private tutoring</string>
+    <string name="svc_online_tutoring">Online tutoring</string>
+    <string name="svc_music_lesson">Music lesson (piano, guitar)</string>
+    <string name="svc_art_drawing">Art &amp; drawing</string>
+    <string name="svc_language_lessons">Language lessons (Spanish, French)</string>
+</resources>

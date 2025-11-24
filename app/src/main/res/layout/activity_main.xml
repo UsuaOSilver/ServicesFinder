@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1.2"
-                android:text="Services Finder"
+                android:text="@string/services_finder"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:textStyle="bold"
@@ -50,10 +50,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.8"
-                android:text="Browse available services"
+                android:text="@string/browse_available_services"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:textColor="?attr/colorOnPrimary"
+                android:textColor="@color/sf_surface_variant"
                 android:autoSizeTextType="uniform"
                 android:includeFontPadding="false"
                 android:autoSizeMinTextSize="12sp"
@@ -92,7 +92,7 @@
                         android:id="@+id/searchEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="🔍 Search services, providers, or categories"
+                        android:hint="@string/search_services_providers_or_categories"
                         android:background="@color/transparent"
                         android:maxLines="1"
                         android:inputType="text"
@@ -160,7 +160,7 @@
                     android:visibility="gone">
 
                     <TextView
-                        android:text="🔍"
+                        android:text="@string/search_icon"
                         android:textSize="64sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -170,7 +170,7 @@
                         android:id="@+id/emptyStateText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="No services available"
+                        android:text="@string/no_services_available"
                         android:gravity="center"/>
                 </LinearLayout>
             </FrameLayout>
@@ -190,7 +190,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Want to supply services?"
+            android:text="@string/want_to_supply_services"
             android:textStyle="bold"
             android:textColor="?attr/colorOnPrimary"
             android:autoSizeTextType="uniform"
@@ -203,7 +203,7 @@
             android:id="@+id/providerBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Provider Access"
+            android:text="@string/provider_access"
             android:textColor="?attr/colorOnSecondary"
             android:textStyle="bold"
             android:backgroundTint="?attr/colorSecondary"

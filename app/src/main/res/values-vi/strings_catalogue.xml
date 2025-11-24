@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- CATEGORIES -->
+    <string name="cat_all">Tất cả</string>
+    <string name="cat_automotive_services">Dịch vụ ô tô</string>
+    <string name="cat_child_elder_care">Chăm sóc trẻ em &amp; người cao tuổi</string>
+    <string name="cat_cleaning_maintenance">Vệ sinh &amp; bảo trì</string>
+    <string name="cat_construction">Xây dựng &amp; sửa chữa nhà</string>
+    <string name="cat_hair_care">Chăm sóc tóc</string>
+    <string name="cat_home_services">Dịch vụ gia đình</string>
+    <string name="cat_moving_delivery">Chuyển nhà &amp; giao hàng</string>
+    <string name="cat_pet_services">Dịch vụ thú cưng</string>
+    <string name="cat_tech_digital_services">Dịch vụ công nghệ &amp; kỹ thuật số</string>
+    <string name="cat_education_services">Dịch vụ giáo dục</string>
+
+    <!-- SERVICES - Automotive -->
+    <string name="svc_car_wash">Rửa xe</string>
+    <string name="svc_oil_change">Thay dầu</string>
+    <string name="svc_tire_replacement">Thay lốp</string>
+    <string name="svc_battery_jumpstart">Kích bình ắc quy</string>
+    <string name="svc_roadside_assistance">Cứu hộ đường bộ</string>
+
+    <!-- Child & Elder Care -->
+    <string name="svc_babysitting">Trông trẻ</string>
+    <string name="svc_elder_companionship">Bạn đồng hành người cao tuổi</string>
+    <string name="svc_mobility_assistance">Hỗ trợ di chuyển</string>
+    <string name="svc_medication_reminders">Nhắc uống thuốc</string>
+    <string name="svc_in_home_nursing">Điều dưỡng tại nhà</string>
+    <string name="svc_after_school_pickup">Đón trẻ tan học</string>
+
+    <!-- Cleaning & Maintenance -->
+    <string name="svc_house_cleaning">Dọn nhà</string>
+    <string name="svc_carpet_upholstery_cleaning">Giặt thảm &amp; sofa</string>
+    <string name="svc_move_in_out_cleaning">Dọn vào/ra nhà</string>
+    <string name="svc_pool_cleaning">Vệ sinh hồ bơi</string>
+    <string name="svc_lawn_care">Chăm sóc cỏ sân vườn</string>
+    <string name="svc_window_washing">Lau kính</string>
+
+    <!-- Construction -->
+    <string name="svc_roofing">Sửa mái nhà</string>
+    <string name="svc_floor">Sửa sàn</string>
+    <string name="svc_wall">Sửa tường</string>
+    <string name="svc_painting">Sơn nhà</string>
+    <string name="svc_fence_gate_repair">Sửa hàng rào &amp; cổng</string>
+    <string name="svc_cabinetry_carpentry">Làm tủ &amp; mộc</string>
+    <string name="svc_landscaping_irrigation">Thiết kế sân vườn &amp; tưới tiêu</string>
+
+    <!-- Hair Care -->
+    <string name="svc_haircut">Cắt tóc</string>
+    <string name="svc_styling">Tạo kiểu</string>
+    <string name="svc_color">Nhuộm tóc</string>
+    <string name="svc_beard_grooming">Cạo râu</string>
+    <string name="svc_scalp_treatment">Chăm sóc da đầu</string>
+    <string name="svc_artificial_hair">Tóc giả</string>
+
+    <!-- Home Services -->
+    <string name="svc_plumbing">Sửa ống nước</string>
+    <string name="svc_electrical_work">Sửa điện</string>
+    <string name="svc_appliance_repair">Sửa thiết bị gia dụng</string>
+    <string name="svc_pest_control">Diệt côn trùng</string>
+    <string name="svc_furniture_arrangement">Sắp xếp nội thất</string>
+    <string name="svc_security_system_installation">Lắp camera an ninh</string>
+
+    <!-- Moving & Delivery -->
+    <string name="svc_packing_unpacking">Đóng gói &amp; mở gói</string>
+    <string name="svc_furniture_pickup">Nhận đồ nội thất</string>
+    <string name="svc_courier_services">Chuyển phát nhanh</string>
+    <string name="svc_storage_organization">Sắp xếp kho</string>
+    <string name="svc_long_distance_moving">Chuyển nhà đường dài</string>
+    <string name="svc_local_moving">Chuyển nhà nội thành</string>
+
+    <!-- Pet Services -->
+    <string name="svc_dog_walking">Dắt chó đi dạo</string>
+    <string name="svc_pet_grooming">Cạo lông thú cưng</string>
+    <string name="svc_pet_sitting">Trông thú cưng</string>
+    <string name="svc_pet_training">Huấn luyện thú cưng</string>
+
+    <!-- Tech & Digital -->
+    <string name="svc_computer_repair">Sửa máy tính</string>
+    <string name="svc_smartphone_repair">Sửa điện thoại</string>
+    <string name="svc_website_design">Thiết kế website</string>
+    <string name="svc_graphic_design">Thiết kế đồ họa</string>
+    <string name="svc_wi_fi_network_repair">Sửa Wi-Fi/Mạng</string>
+
+    <!-- Education -->
+    <string name="svc_private_tutoring">Gia sư</string>
+    <string name="svc_online_tutoring">Gia sư online</string>
+    <string name="svc_music_lesson">Dạy nhạc (piano, guitar)</string>
+    <string name="svc_art_drawing">Vẽ &amp; mỹ thuật</string>
+    <string name="svc_language_lessons">Học ngoại ngữ (Tây Ban Nha, Pháp)</string>
+</resources>

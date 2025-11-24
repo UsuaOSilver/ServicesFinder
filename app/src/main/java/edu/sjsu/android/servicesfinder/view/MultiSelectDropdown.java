@@ -36,22 +36,22 @@ public class MultiSelectDropdown {
     // INSTANCE VARIABLES
     // =========================================================
 
-    /** Application context for creating views */
+    // Application context for creating views */
     private final Context context;
 
-    /** TextView that triggers and displays the dropdown */
+    // TextView that triggers and displays the dropdown */
     private final TextView anchorView;
 
-    /** Catalogue data: Catalogue name → List of service names */
+    // Catalogue data: Catalogue name → List of service names */
     private Map<String, List<String>> catalogueMap;
 
-    /** Current selections: Catalogue name → Set of selected services */
+    // Current selections: Catalogue name → Set of selected services */
     private final Map<String, Set<String>> selectedItems = new HashMap<>();
 
-    /** Backup of selections (for Cancel button functionality) */
+    // Backup of selections (for Cancel button functionality) */
     private Map<String, Set<String>> backupSelection;
 
-    /** The popup window that displays the dropdown */
+    // The popup window that displays the dropdown */
     private PopupWindow popupWindow;
 
     // =========================================================
@@ -181,7 +181,7 @@ public class MultiSelectDropdown {
             // ==================== VALIDATE DATA ====================
             // Don't show dropdown if no data is available
             if (catalogueMap == null || catalogueMap.isEmpty()) {
-                Toast.makeText(context, "No catalogue data available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.error_no_catalogue_data), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -313,27 +313,27 @@ public class MultiSelectDropdown {
             btnRow.setPadding(16, 12, 16, 12);   // Add padding around buttons
 
             // ==================== DONE BUTTON ====================
-            MaterialButton done = new MaterialButton(context);
-            done.setText("DONE");
+            MaterialButton save = new MaterialButton(context);
+            save.setText(context.getString(R.string.save));
 
             // Apply background tint (solid color)
-            done.setBackgroundTintList(ColorStateList.valueOf(
+            save.setBackgroundTintList(ColorStateList.valueOf(
                     ContextCompat.getColor(context, R.color.sf_primary)));
 
             // Apply stroke color and width
-            done.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.sf_primary)));
-            done.setStrokeWidth(2);
+            save.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.sf_primary)));
+            save.setStrokeWidth(2);
 
             // Apply rounded corners (16dp converted to px)
-            done.setCornerRadius((int) TypedValue.applyDimension(
+            save.setCornerRadius((int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 16, context.getResources().getDisplayMetrics()
             ));
 
             // text color
-            done.setTextColor(ContextCompat.getColor(context, R.color.sf_on_primary));
+            save.setTextColor(ContextCompat.getColor(context, R.color.sf_on_primary));
 
             //Remove elevation animation if desired
-            done.setStateListAnimator(null);
+            save.setStateListAnimator(null);
 
             // Layout parameters: WRAP_CONTENT with margin
             LinearLayout.LayoutParams doneParams = new LinearLayout.LayoutParams(
@@ -341,22 +341,22 @@ public class MultiSelectDropdown {
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
             doneParams.setMargins(0, 10, 120, 0); // right margin: 120dp
-            done.setLayoutParams(doneParams);
+            save.setLayoutParams(doneParams);
 
             // minimum width for consistency
-            done.setMinWidth((int) TypedValue.applyDimension(
+            save.setMinWidth((int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 120, context.getResources().getDisplayMetrics()
             ));
 
             // Done button behavior
-            done.setOnClickListener(v -> {
+            save.setOnClickListener(v -> {
                 updateText();
                 dismiss();
             });
 
             // ==================== CANCEL BUTTON ====================
             MaterialButton cancel = new MaterialButton(context);
-            cancel.setText("CANCEL");
+            cancel.setText(context.getString(R.string.cancel));
 
             // Apply background tint (solid color)
             cancel.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FBF0E9")));
@@ -398,7 +398,7 @@ public class MultiSelectDropdown {
             });
 
         // ==================== ADD BUTTONS TO ROW ====================
-        btnRow.addView(done);
+        btnRow.addView(save);
         btnRow.addView(cancel);
 
         // ==================== ADD BUTTON ROW TO CONTAINER ====================
@@ -460,7 +460,7 @@ public class MultiSelectDropdown {
 
         // Update TextView text
         if (summary.isEmpty()) {
-            SpannableString hint = new SpannableString("Select Catalogue & Services");
+            SpannableString hint = new SpannableString(context.getString(R.string.hint_select_catalogue_services));
             hint.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.gray)), 0, hint.length(), 0);
             anchorView.setText(hint);
         } else {

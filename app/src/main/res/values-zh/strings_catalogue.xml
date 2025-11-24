@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- CATEGORIES -->
+    <string name="cat_all">全部</string>
+    <string name="cat_automotive_services">汽车服务</string>
+    <string name="cat_child_elder_care">儿童与老人护理</string>
+    <string name="cat_cleaning_maintenance">清洁与维护</string>
+    <string name="cat_construction">建筑与装修</string>
+    <string name="cat_hair_care">美发护理</string>
+    <string name="cat_home_services">家庭服务</string>
+    <string name="cat_moving_delivery">搬家与送货</string>
+    <string name="cat_pet_services">宠物服务</string>
+    <string name="cat_tech_digital_services">科技与数字服务</string>
+    <string name="cat_education_services">教育服务</string>
+
+    <!-- SERVICES -->
+    <string name="svc_car_wash">洗车</string>
+    <string name="svc_oil_change">换机油</string>
+    <string name="svc_tire_replacement">更换轮胎</string>
+    <string name="svc_battery_jumpstart">电瓶搭电</string>
+    <string name="svc_roadside_assistance">道路救援</string>
+
+    <string name="svc_babysitting">看护儿童</string>
+    <string name="svc_elder_companionship">老人陪伴</string>
+    <string name="svc_mobility_assistance">行动协助</string>
+    <string name="svc_medication_reminders">服药提醒</string>
+    <string name="svc_in_home_nursing">居家护理</string>
+    <string name="svc_after_school_pickup">放学接送</string>
+
+    <string name="svc_house_cleaning">家庭清洁</string>
+    <string name="svc_carpet_upholstery_cleaning">地毯沙发清洗</string>
+    <string name="svc_move_in_out_cleaning">搬家前后大扫除</string>
+    <string name="svc_pool_cleaning">泳池清洁</string>
+    <string name="svc_lawn_care">草坪护理</string>
+    <string name="svc_window_washing">擦窗</string>
+
+    <string name="svc_roofing">屋顶维修</string>
+    <string name="svc_floor">地板维修</string>
+    <string name="svc_wall">墙体维修</string>
+    <string name="svc_painting">刷漆</string>
+    <string name="svc_fence_gate_repair">围栏大门维修</string>
+    <string name="svc_cabinetry_carpentry">橱柜木工</string>
+    <string name="svc_landscaping_irrigation">园林灌溉设计</string>
+
+    <string name="svc_haircut">剪发</string>
+    <string name="svc_styling">造型设计</string>
+    <string name="svc_color">染发</string>
+    <string name="svc_beard_grooming">胡须修剪</string>
+    <string name="svc_scalp_treatment">头皮护理</string>
+    <string name="svc_artificial_hair">假发</string>
+
+    <string name="svc_plumbing">水管维修</string>
+    <string name="svc_electrical_work">电路维修</string>
+    <string name="svc_appliance_repair">家电维修</string>
+    <string name="svc_pest_control">灭虫</string>
+    <string name="svc_furniture_arrangement">家具摆放</string>
+    <string name="svc_security_system_installation">安防系统安装</string>
+
+    <string name="svc_packing_unpacking">打包开箱整理</string>
+    <string name="svc_furniture_pickup">家具取货</string>
+    <string name="svc_courier_services">快递服务</string>
+    <string name="svc_storage_organization">仓库整理</string>
+    <string name="svc_long_distance_moving">长途搬家</string>
+    <string name="svc_local_moving">本地搬家</string>
+
+    <string name="svc_dog_walking">遛狗</string>
+    <string name="svc_pet_grooming">宠物美容</string>
+    <string name="svc_pet_sitting">宠物寄养</string>
+    <string name="svc_pet_training">宠物训练</string>
+
+    <string name="svc_computer_repair">电脑维修</string>
+    <string name="svc_smartphone_repair">手机维修</string>
+    <string name="svc_website_design">网站设计</string>
+    <string name="svc_graphic_design">平面设计</string>
+    <string name="svc_wi_fi_network_repair">Wi-Fi/网络维修</string>
+
+
+
+    <string name="svc_private_tutoring">一对一家教</string>
+    <string name="svc_online_tutoring">在线家教</string>
+    <string name="svc_music_lesson">音乐课（钢琴、吉他）</string>
+    <string name="svc_art_drawing">绘画美术</string>
+    <string name="svc_language_lessons">语言课程（西班牙语、法语）</string>
+</resources>

@@ -1,5 +1,6 @@
 package edu.sjsu.android.servicesfinder.database;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.firebase.Timestamp;
@@ -8,13 +9,14 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import java.util.Date;
 
+import edu.sjsu.android.servicesfinder.R;
+
 //******************************************************************************************
 // * Helper class for common Firestore utilities and constants
 // * Provides shared Firestore instance and utility methods
 //******************************************************************************************
 public class FirestoreHelper {
-
-    private static final String TAG = "FirestoreHelper";    public static final String COLLECTION_PROVIDERS = "providers";
+    public static final String COLLECTION_PROVIDERS = "providers";
     private static FirebaseFirestore instance;
 
     //******************************************************************************************
@@ -36,35 +38,32 @@ public class FirestoreHelper {
                 .setPersistenceEnabled(true)  // Enable offline persistence
                 .build();
         db.setFirestoreSettings(settings);
-        Log.d(TAG, "Firestore configured with persistence enabled");
     }
 
     //******************************************************************************************
     // Handle common Firestore errors
     //******************************************************************************************
-    public static String handleFirestoreError(Exception exception) {
+    public static String handleFirestoreError(Context context, Exception exception) {
         if (exception == null) {
-            return "Unknown error occurred";
-        }
+            return context.getString(R.string.error_unknown);        }
 
         String errorMessage = exception.getMessage();
         if (errorMessage == null) {
-            return "Unknown error occurred";
+            return context.getString(R.string.error_unknown);
         }
-
         // Parse common Firestore error codes
         if (errorMessage.contains("PERMISSION_DENIED")) {
-            return "You don't have permission to access this data";
+            return context.getString(R.string.error_permission_denied);
         } else if (errorMessage.contains("UNAVAILABLE")) {
-            return "Network unavailable. Please check your connection";
+            return context.getString(R.string.error_network_unavailable);
         } else if (errorMessage.contains("NOT_FOUND")) {
-            return "Requested data not found";
+            return context.getString(R.string.error_not_found);
         } else if (errorMessage.contains("ALREADY_EXISTS")) {
-            return "This data already exists";
+            return context.getString(R.string.error_already_exists);
         } else if (errorMessage.contains("DEADLINE_EXCEEDED")) {
-            return "Request timed out. Please try again";
+            return context.getString(R.string.error_deadline_exceeded);
         } else if (errorMessage.contains("UNAUTHENTICATED")) {
-            return "Please sign in to continue";
+            return context.getString(R.string.error_unauthenticated);
         } else {
             return errorMessage;
         }

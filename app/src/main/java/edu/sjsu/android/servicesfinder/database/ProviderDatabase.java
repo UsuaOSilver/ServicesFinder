@@ -1,5 +1,6 @@
 package edu.sjsu.android.servicesfinder.database;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -8,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.sjsu.android.servicesfinder.R;
 import edu.sjsu.android.servicesfinder.model.Provider;
 
 /* ***********************************************************************************************
@@ -23,12 +25,14 @@ import edu.sjsu.android.servicesfinder.model.Provider;
  * MVC ROLE: Database/Model layer
  *************************************************************************************************/
 public class ProviderDatabase {
-    private static final String TAG = "ProviderDatabase";
     private static final String COLLECTION_PROVIDERS = "providers";
     private final FirebaseFirestore db;
-    public ProviderDatabase() {
+    private final Context context;
+    public ProviderDatabase(Context context) {
+        this.context = context;
         this.db = FirebaseFirestore.getInstance();
     }
+
 
     // =========================================================
     // READ PROVIDER BY FIREBASE UID
@@ -46,11 +50,10 @@ public class ProviderDatabase {
                         Provider provider = documentSnapshotToProvider(doc);
                         listener.onSuccess(provider);
                     } else {
-                        listener.onError("Provider not found");
+                        listener.onError(context.getString(R.string.error_provider_not_found));
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error fetching provider by ID", e);
                     listener.onError(e.getMessage());
                 });
     }
@@ -69,12 +72,11 @@ public class ProviderDatabase {
                                 .toObject(Provider.class);
                         listener.onSuccess(provider);
                     } else {
-                        listener.onError("No provider found with this phone");
+                        listener.onError(context.getString(R.string.error_provider_not_found_with_phone));
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error fetching provider by phone", e);
-                    listener.onError("Error fetching provider: " + e.getMessage());
+                    listener.onError(context.getString(R.string.error_fetching_provider, e.getMessage()));
                 });
     }
 
@@ -87,8 +89,7 @@ public class ProviderDatabase {
                 .document(provider.getId())  // Use Firebase UID as document ID
                 .set(providerToMap(provider))
                 .addOnSuccessListener(aVoid -> {
-                    // Log.d(TAG, "Provider saved: " + provider.getId());
-                    listener.onSuccess("Provider saved");
+                    listener.onSuccess(context.getString(R.string.success_provider_saved));
                 })
                 .addOnFailureListener(e -> {
                     // Log.e(TAG, "Error adding provider", e);
@@ -148,12 +149,10 @@ public class ProviderDatabase {
                 .document(providerId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
-                    Log.d(TAG, "Provider fields updated: " + providerId);
-                    listener.onSuccess("Provider updated");
+                    listener.onSuccess(context.getString(R.string.success_provider_updated));
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error updating provider", e);
-                    listener.onError("Update failed: " + e.getMessage());
+                    listener.onError(context.getString(R.string.error_update_failed, e.getMessage()));
                 });
     }
     // =========================================================
@@ -176,21 +175,16 @@ public class ProviderDatabase {
                             .document(providerId)
                             .delete()
                             .addOnSuccessListener(aVoid -> {
-                                Log.d(TAG, "Provider and services deleted: " + providerId);
-                                listener.onSuccess("Provider and services deleted");
+                                listener.onSuccess(context.getString(R.string.success_provider_and_services_deleted));
                             })
                             .addOnFailureListener(e -> {
-                                Log.e(TAG, "Error deleting provider document", e);
-                                listener.onError("Failed to delete provider document: " + e.getMessage());
+                                listener.onError(context.getString(R.string.error_delete_provider_failed, e.getMessage()));
                             });
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error deleting services subcollection", e);
-                    listener.onError("Failed to delete services: " + e.getMessage());
+                    listener.onError(context.getString(R.string.error_delete_services_failed, e.getMessage()));
                 });
     }
-
-
     /// ///////////////////////////////////////////////////////////////////////////////////////////
     public void cloneServices(String fromProviderId, String toProviderId, OnProviderOperationListener listener) {
         db.collection(COLLECTION_PROVIDERS)
@@ -216,7 +210,6 @@ public class ProviderDatabase {
                     listener.onSuccess("Services cloned");
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Failed to clone services", e);
                     listener.onError("Failed to clone services: " + e.getMessage());
                 });
     }

@@ -51,12 +51,12 @@
             controller.setListener(new ProviderController.ProviderControllerListener() {
                 @Override
                 public void onSignUpSuccess(String message) {
-                    Toast.makeText(EditProfileActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfileActivity.this, getString(R.string.success_profile_updated), Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 @Override
                 public void onError(String msg) {
-                    Toast.makeText(EditProfileActivity.this, "Error: " + msg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditProfileActivity.this, getString(R.string.error_generic, msg), Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -88,7 +88,7 @@
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user == null) return;
 
-            ProviderDatabase providerDatabase = new ProviderDatabase();
+            ProviderDatabase providerDatabase = new ProviderDatabase(this);
             providerDatabase.getProviderById(user.getUid(), new ProviderDatabase.OnProviderLoadedListener() {
                 @Override
                 public void onSuccess(Provider provider) {
@@ -100,7 +100,7 @@
 
                 @Override
                 public void onError(String errorMessage) {
-                    Toast.makeText(EditProfileActivity.this, "Failed to load profile", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfileActivity.this, getString(R.string.error_failed_to_load_profile), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -117,7 +117,7 @@
 
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
             if (currentUser == null) {
-                Toast.makeText(this, "No authenticated user", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.error_no_authenticated_user), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -135,16 +135,17 @@
                         new ProviderController.ProviderControllerListener() {
                             @Override
                             public void onSignUpSuccess(String providerId) {
-                                Toast.makeText(EditProfileActivity.this,
-                                        "New account created with services cloned", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditProfileActivity.this,getString(R.string.success_account_created_with_services),
+                                Toast.LENGTH_SHORT).show();
+
                                 finish();
                             }
                             @Override
                             public void onError(String errorMessage) {
                                 Toast.makeText(EditProfileActivity.this,
-                                        "Migration failed: " + errorMessage, Toast.LENGTH_LONG).show();
+                                        getString(R.string.error_migration_failed, errorMessage),
+                                        Toast.LENGTH_LONG).show();
                             }
-
                             @Override
                             public void onProviderLoaded(Provider provider) {}
                         }

@@ -1,0 +1,340 @@
+<resources>
+    <!-- ============================================ -->
+    <!-- APP BASICS -->
+    <!-- ============================================ -->
+    <string name="app_name">服务查找器</string>
+
+    <!-- ============================================ -->
+    <!-- MAIN SCREEN / HOME -->
+    <!-- ============================================ -->
+    <string name="services_finder">服务查找器</string>
+    <string name="browse_available_services">浏览可用服务</string>
+    <string name="search_services_providers_or_categories">🔍 搜索服务、服务商或类别</string>
+    <string name="search_icon">🔍</string>
+    <string name="no_services_available">暂无可用服务</string>
+    <string name="want_to_supply_services">想要提供服务？</string>
+    <string name="provider_access">服务商入口</string>
+
+    <plurals name="services_found">
+        <item quantity="other">找到 %d 个服务</item>
+    </plurals>
+
+
+
+
+    <!-- ============================================ -->
+    <!-- SERVICE DETAIL SCREEN -->
+    <!-- ============================================ -->
+    <string name="title_service_details">服务详情</string>
+    <string name="description">描述</string>
+    <string name="provider_information">服务商信息</string>
+
+    <!-- Labels with icons -->
+    <string name="label_category_prefix">📂 类别：%1$s</string>
+    <string name="label_location_service_area">📍 服务区域：%1$s</string>
+    <string name="label_calendar_availability">📅 可用时间：%1$s</string>
+    <string name="label_preferred_contact">💬 首选联系方式：%1$s</string>
+    <string name="label_phone_prefix">📞 电话：%1$s</string>
+    <string name="label_email_prefix">✉️ 邮箱：%1$s</string>
+    <string name="label_address_prefix">📍 地址：%1$s</string>
+    <string name="label_no_description">暂无描述</string>
+
+    <!-- Action Buttons -->
+    <string name="icon_call">📞 拨打电话</string>
+    <string name="icon_email">✉️ 发送邮件</string>
+    <string name="icon_map">📍 查看地图</string>
+
+    <!-- Email Template -->
+    <string name="email_subject_inquiry">关于 %1$s 的咨询</string>
+    <string name="email_body_inquiry">您好 %1$s，\n\n我对您的服务感兴趣：%2$s\n\n能否提供更多信息？\n\n谢谢！</string>
+    <string name="chooser_title_send_email">发送邮件</string>
+
+    <!-- Placeholder/Preview Text (for layout editor only) -->
+    <string name="professional_haircut">专业理发</string>
+    <string name="_25">$25</string>
+    <string name="professional_haircut_service">专业理发服务...</string>
+    <string name="hair_care_cut_color_styling">📂 美发护理：剪发、染发、造型</string>
+    <string name="service_area_san_jose">📍 服务区域：圣何塞</string>
+    <string name="available_tue_wed">📅 可用时间：周二、周三</string>
+    <string name="provider_john_doe">服务商：张三</string>
+    <string name="_123_456_7890_n_john_example_com_n_123_main_st_san_jose_ca">📞 (123) 456-7890\n✉️ john@example.com\n📍 加州圣何塞主街123号</string>
+
+    <!-- ============================================ -->
+    <!-- PROVIDER PORTAL / AUTHENTICATION -->
+    <!-- ============================================ -->
+    <string name="title_provider_authentication">服务商认证</string>
+    <string name="provider_portal">服务商门户</string>
+    <string name="sign_in_or_create_an_account">登录或创建账户</string>
+    <string name="welcome_back">欢迎回来！</string>
+    <string name="sign_in_to_manage_your_services">登录以管理您的服务</string>
+    <string name="create_account">创建账户</string>
+    <string name="join_us_as_a_service_provider">加入我们成为服务商</string>
+
+    <!-- Form Fields -->
+    <string name="email_or_phone">邮箱或手机</string>
+    <string name="password">密码</string>
+    <string name="full_name_required">全名<sup>*</sup></string>
+    <string name="phone_required">手机号码<sup>*</sup></string>
+    <string name="address_required">地址<sup>*</sup></string>
+    <string name="password_required">密码<sup>*</sup>（至少6个字符）</string>
+    <string name="confirm_password">确认密码<sup>*</sup></string>
+    <string name="required_field"><sup>*</sup>：必填项</string>
+
+    <!-- Buttons -->
+    <string name="sign_in">登录</string>
+    <string name="sign_up">注册</string>
+    <string name="create">创建</string>
+    <string name="progress_signing_in">登录中...</string>
+
+    <!-- Form Actions -->
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="update">更新</string>
+    <string name="save_change">保存更改</string>
+
+    <!-- ============================================ -->
+    <!-- PROVIDER DASHBOARD -->
+    <!-- ============================================ -->
+    <string name="title_provider_dashboard">服务商控制台</string>
+    <string name="account_settings">账户设置</string>
+    <string name="change_password">修改密码</string>
+    <string name="change_npassword">修改\n密码</string>
+    <string name="edit_nprofile">编辑\n资料</string>
+    <string name="delete_naccount">删除\n账户</string>
+    <string name="profile_editing">资料编辑</string>
+    <string name="enter_new_password">输入新密码</string>
+
+    <!-- ============================================ -->
+    <!-- SERVICE FORM / ADD-EDIT SERVICE -->
+    <!-- ============================================ -->
+    <string name="service_title">服务标题</string>
+    <string name="catalogue">目录</string>
+    <string name="pricing">价格</string>
+    <string name="service_area">服务区域</string>
+    <string name="availability">可用时间</string>
+    <string name="preferred_contact">首选联系方式</string>
+    <string name="upload_service_image">上传服务图片</string>
+
+    <!-- Days of Week -->
+    <string name="mon">周一</string>
+    <string name="tue">周二</string>
+    <string name="wed">周三</string>
+    <string name="thu">周四</string>
+    <string name="fri">周五</string>
+    <string name="sat">周六</string>
+    <string name="sun">周日</string>
+
+    <!-- Contact Preferences -->
+    <string name="contact_call">电话</string>
+    <string name="contact_text">短信</string>
+    <string name="contact_email">邮件</string>
+
+    <!-- Image Selection -->
+    <string name="chooser_select_photo">选择照片</string>
+    <string name="dialog_select_image_title">选择图片</string>
+    <string name="dialog_option_gallery">从相册选择</string>
+    <string name="dialog_option_camera">拍照</string>
+
+    <!-- Catalogue Selection -->
+    <string name="hint_select_catalogue_services">选择目录与服务</string>
+    <string name="action_done">完成</string>
+    <string name="progress_loading_catalogues">加载目录中...</string>
+
+    <!-- ============================================ -->
+    <!-- VALIDATION MESSAGES -->
+    <!-- ============================================ -->
+    <string name="error_required">必填</string>
+    <string name="validation_enter_title">请输入服务标题</string>
+    <string name="validation_enter_description">请输入描述</string>
+    <string name="validation_enter_pricing">请输入价格详情</string>
+    <string name="validation_select_area">请选择服务区域</string>
+    <string name="validation_select_availability">请至少选择一天</string>
+    <string name="validation_select_contact">请选择联系偏好</string>
+    <string name="validation_select_category">请选择目录与服务</string>
+    <string name="error_invalid_email">邮箱格式无效</string>
+    <string name="error_phone_digits">10位数字</string>
+    <string name="error_password_mismatch">密码不匹配</string>
+    <string name="error_password_too_short">密码至少需要6个字符</string>
+
+    <!-- ============================================ -->
+    <!-- DIALOGS -->
+    <!-- ============================================ -->
+    <!-- Discard Changes -->
+    <string name="dialog_discard_title">放弃更改？</string>
+    <string name="dialog_discard_message">确定要取消而不保存吗？</string>
+
+    <!-- No Image -->
+    <string name="dialog_no_image_title">无图片</string>
+    <string name="dialog_no_image_message">要在没有图片的情况下添加服务吗？</string>
+    <string name="action_add_image">添加图片</string>
+    <string name="action_continue_without_image">是的，继续</string>
+
+    <!-- Upload Failed -->
+    <string name="dialog_title_upload_failed">上传失败</string>
+    <string name="dialog_message_continue_without_image">%1$s\n\n在没有图片的情况下继续？</string>
+
+    <!-- Stop Business -->
+    <string name="dialog_stop_business">停止在此经营？</string>
+    <string name="dialog_stop_business_title">停止在此经营？</string>
+    <string name="dialog_stop_business_message">您真的要停止在此经营吗？</string>
+    <string name="action_confirm_stop">是的，停止</string>
+
+    <!-- Delete Account -->
+    <string name="dialog_delete_account_title">永久删除账户？</string>
+    <string name="dialog_delete_account_message">此操作不可逆。您的账户、服务和所有数据将被永久删除。</string>
+    <string name="action_delete_forever">永久删除</string>
+
+    <!-- Common Actions -->
+    <string name="action_yes">是</string>
+    <string name="action_no">否</string>
+    <string name="action_continue">继续</string>
+    <string name="action_cancel">取消</string>
+
+    <!-- ============================================ -->
+    <!-- SUCCESS MESSAGES -->
+    <!-- ============================================ -->
+    <string name="success_service_saved">服务保存成功！</string>
+    <string name="success_provider_saved">服务商已保存</string>
+    <string name="success_provider_updated">服务商已更新</string>
+    <string name="success_password_updated">密码更新成功</string>
+    <string name="success_profile_updated">资料更新成功</string>
+    <string name="success_account_deleted">账户删除成功</string>
+    <string name="success_account_created_with_services">新账户已创建并克隆了服务</string>
+    <string name="success_provider_and_services_deleted">服务商和服务已删除</string>
+    <string name="success_image_uploaded">图片上传成功！</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Authentication -->
+    <!-- ============================================ -->
+    <string name="error_null_user">返回空用户</string>
+    <string name="error_email_signin_failed">邮箱登录失败：%1$s</string>
+    <string name="error_invalid_password">密码无效</string>
+    <string name="error_password_empty">密码不能为空</string>
+    <string name="error_no_account_with_phone">未找到此手机号的账户</string>
+    <string name="error_no_authenticated_user">无已认证用户</string>
+    <string name="error_unauthenticated">请登录以继续</string>
+    <string name="error_user_creation_failed">新用户创建失败</string>
+    <string name="sign_up_failed">"注册失败："</string>
+    <string name="email_already_in_use">邮箱已被使用</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Provider -->
+    <!-- ============================================ -->
+    <string name="error_provider_not_signed_in">服务商未登录</string>
+    <string name="error_no_provider_id">未找到服务商ID。请重新登录。</string>
+    <string name="error_missing_provider_id">缺少服务商ID</string>
+    <string name="error_no_provider_id_1">错误：未找到服务商ID（%1$s）。</string>
+    <string name="error_context_login_session">登录/会话问题</string>
+    <string name="provider_id_is_required">需要服务商ID</string>
+    <string name="error_provider_not_found">未找到服务商</string>
+    <string name="error_provider_not_found_with_phone">未找到此手机的服务商</string>
+    <string name="error_fetching_provider">获取服务商失败：%1$s</string>
+    <string name="error_saving_provider">"保存服务商失败："</string>
+    <string name="error_failed_to_load_profile">加载资料失败</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Services -->
+    <!-- ============================================ -->
+    <string name="error_service_title_required">需要服务标题</string>
+    <string name="error_service_save_failed">保存失败：%1$s</string>
+    <string name="error_delete_services_failed">删除服务失败：%1$s</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Updates & Deletions -->
+    <!-- ============================================ -->
+    <string name="error_update_failed">更新失败：%1$s</string>
+    <string name="error_profile_update_failed">更新资料失败：%1$s</string>
+    <string name="error_password_update_failed">更新密码失败：%1$s</string>
+    <string name="error_password_updated_firestore_failed">Firebase中密码已更新，但Firestore更新失败：%1$s</string>
+    <string name="error_account_delete_failed">删除账户失败：%1$s</string>
+    <string name="error_provider_data_delete_failed">删除服务商数据失败：%1$s</string>
+    <string name="error_delete_provider_failed">删除服务商文档失败：%1$s</string>
+    <string name="error_sign_out_then_delete">请先退出登录再重新登录，然后尝试删除账户</string>
+    <string name="error_old_account_delete_failed">删除旧账户失败</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Image Upload -->
+    <!-- ============================================ -->
+    <string name="error_no_image_selected">未选择图片</string>
+    <string name="error_upload_unknown">未知上传错误</string>
+    <string name="error_upload_permission">权限被拒绝。请检查Firebase存储规则。</string>
+    <string name="error_upload_permission_denied">权限被拒绝。请检查Firebase存储规则。</string>
+    <string name="error_upload_network">网络错误。请检查网络连接。</string>
+    <string name="error_upload_quota">存储配额已超</string>
+    <string name="error_upload_unauthorized">未授权。请重新登录。</string>
+    <string name="error_upload_failed">上传失败：%1$s</string>
+    <string name="message_uploading_image">上传图片中...</string>
+    <string name="message_uploading_image_progress">上传图片中... %1$d%%</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Data Loading -->
+    <!-- ============================================ -->
+    <string name="error_load_areas_failed">加载区域失败：%1$s</string>
+    <string name="error_load_draft_failed">加载草稿失败：%1$s</string>
+    <string name="error_failed_to_load_draft">加载草稿失败</string>
+    <string name="error_no_catalogue_data">无可用目录数据</string>
+    <string name="error_loading_catalogues">加载目录错误：%1$s</string>
+    <string name="fallback_catalogue_load_failed">加载目录失败</string>
+    <string name="error_old_provider_load_failed">加载旧服务商失败：%1$s</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Account Migration -->
+    <!-- ============================================ -->
+    <string name="error_migration_failed">迁移失败：%1$s</string>
+    <string name="error_save_new_provider_failed">保存新服务商失败：%1$s</string>
+    <string name="error_new_account_creation_failed">创建新账户失败：%1$s</string>
+    <string name="warning_old_firebase_user_not_found">新服务商已克隆，但未找到旧Firebase用户</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Network & General -->
+    <!-- ============================================ -->
+    <string name="error_unknown">发生未知错误</string>
+    <string name="error_network_unavailable">网络不可用。请检查您的连接</string>
+    <string name="error_not_found">未找到请求的数据</string>
+    <string name="error_already_exists">此数据已存在</string>
+    <string name="error_deadline_exceeded">请求超时。请重试</string>
+    <string name="error_permission_denied">您没有访问此数据的权限</string>
+    <string name="error_generic">错误：%1$s</string>
+    <string name="error_navigation">导航错误：%1$s</string>
+
+    <!-- ============================================ -->
+    <!-- ERROR MESSAGES - Service Detail Screen -->
+    <!-- ============================================ -->
+    <string name="error_phone_unavailable">电话号码不可用</string>
+    <string name="error_email_unavailable">邮箱不可用</string>
+    <string name="error_address_unavailable">地址不可用</string>
+    <string name="error_no_email_app">未找到邮件应用</string>
+
+    <!-- ============================================ -->
+    <!-- EMPTY STATES -->
+    <!-- ============================================ -->
+    <string name="empty_state_no_services">暂无可用服务。</string>
+    <string name="empty_state_no_results">未找到"%1$s"的结果</string>
+    <string name="empty_state_no_data">无可用数据。</string>
+    <string name="empty_state_no_catalogues">无可用目录</string>
+
+    <!-- ============================================ -->
+    <!-- PROGRESS MESSAGES -->
+    <!-- ============================================ -->
+    <string name="progress_saving_service">保存服务中...</string>
+
+    <!-- ============================================ -->
+    <!-- INFO MESSAGES -->
+    <!-- ============================================ -->
+    <string name="info_previous_service_loaded">已加载之前的服务</string>
+    <string name="provider_prefix">服务商：%1$s</string>
+    <string name="new_service">⭐ 新</string>
+
+    <!-- ============================================ -->
+    <!-- MISCELLANEOUS (Card Preview / Testing) -->
+    <!-- ============================================ -->
+    <string name="service_name">服务名称</string>
+    <string name="service_description_goes_here">服务描述在此</string>
+    <string name="_0_00">$0.00</string>
+    <string name="haircut">理发</string>
+    <string name="_4_7">⭐4.7</string>
+    <string name="san_jose">圣何塞</string>
+    <string name="tue_wed">周二/周三</string>
+    <string name="hair_care">美发护理</string>
+
+</resources>

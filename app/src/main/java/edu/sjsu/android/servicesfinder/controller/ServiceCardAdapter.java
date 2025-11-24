@@ -18,10 +18,12 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import edu.sjsu.android.servicesfinder.R;
 import edu.sjsu.android.servicesfinder.model.Provider;
 import edu.sjsu.android.servicesfinder.model.ProviderService;
+
 
 /* ****************************************************************************
  * RecyclerView Adapter, displays services on the Home screen.
@@ -111,8 +113,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
     @Override
     public void onBindViewHolder(@NonNull ServiceCardViewHolder holder, int position) {
 
-         // Called when a view comes on screen.
-         // We grab the correct ServiceItem and bind data.
+         // Called when a view comes on screen. We grab the correct ServiceItem and bind data.
 
         ServiceItem item = serviceItems.get(position);
         holder.bind(item, listener);
@@ -173,13 +174,16 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
             // Title
             serviceTitle.setText(service.getServiceTitle());
 
+
             // Pricing
+
             if (service.getPricing() != null && !service.getPricing().isEmpty()) {
                 servicePricing.setText(service.getPricing());
                 servicePricing.setVisibility(View.VISIBLE);
             } else {
                 servicePricing.setVisibility(View.GONE); // hide empty row
             }
+
 
             // Provider
 
@@ -201,17 +205,41 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
             serviceLocation.setText(location);
 
             // Availability (Mon,Tue -> Mon/Tue)
+            /*
             if (service.getAvailability() != null && !service.getAvailability().isEmpty()) {
                 serviceAvailability.setText(formatAvailability(service.getAvailability()));
                 serviceAvailability.setVisibility(View.VISIBLE);
             } else {
                 serviceAvailability.setVisibility(View.GONE);
             }
+            */
+            // Availability (Mon,Tue → T2 · T3 · T6 in Vietnamese)
+            if (service.getAvailability() != null && !service.getAvailability().isEmpty()) {
+                serviceAvailability.setText(
+                        FirestoreStringTranslator.get(itemView.getContext())
+                                .formatAvailabilityForDisplay(service.getAvailability())
+                );
+                serviceAvailability.setVisibility(View.VISIBLE);
+            } else {
+                serviceAvailability.setVisibility(View.GONE);
+            }
+
 
             // Category badge (take only first category segment)
+            /*
             if (service.getCategory() != null && !service.getCategory().isEmpty()) {
                 String firstCategory = extractFirstCategory(service.getCategory());
                 categoryBadge.setText(firstCategory);
+                categoryBadge.setVisibility(View.VISIBLE);
+            } else {
+                categoryBadge.setVisibility(View.GONE);
+            }
+            */
+            if (service.getCategory() != null && !service.getCategory().isEmpty()) {
+                // ADDED: Parse → Translate → Rebuild → Extract primary
+                HomeController controller = new HomeController(itemView.getContext());
+                String displayText = controller.extractProviderCategoryWithServices(service.getCategory());
+                categoryBadge.setText(displayText);
                 categoryBadge.setVisibility(View.VISIBLE);
             } else {
                 categoryBadge.setVisibility(View.GONE);
@@ -277,7 +305,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
     }
 
     // =========================================================
-    // SERVICE ITEM MODEL
+    // Another CLASS: SERVICE ITEM MODEL
     // =========================================================
     // Wrapper for combining Provider + ProviderService  so RecyclerView can work with a single list.
 
@@ -297,4 +325,6 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
     public interface OnServiceClickListener {
         void onServiceClick(ServiceItem item);
     }
+
+
 }

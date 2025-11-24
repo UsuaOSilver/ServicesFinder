@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.tabs.TabLayout;
+
+import edu.sjsu.android.servicesfinder.R;
 import edu.sjsu.android.servicesfinder.controller.SessionManager;
 import edu.sjsu.android.servicesfinder.controller.ProviderController;
 import edu.sjsu.android.servicesfinder.databinding.ActivityProviderEntryBinding;
@@ -49,7 +51,7 @@ public class ProviderEntryActivity extends AppCompatActivity
         // === VIEW BINDING INFLATE ===
         binding = ActivityProviderEntryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setTitle("Provider Authentication");
+        setTitle(getString(R.string.title_provider_authentication));
 
         // Initialize controller
         providerController = new ProviderController(this);
@@ -61,7 +63,11 @@ public class ProviderEntryActivity extends AppCompatActivity
 
         // Apply phone formatters
         setupPhoneFormatters();
+
         // Default tab = Sign-In
+
+        binding.signInEmailOrPhone.setText("6692067934");
+        binding.signInPassword.setText("123456");
         showSignIn();
     }
 
@@ -166,14 +172,15 @@ public class ProviderEntryActivity extends AppCompatActivity
 
         // Validation
         if (TextUtils.isEmpty(emailOrPhone)) {
-            binding.signInEmailOrPhone.setError("Required");
+            binding.signInEmailOrPhone.setError(getString(R.string.error_required));
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            binding.signInPassword.setError("Required");
+            binding.signInPassword.setError(getString(R.string.error_required));
             return;
         }
-        showLoading("Signing in...");
+        showLoading(getString(R.string.progress_signing_in));
+
 
         // EMAIL LOGIN
         if (android.util.Patterns.EMAIL_ADDRESS.matcher(emailOrPhone).matches()) {
@@ -236,16 +243,33 @@ public class ProviderEntryActivity extends AppCompatActivity
        ========================================================= */
     private boolean validateSignUpInputs(String fullName, String email, String phone,
                                          String address, String password, String confirm) {
-        if (TextUtils.isEmpty(fullName)) { binding.signUpFullName.setError("Required"); return false; }
+        if (TextUtils.isEmpty(fullName)) {
+            binding.signUpFullName.setError(getString(R.string.error_required));
+            return false;
+        }
         if (!TextUtils.isEmpty(email) && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.signUpEmail.setError("Invalid email"); return false;
+            binding.signUpEmail.setError(getString(R.string.error_invalid_email));
+            return false;
         }
         String digits = phone.replaceAll("[^0-9]", "");
-        if (digits.length() != 10) { binding.signUpPhone.setError("10 digits"); return false; }
-        if (TextUtils.isEmpty(address)) { binding.signUpAddress.setError("Required"); return false; }
-        if (password.length() < 6) { binding.signUpPassword.setError("Min 6 chars"); return false; }
-        if (!password.equals(confirm)) { binding.signUpConfirmPassword.setError("Mismatch"); return false; }
+        if (digits.length() != 10) {
+            binding.signUpPhone.setError(getString(R.string.error_phone_digits));
+            return false;
+        }
+        if (TextUtils.isEmpty(address)) {
+            binding.signUpAddress.setError(getString(R.string.error_required));
+            return false;
+        }
+        if (password.length() < 6) {
+            binding.signUpPassword.setError(getString(R.string.error_password_too_short));
+            return false;
+        }
+        if (!password.equals(confirm)) {
+            binding.signUpConfirmPassword.setError(getString(R.string.error_password_mismatch));
+            return false;
+        }
         return true;
+
     }
 
     /* =========================================================
@@ -283,7 +307,11 @@ public class ProviderEntryActivity extends AppCompatActivity
         try {
             navigateToDashboard(provider);
         } catch (Exception e) {
-            Toast.makeText(this, "Navigation error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this,
+                    getString(R.string.error_navigation, e.getMessage()),
+                    Toast.LENGTH_LONG
+            ).show();
+
         }
     }
 
@@ -299,10 +327,11 @@ public class ProviderEntryActivity extends AppCompatActivity
         hideLoading();
 
         try {
-            String safeMsg = msg != null ? msg : "Unknown error";
-            Toast.makeText(ProviderEntryActivity.this, "EEEEEEError: " + safeMsg, Toast.LENGTH_LONG).show();
+            String safeMsg = msg != null ? msg : getString(R.string.error_unknown);
+            String formatted = getString(R.string.error_generic, safeMsg);
+            Toast.makeText(ProviderEntryActivity.this, formatted, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            Log.e("onError", "Toast crashed", e);
+            //Log.e("onError", "Toast crashed", e);
         }
     }
 

@@ -1,5 +1,7 @@
 package edu.sjsu.android.servicesfinder.controller;
 
+import android.content.Context;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.sjsu.android.servicesfinder.R;
 import edu.sjsu.android.servicesfinder.database.ProviderServiceDatabase;
 import edu.sjsu.android.servicesfinder.model.ProviderService;
 
@@ -21,16 +24,16 @@ public class ProviderServiceController {
     }
 
     // ------------------ CREATE / UPDATE ------------------
-    public void saveOrUpdateService(String providerId,
+    public void saveOrUpdateService(Context context, String providerId,
                                     ProviderService service,
                                     ProviderServiceDatabase.OnServiceSaveListener listener) {
 
         if (providerId == null || providerId.isEmpty()) {
-            listener.onError("Provider not signed in");
+            listener.onError(context.getString(R.string.error_provider_not_signed_in));
             return;
         }
         if (service.getServiceTitle() == null || service.getServiceTitle().isEmpty()) {
-            listener.onError("Service title required");
+            listener.onError(context.getString(R.string.error_service_title_required));
             return;
         }
 
@@ -42,9 +45,9 @@ public class ProviderServiceController {
     }
 
     // ------------------ LOAD LAST DRAFT ------------------
-    public void loadLastServiceDraft(String providerId, OnDraftLoadedListener listener) {
+    public void loadLastServiceDraft(Context context,String providerId, OnDraftLoadedListener listener) {
         if (providerId == null || providerId.trim().isEmpty()) {
-            listener.onError("Missing providerId");
+            listener.onError(context.getString(R.string.error_missing_provider_id));
             return;
         }
 
@@ -75,13 +78,14 @@ public class ProviderServiceController {
 
                     listener.onDraftLoaded(draft);
                 })
-                .addOnFailureListener(e -> listener.onError("Failed to load draft: " + e.getMessage()));
+                .addOnFailureListener(e -> listener.onError(context.getString(R.string.error_load_draft_failed, e.getMessage())));
+
     }
     /* ****************************************************************************************
     LOAD SERVICE AREAS
     Loads all service areas from Firestore -> returns a sorted list of area names
     ****************************************************************************************/
-    public void loadServiceAreas(ServiceAreaListener listener) {
+    public void loadServiceAreas(Context context, ServiceAreaListener listener) {
         firestore.collection("service_areas")
                 .get()
                 .addOnSuccessListener(query -> {
@@ -94,7 +98,8 @@ public class ProviderServiceController {
                     Collections.sort(areas);
                     listener.onLoaded(areas);
                 })
-                .addOnFailureListener(e -> listener.onError("Failed to load areas: " + e.getMessage()));
+                .addOnFailureListener(e -> listener.onError(context.getString(R.string.error_load_areas_failed, e.getMessage())));
+
     }
 
     // ================== DATA CLASS + CALLBACKS ==================
@@ -130,13 +135,11 @@ public class ProviderServiceController {
         public void setCategory(String category) { this.category = category; }
         public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     }
-
     public interface OnDraftLoadedListener {
         void onDraftLoaded(ServiceDraft draft);
         void onNoDraftFound();
         void onError(String error);
     }
-
     // Callback for service areas list
     public interface ServiceAreaListener {
         void onLoaded(List<String> areas);

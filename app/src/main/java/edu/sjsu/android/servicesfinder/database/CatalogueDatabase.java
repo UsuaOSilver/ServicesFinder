@@ -50,24 +50,19 @@ public class CatalogueDatabase {
                         // Get embedded services array
                         @SuppressWarnings("unchecked")
                         List<String> services = (List<String>) doc.get("services");
-                        //List<String> services = doc.get("services", new GenericTypeIndicator<List<String>>() {});
-
 
                         // Only add if services exist and are not empty
                         if (services != null && !services.isEmpty()) {
                             catalogueMap.put(title, services);
                         }
-
                     }
 
                     listener.onSuccess(catalogueMap);
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error fetching catalogue map", e);
                     listener.onError(e.getMessage());
                 });
     }
-
     public interface OnCatalogueMapLoadedListener {
         void onSuccess(Map<String, List<String>> catalogueMap);
         void onError(String errorMessage);

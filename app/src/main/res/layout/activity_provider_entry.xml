@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Provider Portal"
+                android:text="@string/provider_portal"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnPrimary"
                 android:autoSizeTextType="uniform"
@@ -45,7 +45,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign in or create an account"
+                android:text="@string/sign_in_or_create_an_account"
                 android:textColor="?attr/colorOnPrimary"
                 android:alpha="0.9"
                 android:layout_marginTop="2dp"
@@ -74,12 +74,12 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SIGN IN"            />
+            android:text="@string/sign_in"            />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SIGN UP"/>
+            android:text="@string/sign_up"/>
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -106,7 +106,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Welcome Back!"
+                    android:text="@string/welcome_back"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:textColor="@color/peru"
@@ -115,7 +115,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sign in to manage your services"
+                    android:text="@string/sign_in_to_manage_your_services"
                     android:textSize="14sp"
                     android:textColor="?attr/colorOnSurface"
                     android:layout_marginBottom="24dp" />
@@ -133,7 +133,7 @@
                         android:id="@+id/signInEmailOrPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Email or Phone"
+                        android:hint="@string/email_or_phone"
                         android:inputType="text"
                         android:maxLines="1" />
 
@@ -154,7 +154,7 @@
                         android:id="@+id/signInPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:inputType="textPassword"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -171,7 +171,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="SIGN IN"
+                        android:text="@string/sign_in"
                         android:textSize="16sp"
                         style="@style/SF.PrimaryButton" />
 
@@ -181,7 +181,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="CANCEL"
+                        android:text="@string/cancel"
                         android:textSize="16sp"
                         style="@style/SF.SecondaryButton"
                         android:layout_marginStart="8dp" />
@@ -199,7 +199,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Create Account"
+                    android:text="@string/create_account"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:textColor="@color/peru"
@@ -208,7 +208,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Join us as a service provider"
+                    android:text="@string/join_us_as_a_service_provider"
                     android:textSize="14sp"
                     android:textColor="?attr/colorOnSurface"
                     android:layout_marginBottom="24dp" />
@@ -242,7 +242,7 @@
                         android:id="@+id/signUpEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Email"
+                        android:hint="@string/contact_email"
                         android:inputType="textEmailAddress"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -340,7 +340,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="CREATE"
+                        android:text="@string/create"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         style="@style/SF.PrimaryButton"/>
@@ -351,7 +351,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="CANCEL"
+                        android:text="@string/cancel"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         style="@style/SF.SecondaryButton"

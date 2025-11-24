@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 public final class SessionManager {
-    private static final String TAG = "SessionManager";
     private static final String PREF = "services_finder_prefs";
     private static final String KEY_PROVIDER_ID = "provider_id";
     private static final String KEY_PROVIDER_NAME = "provider_name";
@@ -17,7 +16,6 @@ public final class SessionManager {
     // =========================================================
     public static void saveProvider(Context ctx, String providerId, String providerName) {
         if (ctx == null || providerId == null || providerId.trim().isEmpty()) {
-            Log.e(TAG, "saveProvider: invalid args. id=" + providerId);
             return;
         }
         SharedPreferences sp = ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE);
@@ -25,7 +23,6 @@ public final class SessionManager {
                 .putString(KEY_PROVIDER_ID, providerId)
                 .putString(KEY_PROVIDER_NAME, providerName == null ? "" : providerName)
                 .apply();
-        Log.d(TAG, "Saved providerId=" + providerId + " name=" + providerName);
     }
 
     // =========================================================
@@ -33,9 +30,7 @@ public final class SessionManager {
     // =========================================================
     public static String getProviderId(Context ctx) {
         SharedPreferences sp = ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE);
-        String id = sp.getString(KEY_PROVIDER_ID, null);
-        Log.d(TAG, "getProviderId -> " + id);
-        return id;
+        return sp.getString(KEY_PROVIDER_ID, null);
     }
 
     public static String getProviderName(Context ctx) {
@@ -48,7 +43,6 @@ public final class SessionManager {
     // =========================================================
     public static void clear(Context ctx) {
         ctx.getSharedPreferences(PREF, Context.MODE_PRIVATE).edit().clear().apply();
-        Log.d(TAG, "Session cleared");
     }
 
     // Alias method for readability (used by UI / Controller)

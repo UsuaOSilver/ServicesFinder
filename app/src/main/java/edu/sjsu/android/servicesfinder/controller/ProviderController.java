@@ -8,6 +8,8 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import edu.sjsu.android.servicesfinder.R;
 import edu.sjsu.android.servicesfinder.database.FirestoreHelper;
 import edu.sjsu.android.servicesfinder.database.ProviderDatabase;
 import edu.sjsu.android.servicesfinder.model.Provider;
@@ -30,7 +32,7 @@ public class ProviderController {
 
     private final Context context;
     public ProviderController(Context context) {
-        this.providerDatabase = new ProviderDatabase();
+        this.providerDatabase = new ProviderDatabase(context);
         this.auth = FirebaseAuth.getInstance();
         this.context = context;
     }
@@ -69,7 +71,8 @@ public class ProviderController {
     ******************************************************************************************/
     public void loadProviderById(String providerId) {
         if (providerId == null || providerId.trim().isEmpty()) {
-            if (listener != null) listener.onError("Provider ID is required");
+            String msg = context.getString(R.string.provider_id_is_required);
+            if (listener != null) listener.onError(msg);
             return;
         }
 
@@ -96,14 +99,16 @@ public class ProviderController {
             // Normal Firebase email sign-up
             auth.createUserWithEmailAndPassword(email, password)
                     .addOnSuccessListener(result -> {
+                        assert auth.getCurrentUser() != null;
                         String uid = auth.getCurrentUser().getUid();
                         createAndSaveProvider(uid, fullName, email, phone, address, password);
                     })
                     .addOnFailureListener(e -> {
                         if (listener != null) {
-                            String errorMsg = "Sign-up failed: " + e.getMessage();
+                            String signupErMsg = context.getString(R.string.sign_up_failed);
+                            String errorMsg = signupErMsg + e.getMessage();
                             if (e instanceof FirebaseAuthUserCollisionException) {
-                                errorMsg = "Email already in use";
+                                errorMsg = context.getString(R.string.email_already_in_use);
                             }
                             listener.onError(errorMsg);
                         }
@@ -132,9 +137,9 @@ public class ProviderController {
                     if (result.getUser() != null)
                         callback.onSuccess(result.getUser().getUid());
                     else
-                        callback.onError("Null user returned");
+                        callback.onError(context.getString(R.string.error_null_user));
                 })
-                .addOnFailureListener(e -> callback.onError("Email sign-in failed: " + e.getMessage()));
+                .addOnFailureListener(e -> callback.onError(context.getString(R.string.error_email_signin_failed, e.getMessage())));
     }
     /* *****************************************************************************************
     // Phone-based sign-in via Firestore
@@ -147,12 +152,13 @@ public class ProviderController {
                 if (provider.getPassword().equals(password))
                     callback.onSuccess(provider.getId());
                 else
-                    callback.onError("Invalid password");
+                    callback.onError(context.getString(R.string.error_invalid_password));
+
             }
 
             @Override
             public void onError(String errorMessage) {
-                callback.onError("No account found with this phone number");
+                callback.onError(context.getString(R.string.error_no_account_with_phone));
             }
         });
     }
@@ -188,7 +194,8 @@ public class ProviderController {
 
             @Override
             public void onError(String errorMessage) {
-                if (listener != null) listener.onError("Error saving provider: " + errorMessage);
+                String onErMsg = context.getString(R.string.error_saving_provider);
+                if (listener != null) listener.onError(onErMsg + errorMessage);
             }
         });
     }
@@ -198,7 +205,7 @@ public class ProviderController {
     ******************************************************************************************/
     public interface ProviderControllerListener {
         void onProviderLoaded(Provider provider);
-        void onSignUpSuccess(String providerId); // alse used for PasswordUpdateSuccess
+        void onSignUpSuccess(String providerId); // also used for PasswordUpdateSuccess
         void onError(String errorMessage);
     }
 
@@ -208,13 +215,13 @@ public class ProviderController {
     ******************************************************************************************/
     public void updatePassword(String newPassword, ProviderControllerListener callback) {
         if (newPassword == null || newPassword.trim().isEmpty()) {
-            callback.onError("Password cannot be empty");
+            callback.onError(context.getString(R.string.error_password_empty));
             return;
         }
 
         FirebaseUser user = auth.getCurrentUser();
         if (user == null) {
-            callback.onError("No authenticated user");
+            callback.onError(context.getString(R.string.error_no_authenticated_user));
             return;
         }
 
@@ -227,16 +234,17 @@ public class ProviderController {
                     providerDatabase.updateProviderFields(user.getUid(), updates, new ProviderDatabase.OnProviderOperationListener() {
                         @Override
                         public void onSuccess(String message) {
-                            callback.onSignUpSuccess("Password updated successfully");
+                            callback.onSignUpSuccess(context.getString(R.string.success_password_updated));
                         }
 
                         @Override
                         public void onError(String errorMessage) {
-                            callback.onError("Password updated in Firebase, but failed in Firestore: " + errorMessage);
+                            callback.onError(context.getString(R.string.error_password_updated_firestore_failed, errorMessage));
                         }
                     });
                 })
-                .addOnFailureListener(e -> callback.onError("Failed to update password: " + e.getMessage()));
+                .addOnFailureListener(e -> callback.onError(context.getString(R.string.error_password_update_failed, e.getMessage())));
+
     }
 
     /* ***************************************************************************************
@@ -257,19 +265,19 @@ public class ProviderController {
 
         FirebaseUser user = auth.getCurrentUser();
         if (user == null) {
-            callback.onError("No authenticated user");
+            callback.onError(context.getString(R.string.error_no_authenticated_user));
             return;
         }
 
         providerDatabase.updateProviderFields(user.getUid(), updates, new ProviderDatabase.OnProviderOperationListener() {
             @Override
             public void onSuccess(String message) {
-                callback.onSignUpSuccess("Profile updated successfully");
+                callback.onSignUpSuccess(context.getString(R.string.success_profile_updated));
             }
 
             @Override
             public void onError(String errorMessage) {
-                callback.onError("Failed to update profile: " + errorMessage);
+                callback.onError(context.getString(R.string.error_profile_update_failed, errorMessage));
             }
         });
 
@@ -301,7 +309,7 @@ public class ProviderController {
                 // Delete Authentication user (THIS DELETES THE EMAIL)
                 user.delete()
                         .addOnSuccessListener(aVoid -> {
-                            callback.onSuccess("Account deleted successfully");
+                            callback.onSuccess(context.getString(R.string.success_account_deleted));
                         })
                         .addOnFailureListener(e -> {
                             // If re-authentication is required, try to get it from user
@@ -311,24 +319,26 @@ public class ProviderController {
                                         .addOnSuccessListener(result -> {
                                             user.delete()
                                                     .addOnSuccessListener(unused -> {
-                                                        callback.onSuccess("Account deleted successfully");
+                                                        callback.onSuccess(context.getString(R.string.success_account_deleted));
                                                     })
                                                     .addOnFailureListener(ex -> {
-                                                        callback.onError("Please sign out and sign in again, then try deleting your account");
+                                                        callback.onError(context.getString(R.string.error_sign_out_then_delete));
+
                                                     });
                                         })
                                         .addOnFailureListener(ex -> {
-                                            callback.onError("Please sign out and sign in again, then try deleting your account");
+                                            callback.onError(context.getString(R.string.error_sign_out_then_delete));
+
                                         });
                             } else {
-                                callback.onError("Failed to delete account: " + e.getMessage());
+                                callback.onError(context.getString(R.string.error_account_delete_failed, e.getMessage()));
                             }
                         });
             }
 
             @Override
             public void onError(String errorMessage) {
-                callback.onError("Failed to delete provider data: " + errorMessage);
+                callback.onError(context.getString(R.string.error_provider_data_delete_failed, errorMessage));
             }
         });
     }
@@ -354,10 +364,9 @@ public class ProviderController {
                         .addOnSuccessListener(result -> {
                             FirebaseUser newUser = result.getUser();
                             if (newUser == null) {
-                                callback.onError("New user creation failed");
+                                callback.onError(context.getString(R.string.error_user_creation_failed));
                                 return;
                             }
-
                             Provider newProvider = new Provider();
                             newProvider.setId(newUser.getUid());
                             newProvider.setFullName(fullName);
@@ -383,49 +392,47 @@ public class ProviderController {
                                                                 if (oldUser != null) {
                                                                     oldUser.delete()
                                                                             .addOnSuccessListener(aVoid -> {
-                                                                                Log.d("ProviderController", "Old FirebaseAuth account deleted");
-                                                                                callback.onSignUpSuccess("Migration complete: new account created, services cloned, old account deleted");
+                                                                               // callback.onSignUpSuccess("Migration complete: new account created, services cloned, old account deleted");
+                                                                                callback.onSignUpSuccess(context.getString(R.string.success_password_updated));
                                                                             })
                                                                             .addOnFailureListener(e -> {
-                                                                                Log.e("ProviderController", "Failed to delete old FirebaseAuth account", e);
-                                                                                callback.onSignUpSuccess("New provider cloned, old Firestore deleted, but failed to delete old FirebaseAuth account");
+                                                                                callback.onSignUpSuccess(context.getString(R.string.error_old_account_delete_failed));
                                                                             });
                                                                 } else {
-                                                                    callback.onSignUpSuccess("New provider cloned, but old FirebaseAuth user not found");
+                                                                    callback.onSignUpSuccess(context.getString(R.string.warning_old_firebase_user_not_found));
                                                                 }
                                                             })
                                                             .addOnFailureListener(e -> {
-                                                                Log.e("ProviderController", "Failed to re-authenticate old account", e);
-                                                                callback.onSignUpSuccess("New provider cloned, but failed to re-authenticate old account: " + e.getMessage());
+                                                                callback.onSignUpSuccess(e.getMessage());
                                                             });
                                                 }
 
                                                 @Override
                                                 public void onError(String errorMessage) {
-                                                    callback.onSignUpSuccess("New provider cloned, but failed to delete old Firestore provider: " + errorMessage);
+                                                    callback.onSignUpSuccess(errorMessage);
                                                 }
                                             });
                                         }
 
                                         @Override
                                         public void onError(String errorMessage) {
-                                            callback.onError("Provider cloned, but failed to copy services: " + errorMessage);
+                                            callback.onError(errorMessage);
                                         }
                                     });
                                 }
 
                                 @Override
                                 public void onError(String errorMessage) {
-                                    callback.onError("Failed to save new provider: " + errorMessage);
+                                    callback.onError(context.getString(R.string.error_save_new_provider_failed, errorMessage));
                                 }
                             });
                         })
-                        .addOnFailureListener(e -> callback.onError("Failed to create new account: " + e.getMessage()));
+                        .addOnFailureListener(e -> callback.onError(context.getString(R.string.error_new_account_creation_failed, e.getMessage())));
             }
 
             @Override
             public void onError(String errorMessage) {
-                callback.onError("Failed to load old provider: " + errorMessage);
+                callback.onError(context.getString(R.string.error_old_provider_load_failed, errorMessage));
             }
         });
     }

@@ -5,20 +5,18 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import com.bumptech.glide.Glide;
 import edu.sjsu.android.servicesfinder.R;
+import edu.sjsu.android.servicesfinder.controller.FirestoreStringTranslator;
+import edu.sjsu.android.servicesfinder.controller.HomeController;
 import edu.sjsu.android.servicesfinder.databinding.ActivityServiceDetailBinding;
 
-/**
- * ServiceDetailActivity - Shows complete service details with contact options
- */
+//******************************************************************************************
+// * ServiceDetailActivity - Shows complete service details with contact options
+//******************************************************************************************
 public class ServiceDetailActivity extends AppCompatActivity {
 
     // Service info
@@ -28,6 +26,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
     private String serviceCategory;
     private String serviceArea;
     private String serviceAvailability;
+    private String serviceContactPreference;
     private String serviceImageUrl;
 
     // Provider info
@@ -53,7 +52,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);      // Enable back button in the ActionBar
-            getSupportActionBar().setTitle("Service Details");
+            getSupportActionBar().setTitle(getString(R.string.title_service_details));
             // Set ActionBar background color
             getSupportActionBar().setBackgroundDrawable(
                     new ColorDrawable(ContextCompat.getColor(this, R.color.sf_primary))
@@ -76,6 +75,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         serviceCategory = intent.getStringExtra("serviceCategory");
         serviceArea = intent.getStringExtra("serviceArea");
         serviceAvailability = intent.getStringExtra("serviceAvailability");
+        serviceContactPreference = intent.getStringExtra("serviceContactPreference");
         serviceImageUrl = intent.getStringExtra("serviceImageUrl");
 
         // Provider data
@@ -102,29 +102,87 @@ public class ServiceDetailActivity extends AppCompatActivity {
         if (serviceDescription != null && !serviceDescription.isEmpty()) {
             binding.serviceDetailDescription.setText(serviceDescription);
         } else {
-            binding.serviceDetailDescription.setText("No description available");
+            binding.serviceDetailDescription.setText(getString(R.string.label_no_description));
         }
 
         // Category
+        /*
         if (serviceCategory != null && !serviceCategory.isEmpty()) {
-            binding.serviceDetailCategory.setText(" Category: " + serviceCategory);
+            binding.serviceDetailCategory.setText(getString(R.string.label_category_prefix, serviceCategory));
+        } else {
+            binding.serviceDetailCategory.setVisibility(View.GONE);
+        }
+        */
+        // this for translator
+        // Category - Extract and show only the primary category with services
+        if (serviceCategory != null && !serviceCategory.isEmpty()) {
+            String translatedCategory = FirestoreStringTranslator.get(this)
+                    .translateCategory(serviceCategory);
+            HomeController controller = new HomeController(this);
+            String primaryCategory = controller.extractProviderCategoryWithServices(translatedCategory);
+            binding.serviceDetailCategory.setText(getString(R.string.label_category_prefix, primaryCategory));
+            binding.serviceDetailCategory.setVisibility(View.VISIBLE);
         } else {
             binding.serviceDetailCategory.setVisibility(View.GONE);
         }
 
         // Area
         if (serviceArea != null && !serviceArea.isEmpty()) {
-            binding.serviceDetailArea.setText(" Location: Service Area: " + serviceArea);
+            binding.serviceDetailArea.setText(getString(R.string.label_location_service_area, serviceArea));
         } else {
             binding.serviceDetailArea.setVisibility(View.GONE);
         }
 
         // Availability
+        /*
         if (serviceAvailability != null && !serviceAvailability.isEmpty()) {
-            binding.serviceDetailAvailability.setText(" Calendar: Available: " + serviceAvailability);
+            binding.serviceDetailAvailability.setText(getString(R.string.label_calendar_availability, serviceAvailability));
         } else {
             binding.serviceDetailAvailability.setVisibility(View.GONE);
         }
+        */
+        // Availability
+        if (serviceAvailability != null && !serviceAvailability.isEmpty()) {
+            String formattedAvailability = FirestoreStringTranslator
+                    .get(this)
+                    .formatAvailabilityForDisplay(serviceAvailability);
+
+            String labelWithAvailability = getString(R.string.label_calendar_availability, formattedAvailability);
+
+            binding.serviceDetailAvailability.setText(labelWithAvailability);
+            binding.serviceDetailAvailability.setVisibility(View.VISIBLE);
+        } else {
+            binding.serviceDetailAvailability.setVisibility(View.GONE);
+        }
+
+
+        // Preferred Contact
+        /*
+        if (serviceContactPreference != null && !serviceContactPreference.isEmpty()) {
+            binding.serviceDetailPreferredContact.setText(
+                    getString(R.string.label_preferred_contact, serviceContactPreference)
+            );
+            binding.serviceDetailPreferredContact.setVisibility(View.VISIBLE);
+        } else {
+            binding.serviceDetailPreferredContact.setVisibility(View.GONE);
+        }
+        */
+        // Preferred Contact
+        if (serviceContactPreference != null && !serviceContactPreference.isEmpty()) {
+
+            String localizedContact =
+                    FirestoreStringTranslator.get(this)
+                            .translateContactPreference(serviceContactPreference);
+
+            binding.serviceDetailPreferredContact.setText(
+                    getString(R.string.label_preferred_contact, localizedContact)
+            );
+
+            binding.serviceDetailPreferredContact.setVisibility(View.VISIBLE);
+        } else {
+            binding.serviceDetailPreferredContact.setVisibility(View.GONE);
+        }
+
 
         // Provider name
         binding.providerDetailName.setText(providerName);
@@ -132,15 +190,15 @@ public class ServiceDetailActivity extends AppCompatActivity {
         // Provider contact
         StringBuilder contactInfo = new StringBuilder();
         if (providerPhone != null && !providerPhone.isEmpty()) {
-            contactInfo.append(" Phone: ").append(formatPhone(providerPhone));
+            contactInfo.append(getString(R.string.label_phone_prefix, formatPhone(providerPhone)));
         }
         if (providerEmail != null && !providerEmail.isEmpty()) {
             if (contactInfo.length() > 0) contactInfo.append("\n");
-            contactInfo.append(" Email: ").append(providerEmail);
+            contactInfo.append(getString(R.string.label_email_prefix, providerEmail));
         }
         if (providerAddress != null && !providerAddress.isEmpty()) {
             if (contactInfo.length() > 0) contactInfo.append("\n");
-            contactInfo.append(" Address: ").append(providerAddress);
+            contactInfo.append(getString(R.string.label_address_prefix, providerAddress));
         }
         binding.providerDetailContact.setText(contactInfo.toString());
 
@@ -166,7 +224,10 @@ public class ServiceDetailActivity extends AppCompatActivity {
                 intent.setData(Uri.parse("tel:" + providerPhone));
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "Phone number not available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        getString(R.string.error_phone_unavailable),
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         });
 
@@ -175,17 +236,25 @@ public class ServiceDetailActivity extends AppCompatActivity {
             if (providerEmail != null && !providerEmail.isEmpty()) {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setData(Uri.parse("mailto:" + providerEmail));
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Inquiry about " + serviceTitle);
-                intent.putExtra(Intent.EXTRA_TEXT, "Hi " + providerName + ",\n\nI'm interested in your service: " + serviceTitle + "\n\nCould you please provide more information?\n\nThank you!");
+                intent.putExtra(Intent.EXTRA_SUBJECT,
+                        getString(R.string.email_subject_inquiry, serviceTitle));
+                intent.putExtra(Intent.EXTRA_TEXT,
+                        getString(R.string.email_body_inquiry, providerName, serviceTitle));
 
                 try {
-                    startActivity(Intent.createChooser(intent, "Send Email"));
+                    startActivity(Intent.createChooser(intent,
+                            getString(R.string.chooser_title_send_email)));
                 } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(this, "No email app found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,
+                            getString(R.string.error_no_email_app),
+                            Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(this, "Email not available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        getString(R.string.error_email_unavailable),
+                        Toast.LENGTH_SHORT).show();
             }
+
         });
 
         // Location
@@ -203,7 +272,10 @@ public class ServiceDetailActivity extends AppCompatActivity {
                     startActivity(browserIntent);
                 }
             } else {
-                Toast.makeText(this, "Address not available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        getString(R.string.error_address_unavailable),
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         });
 
