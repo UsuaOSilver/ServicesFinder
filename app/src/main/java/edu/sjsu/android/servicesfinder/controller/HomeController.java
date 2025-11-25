@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import edu.sjsu.android.servicesfinder.database.ProviderServiceDatabase;
@@ -156,7 +157,7 @@ public class HomeController {
     //* ****************************************************************
     //* Filter by category
     //*****************************************************************
-    public void filterByCategory(String category) {
+    public void filterByCategory1(String category) {
         database.getProvidersByCategory(context, category, new ProviderServiceDatabase.OnProvidersWithServicesLoadedListener() {
             @Override
             public void onSuccess(Map<Provider, List<ProviderService>> providerServiceMap) {
@@ -177,6 +178,71 @@ public class HomeController {
             }
         });
     }
+
+
+
+
+    public void filterByCategory(String category) {
+
+        Log.e("CAT_FILTER", "Filtering for category: " + category);
+
+        database.getAllProvidersWithServices(context, new ProviderServiceDatabase.OnProvidersWithServicesLoadedListener() {
+            @Override
+            public void onSuccess(Map<Provider, List<ProviderService>> providerServiceMap) {
+
+                Map<Provider, List<ProviderService>> finalFilteredMap = new HashMap<>();
+
+                for (Map.Entry<Provider, List<ProviderService>> entry : providerServiceMap.entrySet()) {
+                    Provider provider = entry.getKey();
+                    List<ProviderService> services = entry.getValue();
+
+                    List<ProviderService> matched = new ArrayList<>();
+
+                    for (ProviderService service : services) {
+
+                        String rawCat = service.getCategory();
+                        if (rawCat == null) continue;
+
+                        String[] segments = rawCat.split("\\|");
+                        for (String seg : segments) {
+                            seg = seg.trim();
+
+                            // check if segment starts with category and has services after :
+                            if (seg.startsWith(category)) {
+                                int idx = seg.indexOf(category) + category.length();
+
+                                if (idx < seg.length() && seg.charAt(idx) == ':') {
+                                    // CATEGORY HAS SERVICES — keep this service
+                                    matched.add(service);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (!matched.isEmpty()) {
+                        finalFilteredMap.put(provider, matched);
+                    }
+                }
+
+                Log.e("CAT_FILTER", "FINAL filtered providers = " + finalFilteredMap.size());
+
+                if (listener != null) {
+                    if (finalFilteredMap.isEmpty()) listener.onNoDataAvailable();
+                    else listener.onProvidersWithServicesLoaded(finalFilteredMap);
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                if (listener != null) listener.onError(errorMessage);
+            }
+        });
+    }
+
+
+
+
 
     //**********************************************************************************************
     // * Extract the provider category/services from a translated all-strings

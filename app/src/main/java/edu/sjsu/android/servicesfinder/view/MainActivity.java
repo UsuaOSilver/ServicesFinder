@@ -6,6 +6,7 @@
     import android.os.Looper;
     import android.text.Editable;
     import android.text.TextWatcher;
+    import android.util.Log;
     import android.view.View;
 
     import androidx.annotation.Nullable;
@@ -137,6 +138,10 @@
                                 ? ""
                                 : englishCategory;
 
+
+                        Log.e("CAT_UI", "User selected chip: " + englishCategory);
+                        Log.e("CAT_UI", "Category key used for filtering: " + currentCategoryFilter);
+
                         if (currentCategoryFilter.isEmpty()) {
                             currentSearchQuery = "";
                             binding.searchEditText.setText("");
@@ -239,6 +244,16 @@
         // ============================================================
         @Override
         public void onProvidersWithServicesLoaded(Map<Provider, List<ProviderService>> map) {
+            // debug
+            Log.e("CAT_UI_FINAL", "Number of providers returned = " + map.size());
+            for (Map.Entry<Provider, List<ProviderService>> entry : map.entrySet()) {
+                for (ProviderService service : entry.getValue()) {
+                    Log.e("CAT_UI_FINAL", "FINAL DISPLAY: " + service.getServiceTitle()
+                            + " | cat=" + service.getCategory());
+                }
+            }
+            // end debug
+
             if (map.isEmpty()) showEmptyState(getString(R.string.empty_state_no_services));
             else {
                 showContent();

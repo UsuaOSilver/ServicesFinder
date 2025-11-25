@@ -91,8 +91,8 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
         notifyDataSetChanged(); // tell RecyclerView data changed
     }
 
-     // Accepts already-prepared items. Useful when sorted externally.
-     @SuppressLint("NotifyDataSetChanged")
+    // Accepts already-prepared items. Useful when sorted externally.
+    @SuppressLint("NotifyDataSetChanged")
     public void setServiceItems(List<ServiceItem> items) {
         this.serviceItems = items;
         notifyDataSetChanged();
@@ -102,8 +102,8 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
     @Override
     public ServiceCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-         // Inflate the XML layout (item_service_card.xml)
-         // LayoutInflater converts XML -> actual UI View
+        // Inflate the XML layout (item_service_card.xml)
+        // LayoutInflater converts XML -> actual UI View
 
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.item_service_card, parent, false);
@@ -114,7 +114,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
     @Override
     public void onBindViewHolder(@NonNull ServiceCardViewHolder holder, int position) {
 
-         // Called when a view comes on screen. We grab the correct ServiceItem and bind data.
+        // Called when a view comes on screen. We grab the correct ServiceItem and bind data.
 
         ServiceItem item = serviceItems.get(position);
         holder.bind(item, listener);
@@ -133,8 +133,8 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
     // =========================================================
     // VIEW HOLDER
     // =========================================================
-     // reusable object holding references to UI elements
-     // Avoids expensive findViewById() calls repeatedly.
+    // reusable object holding references to UI elements
+    // Avoids expensive findViewById() calls repeatedly.
 
     public static class ServiceCardViewHolder extends RecyclerView.ViewHolder {
 
@@ -165,7 +165,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
         }
 
 
-         // Bind data from ServiceItem -> UI views
+        // Bind data from ServiceItem -> UI views
 
         public void bind(ServiceItem item, OnServiceClickListener listener) {
             Provider provider = item.provider;
@@ -266,7 +266,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
                 categoryBadge.setVisibility(View.GONE);
             }
 
-             // Verified badge hidden for now  (can enable when Firestore has "verified: true")
+            // Verified badge hidden for now  (can enable when Firestore has "verified: true")
 
             verifiedBadge.setVisibility(View.GONE);
 
@@ -290,7 +290,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
             });
         }
 
-         // Try to extract city part from address "Street, City, State"
+        // Try to extract city part from address "Street, City, State"
 
         private String extractCity(String address) {
             if (address == null || address.isEmpty()) {
@@ -304,7 +304,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
             return address;
         }
 
-         // Convert "Mon, Tue, Wed" => "Mon/Tue/Wed"
+        // Convert "Mon, Tue, Wed" => "Mon/Tue/Wed"
 
         private String formatAvailability(String availability) {
             return availability.replace(", ", "/");
