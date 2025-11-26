@@ -65,8 +65,6 @@ public class ProviderEntryActivity extends AppCompatActivity
         setupPhoneFormatters();
 
         // Default tab = Sign-In
-        binding.signInEmailOrPhone.setText("6692067934");
-        binding.signInPassword.setText("123456");
 
         showSignIn();
     }

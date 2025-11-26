@@ -11,6 +11,10 @@ import android.widget.Toast;
 import edu.sjsu.android.servicesfinder.R;
 
 public class ProToast {
+    // Usage:
+    // ProToast.success(this, "success");
+    // ProToast.warning(this, "warning");
+    // ProToast.error(this, "error");
 
     // SUCCESS Toast ===============================================
     public static void success(Context context, String message) {
