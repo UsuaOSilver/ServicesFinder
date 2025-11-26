@@ -65,6 +65,11 @@ public class ProviderEntryActivity extends AppCompatActivity
         setupPhoneFormatters();
 
         // Default tab = Sign-In
+
+        binding.signInEmailOrPhone.setText("6692067934");
+        binding.signInPassword.setText("123456");
+
+
         showSignIn();
     }
 
@@ -153,23 +158,12 @@ public class ProviderEntryActivity extends AppCompatActivity
     private void showSignIn() {
         binding.signInLayout.setVisibility(View.VISIBLE);
         binding.signUpLayout.setVisibility(View.GONE);
+
     }
 
     private void showSignUp() {
         binding.signInLayout.setVisibility(View.GONE);
         binding.signUpLayout.setVisibility(View.VISIBLE);
-
-        // Default fill values
-
-        binding.signInEmailOrPhone.setText("6692067934");
-        binding.signInPassword.setText("123456");
-
-        binding.signUpFullName.setText("David Kim");
-        binding.signUpEmail.setText("davidk@icloud.com");
-        binding.signUpPhone.setText("4085554400");
-        binding.signUpAddress.setText("800 Blossom Hill Rd, San Jose, CA 95123");
-        binding.signUpPassword.setText("123456");
-        binding.signUpConfirmPassword.setText("123456");
     }
 
     /* =========================================================

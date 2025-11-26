@@ -127,7 +127,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
         catalogueController = new CatalogueController();
         catalogueController.setListener(this);
 
-        providerServiceController = new ProviderServiceController();
+        providerServiceController = new ProviderServiceController(this);
         controller = new ProviderController(this);
         controller.setListener(new ProviderController.ProviderControllerListener() {
             @Override
@@ -155,15 +155,6 @@ public class ProviderDashboardActivity extends AppCompatActivity
 
         // Set default contact preference
         binding.contactCall.setChecked(true);
-
-
-
-        binding.serviceTitleInput.setText("Computer Repair & Upgrade");
-        binding.descriptionInput.setText("Laptop repair, PC building, virus removal, RAM upgrade, SSD installation");
-        binding.pricingInput.setText("$70 flat diagnostic");
-
-
-
         // For Setting
         initializeSettingsIcons();
     }
@@ -178,7 +169,6 @@ public class ProviderDashboardActivity extends AppCompatActivity
     // SAVE SERVICE
     // =========================================================
     private void handleSave() {
-        Log.d("DEBUG", "handleSave: entered method");
         // Safely get providerId
         String providerId = SessionManager.getProviderId(this);
 
@@ -230,7 +220,6 @@ public class ProviderDashboardActivity extends AppCompatActivity
         Map<String, Set<String>> selectedItems = catalogueDropdown.getSelectedItems();
         String category = FormHelper.formatCategoryFromSelection(selectedItems);
 
-        Log.d("DEBUG", "handleSave: about to call reverseTranslateSelection with selectedItems=" + selectedItems);
         Map<String, Set<String>> englishSelection = FirestoreStringTranslator.get(this)
                 .reverseTranslateSelection(selectedItems);
 
@@ -353,7 +342,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
         savingDialog.setCancelable(false);
         savingDialog.show();
 
-        ProviderServiceController controller = new ProviderServiceController();
+        ProviderServiceController controller = new ProviderServiceController(this);
         controller.saveOrUpdateService(this,providerId, service, new ProviderServiceDatabase.OnServiceSaveListener() {
             @Override
             public void onSuccess(String serviceId) {
@@ -540,7 +529,7 @@ public class ProviderDashboardActivity extends AppCompatActivity
     private void loadLastServiceDraft() {
         String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
-        ProviderServiceController controller = new ProviderServiceController();
+        ProviderServiceController controller = new ProviderServiceController(this);
         controller.loadLastServiceDraft(this, uid, new ProviderServiceController.OnDraftLoadedListener() {
             @Override
             public void onDraftLoaded(ProviderServiceController.ServiceDraft draft) {

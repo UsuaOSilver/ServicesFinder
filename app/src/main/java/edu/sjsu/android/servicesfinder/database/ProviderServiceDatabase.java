@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.sjsu.android.servicesfinder.controller.FirestoreStringTranslator;
+import edu.sjsu.android.servicesfinder.controller.HomeController;
 import edu.sjsu.android.servicesfinder.model.Provider;
 import edu.sjsu.android.servicesfinder.model.ProviderService;
 
@@ -21,11 +23,23 @@ import edu.sjsu.android.servicesfinder.model.ProviderService;
  * Database class for fetching providers with their services
  * Used for home screen display
  *************************************************************************************************/
+
 public class ProviderServiceDatabase {
+    /*
     private final FirebaseFirestore db;
     public ProviderServiceDatabase() {
         this.db = FirestoreHelper.getInstance();
     }
+    */
+    private final FirebaseFirestore db;
+    private final Context context;
+
+    public ProviderServiceDatabase(Context context) {
+        this.db = FirestoreHelper.getInstance();
+        this.context = context.getApplicationContext();
+    }
+
+
 
     /* **********************************************************************************
      * Load all providers with their services
@@ -120,6 +134,7 @@ public class ProviderServiceDatabase {
                                         ProviderService service = documentToProviderService(serviceDoc);
 
                                         // Check if service matches search query
+
                                         if (serviceMatchesQuery(service, provider, lowerQuery)) {
                                             matchingServices.add(service);
                                         }
@@ -217,24 +232,38 @@ public class ProviderServiceDatabase {
     // HELPER METHODS
     // =========================================================
     private boolean serviceMatchesQuery(ProviderService service, Provider provider, String query) {
-        if (service.getServiceTitle() != null &&
-                service.getServiceTitle().toLowerCase().contains(query)) {
-            return true;
+        if (service.getServiceTitle() != null) {
+            if (service.getServiceTitle().toLowerCase().contains(query)) {
+                return true;
+            }
         }
 
-        if (service.getDescription() != null &&
-                service.getDescription().toLowerCase().contains(query)) {
-            return true;
+        if (service.getDescription() != null) {
+            if (service.getDescription().toLowerCase().contains(query)) {
+                return true;
+            }
+        }
+        // Category — CLEAN FIRST → THEN TRANSLATE → SEARCH
+        if (service.getCategory() != null) {
+            // Extract only categories that actually have services
+            HomeController controller = new HomeController(context);
+            String cleaned = controller.extractProviderCategoryWithServices(service.getCategory());
+
+            // Translate the cleaned string
+            FirestoreStringTranslator translator = FirestoreStringTranslator.get(context);
+            String localized = translator.translateCategory(cleaned);
+
+            if (localized.toLowerCase().contains(query.toLowerCase())) {
+                return true;
+            } else {
+                Log.d("SEARCH_DEBUG", "No match in category");
+            }
         }
 
-        if (service.getCategory() != null &&
-                service.getCategory().toLowerCase().contains(query)) {
-            return true;
-        }
-
-        if (service.getServiceArea() != null &&
-                service.getServiceArea().toLowerCase().contains(query)) {
-            return true;
+        if (service.getServiceArea() != null) {
+            if (service.getServiceArea().toLowerCase().contains(query)) {
+                return true;
+            }
         }
         return false;
     }

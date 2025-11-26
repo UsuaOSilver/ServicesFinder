@@ -19,8 +19,8 @@ public class ProviderServiceController {
     private final ProviderServiceDatabase database;
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-    public ProviderServiceController() {
-        this.database = new ProviderServiceDatabase();
+    public ProviderServiceController(Context context) {
+        this.database = new ProviderServiceDatabase(context);
     }
 
     // ------------------ CREATE / UPDATE ------------------

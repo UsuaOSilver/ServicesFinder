@@ -33,8 +33,8 @@ public class HomeController {
 
     // Constructor
     public HomeController(Context context) {
-        this.context = context;
-        this.database = new ProviderServiceDatabase();
+        this.context = context.getApplicationContext();
+        this.database = new ProviderServiceDatabase(this.context); //
     }
 
     //* ****************************************************************
@@ -154,35 +154,17 @@ public class HomeController {
         });
     }
 
+
+
+
+
+
+
+
     //* ****************************************************************
-    //* Filter by category
+    //* Filter by category (check CAT has : ito know provider has service of CAT or not
     //*****************************************************************
-    public void filterByCategory1(String category) {
-        database.getProvidersByCategory(context, category, new ProviderServiceDatabase.OnProvidersWithServicesLoadedListener() {
-            @Override
-            public void onSuccess(Map<Provider, List<ProviderService>> providerServiceMap) {
-                if (listener != null) {
-                    if (providerServiceMap.isEmpty()) {
-                        listener.onNoDataAvailable();
-                    } else {
-                        listener.onProvidersWithServicesLoaded(providerServiceMap);
-                    }
-                }
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                if (listener != null) {
-                    listener.onError(errorMessage);
-                }
-            }
-        });
-    }
-
-
-
-
-    public void filterByCategory(String category) {
+        public void filterByCategory(String category) {
 
         Log.e("CAT_FILTER", "Filtering for category: " + category);
 
@@ -239,11 +221,6 @@ public class HomeController {
             }
         });
     }
-
-
-
-
-
     //**********************************************************************************************
     // * Extract the provider category/services from a translated all-strings
     //**********************************************************************************************
