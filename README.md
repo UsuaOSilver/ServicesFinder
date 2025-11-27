@@ -9,10 +9,10 @@
 
 | Name | Contribution |
 |------|--------------|
-| **Van Anh Tran** | Implemented category filtering engine, debugging category-key logic, Firestore data modeling for provider services, phone normalization rules |
-| **Ben Nguyen** | Designed signup and provider entry UI layouts, category chips UI style, implemented tab layout for sign-in/sign-up |
-| **Nhat Anh Nguyen** | Implemented service detail view and navigation transitions, tested filtering and search behaviors |
-| **Phuong Tong** | Integrated ProviderDashboardActivity, implemented update profile logic, Firestore save operations, final review & bug fixes |
+| **Van Anh Tran** | Implemented category filtering engine, debugging category-key logic, Firestore data services,  |
+| **Ben Nguyen** | Designed signup and provider entry UI layouts, category chips UI style, coding customer review |
+| **Nhat Anh Nguyen** | Create provider catelogues/services frame. Create service area. Tested filtering and search behaviors |
+| **Rohan Mehta** | Loclaization strings, design UI, final review & bug fixes |
 
 ---
 
