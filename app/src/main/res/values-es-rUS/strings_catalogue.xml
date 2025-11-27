@@ -86,7 +86,7 @@
     <!-- Educación -->
     <string name="svc_private_tutoring">Tutoría privada</string>
     <string name="svc_online_tutoring">Tutoría en línea</string>
-    <string name="svc_music_lesson">Clase de música (piano, guitarra)</string>
+    <string name="svc_music_lesson">Clase de música</string>
     <string name="svc_art_drawing">Arte y dibujo</string>
     <string name="svc_language_lessons">Clases de idiomas (español, francés)</string>
 

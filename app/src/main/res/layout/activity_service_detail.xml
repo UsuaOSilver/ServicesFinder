@@ -170,7 +170,7 @@
                     android:text="@string/icon_call"
                     android:backgroundTint="@color/design_default_color_primary"
                     android:textColor="@color/white"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginEnd="2dp" />
 
                 <Button
                     android:id="@+id/emailButton"
@@ -180,8 +180,8 @@
                     android:text="@string/icon_email"
                     android:backgroundTint="@color/lightseagreen"
                     android:textColor="@color/white"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp" />
 
                 <Button
                     android:id="@+id/locationButton"
@@ -191,7 +191,7 @@
                     android:text="@string/icon_map"
                     android:backgroundTint="@color/peru"
                     android:textColor="@color/white"
-                    android:layout_marginStart="4dp" />
+                    android:layout_marginStart="2dp" />
             </LinearLayout>
         </LinearLayout>
         <!-- CUSTOMER EVIEW  -->

@@ -172,7 +172,8 @@ public class ProviderController {
         provider.setId(uid);
         provider.setFullName(fullName);
         provider.setEmail(email);
-        provider.setPhone(phone);
+        String digitsOnly = phone.replaceAll("[^0-9]", "");
+        provider.setPhone(digitsOnly);
         provider.setAddress(address);
         provider.setPassword(password);
 

@@ -86,7 +86,7 @@
     <!-- Education -->
     <string name="svc_private_tutoring">Private tutoring</string>
     <string name="svc_online_tutoring">Online tutoring</string>
-    <string name="svc_music_lesson">Music lesson (piano, guitar)</string>
+    <string name="svc_music_lesson">Music lesson</string>
     <string name="svc_art_drawing">Art &amp; drawing</string>
     <string name="svc_language_lessons">Language lessons (Spanish, French)</string>
 
