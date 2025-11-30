@@ -2,9 +2,9 @@
 ### Team Number: 09  
 
 ---
-### APK File: ### 
+### APK File: https://drive.google.com/file/d/1GHE4sdEyJbap8_SnTVIY1ZLuwNL2vEVY/view?usp=sharing 
 
-### Backlog: ### https://docs.google.com/spreadsheets/d/1pm37TSBmQL9C6HI7-OMaLhnKDPHRMzfbEjpT8pUAz8k/edit?gid=0#gid=0
+### Backlog: https://docs.google.com/spreadsheets/d/1pm37TSBmQL9C6HI7-OMaLhnKDPHRMzfbEjpT8pUAz8k/edit?gid=0#gid=0
 
 ## Team Members and Contributions  
 ### Version 1.0
