@@ -2,6 +2,7 @@
 ### Team Number: 09  
 
 ---
+
 ## Team Members and Contributions  
 | Name | Contribution |
 |------|--------------|
@@ -103,7 +104,9 @@ app/
     ├── mipmap/
     └── xml/
 
+
 ```
+
 **Course:** CS 175 – Android Mobile Development  
 **Professor:** Yan Chen  
 **Semester:** Fall 2025
