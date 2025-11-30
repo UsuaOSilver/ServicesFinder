@@ -1,10 +1,13 @@
 # ServicesFinder - Version 1.0
-### Team Number: 09  
+
+---
+
 **Course:** CS 175 – Android Mobile Development  
 **Professor:** Yan Chen  
 **Semester:** Fall 2025
----
 
+---
+### Team Number: 09  
 ## Team Members and Contributions  
 | Name | Contribution |
 |------|--------------|
