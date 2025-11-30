@@ -49,7 +49,6 @@ Providers can:
 ---
 
 ## Project Structure
-## Project Structure
 
 ```bash
 app/
