@@ -47,10 +47,20 @@ public class CustomerAuthActivity extends AppCompatActivity implements CustomerC
         setupSignUpForm();
         setupPhoneFormatting();
         setupBackButton();
+        setupRoleSwitcher();
     }
 
     private void setupBackButton() {
         binding.backButton.setOnClickListener(v -> finish());
+    }
+
+    private void setupRoleSwitcher() {
+        binding.switchToProviderButton.setOnClickListener(v -> {
+            // Navigate to Provider Entry Activity
+            Intent intent = new Intent(this, ProviderEntryActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void setupTabLayout() {

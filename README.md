@@ -47,14 +47,29 @@ https://docs.google.com/spreadsheets/d/1pm37TSBmQL9C6HI7-OMaLhnKDPHRMzfbEjpT8pUA
 
 ---
 
+## Dual-Role Architecture
+
+ServicesFinder supports two distinct user roles with separate data management:
+
+- **Providers:** Create and manage service listings, manage profile
+- **Customers:** Browse services, write reviews, save favorites, manage preferences
+
+**Key Design:**
+- Separate Firestore collections (`providers/` and `customers/`)
+- Independent authentication and session management
+- Role-based UI and permissions
+- Users can have both roles using different accounts
+
+---
+
 ## Technical Requirements
 
-- Android Studio  
-- Java  
-- Firebase Authentication  
-- Firebase Firestore  
-- Firebase Storage  
-- MinSDK: 24+  
+- Android Studio
+- Java
+- Firebase Authentication
+- Firebase Firestore
+- Firebase Storage
+- MinSDK: 24+
 
 ---
 

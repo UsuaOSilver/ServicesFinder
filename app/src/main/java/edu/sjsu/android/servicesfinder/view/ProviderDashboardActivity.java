@@ -518,7 +518,13 @@ public class ProviderDashboardActivity extends AppCompatActivity
     // LOAD LAST SERVICE DRAFT
     // =========================================================
     private void loadLastServiceDraft() {
-        String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        // Check if user is authenticated
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Log.w("ProviderDashboard", "User not authenticated, skipping draft load");
+            return;
+        }
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         ProviderServiceController controller = new ProviderServiceController(this);
         controller.loadLastServiceDraft(this, uid, new ProviderServiceController.OnDraftLoadedListener() {

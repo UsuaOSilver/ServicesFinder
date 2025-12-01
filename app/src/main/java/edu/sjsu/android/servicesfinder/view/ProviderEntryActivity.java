@@ -60,6 +60,7 @@ public class ProviderEntryActivity extends AppCompatActivity
         // Prepare UI
         setupTabs();
         setupButtons();
+        setupRoleSwitcher();
 
         // Apply phone formatters
         setupPhoneFormatters();
@@ -146,6 +147,15 @@ public class ProviderEntryActivity extends AppCompatActivity
         binding.signUpButton.setOnClickListener(v -> handleSignUp());
         binding.signInCancelButton.setOnClickListener(v -> finish());
         binding.signUpCancelButton.setOnClickListener(v -> finish());
+    }
+
+    private void setupRoleSwitcher() {
+        binding.switchToCustomerButton.setOnClickListener(v -> {
+            // Navigate to Customer Auth Activity
+            Intent intent = new Intent(this, CustomerAuthActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     /* =========================================================
