@@ -21,7 +21,10 @@ import edu.sjsu.android.servicesfinder.databinding.ActivityCustomerProfileBindin
 import edu.sjsu.android.servicesfinder.model.Customer;
 import edu.sjsu.android.servicesfinder.model.Provider;
 import edu.sjsu.android.servicesfinder.model.ProviderService;
+import edu.sjsu.android.servicesfinder.util.AnimationHelper;
+import edu.sjsu.android.servicesfinder.util.NetworkHelper;
 import edu.sjsu.android.servicesfinder.util.ProToast;
+import edu.sjsu.android.servicesfinder.util.RetryDialog;
 
 /**
  * CustomerProfileActivity - Customer profile with favorites and logout
@@ -91,6 +94,12 @@ public class CustomerProfileActivity extends AppCompatActivity implements Servic
     }
 
     private void loadCustomerProfile() {
+        // Check network connectivity first
+        if (!NetworkHelper.isNetworkAvailable(this)) {
+            RetryDialog.showNetworkError(this, this::loadCustomerProfile);
+            return;
+        }
+
         showLoading();
 
         customerDatabase.getCustomerById(customerId, new CustomerDatabase.OnCustomerLoadedListener() {
@@ -103,7 +112,9 @@ public class CustomerProfileActivity extends AppCompatActivity implements Servic
             @Override
             public void onError(String errorMessage) {
                 hideLoading();
-                ProToast.error(CustomerProfileActivity.this, "Failed to load profile: " + errorMessage);
+                RetryDialog.show(CustomerProfileActivity.this,
+                        "Failed to load profile: " + errorMessage,
+                        CustomerProfileActivity.this::loadCustomerProfile);
             }
         });
     }
@@ -151,7 +162,9 @@ public class CustomerProfileActivity extends AppCompatActivity implements Servic
             @Override
             public void onError(String errorMessage) {
                 hideLoading();
-                ProToast.error(CustomerProfileActivity.this, "Failed to load favorites: " + errorMessage);
+                RetryDialog.show(CustomerProfileActivity.this,
+                        "Failed to load favorites: " + errorMessage,
+                        CustomerProfileActivity.this::loadCustomerProfile);
                 showEmptyState();
             }
         });
@@ -163,24 +176,27 @@ public class CustomerProfileActivity extends AppCompatActivity implements Servic
         // Pass the map directly to the adapter
         serviceAdapter.setData(providersMap);
 
-        binding.emptyStateLayout.setVisibility(View.GONE);
-        binding.favoritesRecyclerView.setVisibility(View.VISIBLE);
+        // Animate showing favorites
+        AnimationHelper.fadeOut(binding.emptyStateLayout);
+        AnimationHelper.fadeIn(binding.favoritesRecyclerView);
     }
 
     private void showEmptyState() {
         hideLoading();
-        binding.emptyStateLayout.setVisibility(View.VISIBLE);
-        binding.favoritesRecyclerView.setVisibility(View.GONE);
+
+        // Animate showing empty state
+        AnimationHelper.fadeIn(binding.emptyStateLayout);
+        AnimationHelper.fadeOut(binding.favoritesRecyclerView);
     }
 
     private void showLoading() {
-        binding.loadingProgressBar.setVisibility(View.VISIBLE);
+        AnimationHelper.fadeIn(binding.loadingProgressBar);
         binding.emptyStateLayout.setVisibility(View.GONE);
         binding.favoritesRecyclerView.setVisibility(View.GONE);
     }
 
     private void hideLoading() {
-        binding.loadingProgressBar.setVisibility(View.GONE);
+        AnimationHelper.fadeOut(binding.loadingProgressBar);
     }
 
     @Override
