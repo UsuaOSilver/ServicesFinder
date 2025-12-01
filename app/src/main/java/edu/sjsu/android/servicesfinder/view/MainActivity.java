@@ -25,6 +25,7 @@
     import edu.sjsu.android.servicesfinder.controller.HomeController;
     import edu.sjsu.android.servicesfinder.controller.ServiceCardAdapter;
     import edu.sjsu.android.servicesfinder.controller.SessionManager;
+    import edu.sjsu.android.servicesfinder.database.ReviewDatabase;
     import edu.sjsu.android.servicesfinder.databinding.ActivityMainBinding;
     import edu.sjsu.android.servicesfinder.model.Provider;
     import edu.sjsu.android.servicesfinder.model.ProviderService;
@@ -48,11 +49,14 @@
 
         private String currentSearchQuery = "";
         private String currentCategoryFilter = "";   // ALWAYS ENGLISH KEY
-        private final SortOption currentSortOption = SortOption.MOST_RECENT;
+        private SortOption currentSortOption = SortOption.MOST_RECENT;
 
         @Override
         protected void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
+            // Apply saved language before setting content view
+            applySavedLanguage();
 
             binding = ActivityMainBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
@@ -70,6 +74,8 @@
             setupFilterChips();
             setupProviderButton();
             setupCustomerButton();
+            setupSortButton();
+            setupLanguageButton();
             showLoading();
             homeController.loadAllProvidersWithServices();
         }
@@ -239,8 +245,139 @@
                 }
             }
 
-            serviceAdapter.setServiceItems(items);
-            updateResultCount(items.size());
+            // Apply current sort option
+            if (currentSortOption == SortOption.RATING) {
+                // Special handling for rating sort - needs to fetch ratings from ReviewDatabase
+                sortItemsByRating(items);
+            } else {
+                sortItems(items);
+                serviceAdapter.setServiceItems(items);
+                updateResultCount(items.size());
+            }
+        }
+
+        // ============================================================
+        // SORTING LOGIC
+        // ============================================================
+        private void sortItems(List<ServiceCardAdapter.ServiceItem> items) {
+            switch (currentSortOption) {
+                case MOST_RECENT:
+                    // Sort by timestamp descending (newest first)
+                    items.sort((a, b) -> Long.compare(b.service.getTimestamp(), a.service.getTimestamp()));
+                    break;
+
+                case PRICE_LOW_TO_HIGH:
+                    items.sort((a, b) -> {
+                        double priceA = extractPrice(a.service.getPricing());
+                        double priceB = extractPrice(b.service.getPricing());
+                        return Double.compare(priceA, priceB);
+                    });
+                    break;
+
+                case PRICE_HIGH_TO_LOW:
+                    items.sort((a, b) -> {
+                        double priceA = extractPrice(a.service.getPricing());
+                        double priceB = extractPrice(b.service.getPricing());
+                        return Double.compare(priceB, priceA);
+                    });
+                    break;
+
+                case RATING:
+                    // Sort by provider rating (if available)
+                    items.sort((a, b) -> Double.compare(b.service.getRating(), a.service.getRating()));
+                    break;
+
+                case POPULAR:
+                    // Sort by service popularity (timestamp as proxy for now)
+                    items.sort((a, b) -> Long.compare(b.service.getTimestamp(), a.service.getTimestamp()));
+                    break;
+            }
+        }
+
+        // Extract numeric price from pricing string (e.g., "$50/hour" -> 50.0)
+        private double extractPrice(String pricing) {
+            if (pricing == null || pricing.isEmpty()) {
+                return Double.MAX_VALUE; // Put items without price at the end
+            }
+
+            try {
+                // Remove currency symbols and extract first number
+                String numberStr = pricing.replaceAll("[^0-9.]", "");
+                if (!numberStr.isEmpty()) {
+                    return Double.parseDouble(numberStr);
+                }
+            } catch (NumberFormatException e) {
+                Log.e("SORT", "Failed to parse price: " + pricing);
+            }
+
+            return Double.MAX_VALUE;
+        }
+
+        // Sort items by rating - requires fetching ratings from ReviewDatabase
+        private void sortItemsByRating(List<ServiceCardAdapter.ServiceItem> items) {
+            ReviewDatabase reviewDb = new ReviewDatabase();
+
+            // Create a map to store provider ratings
+            Map<String, Float> providerRatings = new HashMap<>();
+            int[] pendingCallbacks = {items.size()};
+
+            // Fetch ratings for all providers
+            for (ServiceCardAdapter.ServiceItem item : items) {
+                String providerId = item.provider.getId();
+
+                // Skip if already fetched
+                if (providerRatings.containsKey(providerId)) {
+                    pendingCallbacks[0]--;
+                    continue;
+                }
+
+                reviewDb.getAverageRating(providerId, new ReviewDatabase.OnRatingCalculatedListener() {
+                    @Override
+                    public void onRatingCalculated(float averageRating, int totalReviews) {
+                        providerRatings.put(providerId, averageRating);
+                        pendingCallbacks[0]--;
+
+                        // When all ratings are fetched, sort and display
+                        if (pendingCallbacks[0] == 0) {
+                            items.sort((a, b) -> {
+                                float ratingA = providerRatings.getOrDefault(a.provider.getId(), 0f);
+                                float ratingB = providerRatings.getOrDefault(b.provider.getId(), 0f);
+                                return Float.compare(ratingB, ratingA); // Descending order
+                            });
+
+                            runOnUiThread(() -> {
+                                serviceAdapter.setServiceItems(items);
+                                updateResultCount(items.size());
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        providerRatings.put(providerId, 0f); // Default to 0 on error
+                        pendingCallbacks[0]--;
+
+                        if (pendingCallbacks[0] == 0) {
+                            items.sort((a, b) -> {
+                                float ratingA = providerRatings.getOrDefault(a.provider.getId(), 0f);
+                                float ratingB = providerRatings.getOrDefault(b.provider.getId(), 0f);
+                                return Float.compare(ratingB, ratingA);
+                            });
+
+                            runOnUiThread(() -> {
+                                serviceAdapter.setServiceItems(items);
+                                updateResultCount(items.size());
+                            });
+                        }
+                    }
+                });
+            }
+
+            // Handle case where all providers already cached
+            if (pendingCallbacks[0] == 0) {
+                serviceAdapter.setServiceItems(items);
+                updateResultCount(items.size());
+            }
         }
 
         // ============================================================
@@ -344,6 +481,122 @@
             updateCustomerButtonState();
             showLoading();
             homeController.loadAllProvidersWithServices();
+        }
+
+        // ============================================================
+        // SORT BUTTON SETUP
+        // ============================================================
+        private void setupSortButton() {
+            binding.sortButton.setOnClickListener(v -> showSortDialog());
+        }
+
+        private void showSortDialog() {
+            String[] sortOptions = {
+                    getString(R.string.sort_most_recent),
+                    getString(R.string.sort_price_low_high),
+                    getString(R.string.sort_price_high_low),
+                    getString(R.string.sort_rating),
+                    getString(R.string.sort_popular)
+            };
+
+            int currentSelection = 0;
+            switch (currentSortOption) {
+                case MOST_RECENT: currentSelection = 0; break;
+                case PRICE_LOW_TO_HIGH: currentSelection = 1; break;
+                case PRICE_HIGH_TO_LOW: currentSelection = 2; break;
+                case RATING: currentSelection = 3; break;
+                case POPULAR: currentSelection = 4; break;
+            }
+
+            new android.app.AlertDialog.Builder(this)
+                    .setTitle(R.string.sort_by)
+                    .setSingleChoiceItems(sortOptions, currentSelection, (dialog, which) -> {
+                        switch (which) {
+                            case 0: currentSortOption = SortOption.MOST_RECENT; break;
+                            case 1: currentSortOption = SortOption.PRICE_LOW_TO_HIGH; break;
+                            case 2: currentSortOption = SortOption.PRICE_HIGH_TO_LOW; break;
+                            case 3: currentSortOption = SortOption.RATING; break;
+                            case 4: currentSortOption = SortOption.POPULAR; break;
+                        }
+                        dialog.dismiss();
+                        applyFilters(); // Reapply current filters with new sort
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        }
+
+        // ============================================================
+        // LANGUAGE BUTTON SETUP
+        // ============================================================
+        private void setupLanguageButton() {
+            updateLanguageButtonText();
+            binding.languageButton.setOnClickListener(v -> showLanguageDialog());
+        }
+
+        private void applySavedLanguage() {
+            android.content.SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+            String savedLang = prefs.getString("app_language", "en");
+
+            java.util.Locale locale = new java.util.Locale(savedLang);
+            java.util.Locale.setDefault(locale);
+
+            android.content.res.Configuration config = new android.content.res.Configuration();
+            config.setLocale(locale);
+            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+        }
+
+        private void updateLanguageButtonText() {
+            android.content.SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+            String savedLang = prefs.getString("app_language", "en");
+
+            switch (savedLang) {
+                case "es": binding.languageButton.setText("ES"); break;
+                case "vi": binding.languageButton.setText("VI"); break;
+                case "zh": binding.languageButton.setText("ZH"); break;
+                default: binding.languageButton.setText("EN"); break;
+            }
+        }
+
+        private void showLanguageDialog() {
+            String[] languages = {
+                    getString(R.string.lang_english),
+                    getString(R.string.lang_spanish),
+                    getString(R.string.lang_vietnamese),
+                    getString(R.string.lang_chinese)
+            };
+
+            new android.app.AlertDialog.Builder(this)
+                    .setTitle(R.string.select_language)
+                    .setItems(languages, (dialog, which) -> {
+                        String langCode;
+                        switch (which) {
+                            case 0: langCode = "en"; break;
+                            case 1: langCode = "es"; break;
+                            case 2: langCode = "vi"; break;
+                            case 3: langCode = "zh"; break;
+                            default: langCode = "en"; break;
+                        }
+                        changeLanguage(langCode);
+                    })
+                    .show();
+        }
+
+        private void changeLanguage(String languageCode) {
+            // Save language preference
+            android.content.SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+            prefs.edit().putString("app_language", languageCode).apply();
+
+            java.util.Locale locale = new java.util.Locale(languageCode);
+            java.util.Locale.setDefault(locale);
+
+            android.content.res.Configuration config = new android.content.res.Configuration();
+            config.setLocale(locale);
+            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
+            // Restart activity to apply language change
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
         }
 
         // ============================================================

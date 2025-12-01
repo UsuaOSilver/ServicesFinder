@@ -20,6 +20,22 @@
         <item quantity="other">%d services found</item>
     </plurals>
 
+    <!-- Sorting Options -->
+    <string name="sort">Sort</string>
+    <string name="sort_by">Sort By</string>
+    <string name="sort_most_recent">Most Recent</string>
+    <string name="sort_price_low_high">Price: Low to High</string>
+    <string name="sort_price_high_low">Price: High to Low</string>
+    <string name="sort_rating">Highest Rated</string>
+    <string name="sort_popular">Most Popular</string>
+
+    <!-- Language Options -->
+    <string name="select_language">Select Language</string>
+    <string name="lang_english">English</string>
+    <string name="lang_spanish">Español</string>
+    <string name="lang_vietnamese">Tiếng Việt</string>
+    <string name="lang_chinese">中文</string>
+
     <!-- ============================================ -->
     <!-- SERVICE DETAIL SCREEN -->
     <!-- ============================================ -->

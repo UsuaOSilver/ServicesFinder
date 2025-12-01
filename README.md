@@ -11,10 +11,10 @@
 ## Team Members and Contributions
 | Name | Contribution |
 |------|--------------|
-| **Van Anh Tran** | Category filtering engine, Firestore data services, customer authentication system, favorites feature |
+| **Van Anh Tran** | Category filtering engine, Firestore data services, provider side authentication system, localization for 4 languages: English (US), Chinese, Vietnamese, Spanish (US), preparing presentation |
 | **Ben Nguyen** | Provider UI layouts, category chips, customer reviews, review integration |
-| **Nhat Anh Nguyen** | Filtering and search, customer profile, customer authentication UI, favorites feature, review integration, image compression, smooth animations, error handling with retry dialogs, performance optimization |
-| **Rohan Mehta** | Localization, UI design, final review |
+| **Nhat Anh Nguyen** | Filtering and search, customer profile, customer authentication UI, localization UI, favorites feature, review integration, image compression, smooth animations, error handling with retry dialogs, performance optimization |
+| **Rohan Mehta** | UI design, final review, presenting |
 
 ---
 
@@ -31,7 +31,9 @@ https://docs.google.com/spreadsheets/d/1pm37TSBmQL9C6HI7-OMaLhnKDPHRMzfbEjpT8pUA
 
 ### Customer Features
 - **Authentication:** Sign in/up with email or phone number
-- **Browse & Search:** Find services by category or keyword
+- **Browse & Search:** Find services by category or keyword with real-time search
+- **Sorting:** Sort by Most Recent, Price (Low/High), Rating, or Popularity
+- **Language Support:** Switch between English, Spanish, Vietnamese, and Chinese
 - **Favorites:** Save preferred providers with heart button
 - **Reviews:** Read and write reviews (requires login)
 - **Profile:** View favorites and manage account with logout
