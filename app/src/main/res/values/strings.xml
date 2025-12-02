@@ -100,6 +100,12 @@
     <string name="add_to_favorites">Add to Favorites</string>
     <string name="remove_from_favorites">Remove from Favorites</string>
 
+    <!-- Role Switcher -->
+    <string name="are_you_service_provider">Are you a service provider?</string>
+    <string name="sign_in_as_provider"> Sign in as Provider</string>
+    <string name="looking_for_services">Looking for services?</string>
+    <string name="sign_in_as_customer"> Sign in as Customer</string>
+
     <!-- Form Fields -->
     <string name="email_or_phone">Email or Phone</string>
     <string name="password">Password</string>

@@ -73,6 +73,12 @@
     <string name="create_account">Tạo tài khoản</string>
     <string name="join_us_as_a_service_provider">Tham gia làm Nhà cung cấp dịch vụ</string>
 
+    <!-- Role Switcher -->
+    <string name="are_you_service_provider">Bạn là nhà cung cấp dịch vụ?</string>
+    <string name="sign_in_as_provider"> Đăng nhập với tư cách Nhà cung cấp</string>
+    <string name="looking_for_services">Đang tìm kiếm dịch vụ?</string>
+    <string name="sign_in_as_customer"> Đăng nhập với tư cách Khách hàng</string>
+
     <!-- Form Fields -->
     <string name="email_or_phone">Email hoặc Số điện thoại</string>
     <string name="password">Mật khẩu</string>

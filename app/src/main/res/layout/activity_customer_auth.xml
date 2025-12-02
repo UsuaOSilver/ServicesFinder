@@ -312,7 +312,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Are you a service provider?"
+            android:text="@string/are_you_service_provider"
             android:textSize="14sp"
             android:alpha="0.8"/>
 
@@ -320,7 +320,7 @@
             android:id="@+id/switchToProviderButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Sign in as Provider"
+            android:text="@string/sign_in_as_provider"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="?attr/colorPrimary"

@@ -70,6 +70,12 @@
     <string name="create_account">创建账户</string>
     <string name="join_us_as_a_service_provider">加入我们成为服务商</string>
 
+    <!-- Role Switcher -->
+    <string name="are_you_service_provider">您是服务商吗？</string>
+    <string name="sign_in_as_provider"> 以服务商身份登录</string>
+    <string name="looking_for_services">寻找服务？</string>
+    <string name="sign_in_as_customer"> 以客户身份登录</string>
+
     <!-- Form Fields -->
     <string name="email_or_phone">邮箱或手机</string>
     <string name="password">密码</string>
