@@ -30,20 +30,22 @@ https://docs.google.com/spreadsheets/d/1pm37TSBmQL9C6HI7-OMaLhnKDPHRMzfbEjpT8pUA
 **ServicesFinder** is a mobile app connecting local service providers with customers seeking services like Hair Care, Nail Services, Automotive Repair, Education, Pet Care, and more.
 
 ### Customer Features
-- **Authentication:** Sign in/up with email or phone number
+- **Authentication:** Sign in/up with email or phone number, seamless role switching to provider portal
 - **Browse & Search:** Find services by category or keyword with real-time search
-- **Sorting:** Sort by Most Recent, Price (Low/High), Rating, or Popularity
-- **Language Support:** Switch between English, Spanish, Vietnamese, and Chinese
-- **Favorites:** Save preferred providers with heart button
-- **Reviews:** Read and write reviews (requires login)
-- **Profile:** View favorites and manage account with logout
+- **Advanced Sorting:** Sort by Most Recent, Price (Low/High), Highest Rating, or Popularity with actual review data
+- **Language Support:** Switch between English, Spanish, Vietnamese, and Chinese with full UI localization
+- **Favorites:** Save preferred providers with heart button, view all favorites in profile
+- **Reviews & Ratings:** Read detailed reviews, write reviews with star ratings (requires login)
+- **Profile Management:** View favorites, manage account settings, and logout
+- **Contact Providers:** Call, email, or navigate to provider location directly from service details
 
 ### Provider Features
-- **Registration:** Sign up with phone or email
-- **Service Management:** Add, edit, and delete multiple services
-- **Profile Management:** Edit personal information
-- **Image Upload:** Add service photos with auto-compression (1920x1080 @ 85% quality)
-- **Account Control:** Delete account option  
+- **Flexible Registration:** Sign up with phone or email, seamless role switching to customer portal
+- **Service Management:** Add, edit, and delete multiple services with rich descriptions
+- **Profile Management:** Edit personal information, change password securely
+- **Image Upload:** Add service photos with automatic compression (1920x1080 @ 85% quality)
+- **Dashboard:** View all services, manage listings, access account settings
+- **Account Control:** Secure password change and account deletion options  
 
 ---
 
@@ -62,6 +64,29 @@ ServicesFinder supports two distinct user roles with separate data management:
 
 ---
 
+## Key Technical Highlights
+
+### Performance & UX Enhancements
+- **Image Compression:** Automatic upload optimization to 1920x1080 @ 85% quality
+- **Smooth Animations:** Fade transitions for loading and content states
+- **Error Handling:** Network connectivity checks with user-friendly retry dialogs
+- **Loading States:** Progress indicators throughout the app for better user feedback
+
+### Advanced Features
+- **Real Rating Sort:** Dynamic sorting by actual review ratings with asynchronous data fetching
+- **Review Integration:** Customer names linked to reviews for transparency and accountability
+- **Favorites System:** Persistent favorite providers with heart icon toggle
+- **Role Switcher:** One-click navigation between customer and provider authentication portals
+- **Multilingual Support:** Complete localization for 4 languages including role switcher UI
+
+### Code Quality
+- **MVC Architecture:** Clean separation of concerns with Model-View-Controller pattern
+- **Utility Classes:** Reusable components (AnimationHelper, NetworkHelper, RetryDialog, ProToast)
+- **Firebase Integration:** Secure authentication, real-time Firestore sync, and cloud storage
+- **Material Design 3:** Modern UI components following Android design guidelines
+
+---
+
 ## Technical Requirements
 
 - Android Studio
@@ -69,7 +94,9 @@ ServicesFinder supports two distinct user roles with separate data management:
 - Firebase Authentication
 - Firebase Firestore
 - Firebase Storage
+- Glide (Image loading library)
 - MinSDK: 24+
+- TargetSDK: 34
 
 ---
 
