@@ -1,13 +1,11 @@
-# ServicesFinder
+# 🔍 ServicesFinder
+
+- **📚 Course:** CS 175 – Android Mobile Development
+- **👨‍🏫 Professor:** Yan Chen
+- **📅 Semester:** Fall 2025
 
 ---
-
-**Course:** CS 175 – Android Mobile Development
-**Professor:** Yan Chen
-**Semester:** Fall 2025
-
----
-### Team Number: 09
+### 👥 Team Number: 09
 ## Team Members and Contributions
 | Name | Contribution |
 |------|--------------|
@@ -18,18 +16,18 @@
 
 ---
 
-### APK File: 
-https://drive.google.com/file/d/1GHE4sdEyJbap8_SnTVIY1ZLuwNL2vEVY/view?usp=sharing 
+### 📱 APK File:
+https://drive.google.com/file/d/1GHE4sdEyJbap8_SnTVIY1ZLuwNL2vEVY/view?usp=sharing
 
-### Backlog: 
+### 📋 Backlog:
 https://docs.google.com/spreadsheets/d/1pm37TSBmQL9C6HI7-OMaLhnKDPHRMzfbEjpT8pUAz8k/edit?gid=0#gid=0
 
 ---
 
-## Project Description
+## 📖 Project Description
 **ServicesFinder** is a mobile app connecting local service providers with customers seeking services like Hair Care, Nail Services, Automotive Repair, Education, Pet Care, and more.
 
-### Customer Features
+### 🛒 Customer Features
 - **Authentication:** Sign in/up with email or phone number, seamless role switching to provider portal
 - **Browse & Search:** Find services by category or keyword with real-time search
 - **Advanced Sorting:** Sort by Most Recent, Price (Low/High), Highest Rating, or Popularity with actual review data
@@ -39,7 +37,7 @@ https://docs.google.com/spreadsheets/d/1pm37TSBmQL9C6HI7-OMaLhnKDPHRMzfbEjpT8pUA
 - **Profile Management:** View favorites, manage account settings, and logout
 - **Contact Providers:** Call, email, or navigate to provider location directly from service details
 
-### Provider Features
+### 🏢 Provider Features
 - **Flexible Registration:** Sign up with phone or email, seamless role switching to customer portal
 - **Service Management:** Add, edit, and delete multiple services with rich descriptions
 - **Profile Management:** Edit personal information, change password securely
@@ -49,12 +47,12 @@ https://docs.google.com/spreadsheets/d/1pm37TSBmQL9C6HI7-OMaLhnKDPHRMzfbEjpT8pUA
 
 ---
 
-## Dual-Role Architecture
+## 🔄 Dual-Role Architecture
 
 ServicesFinder supports two distinct user roles with separate data management:
 
-- **Providers:** Create and manage service listings, manage profile
-- **Customers:** Browse services, write reviews, save favorites, manage preferences
+- **🏢 Providers:** Create and manage service listings, manage profile
+- **🛒 Customers:** Browse services, write reviews, save favorites, manage preferences
 
 **Key Design:**
 - Separate Firestore collections (`providers/` and `customers/`)
@@ -64,7 +62,7 @@ ServicesFinder supports two distinct user roles with separate data management:
 
 ---
 
-## Key Technical Highlights
+## ⚡ Key Technical Highlights
 
 ### Performance & UX Enhancements
 - **Image Compression:** Automatic upload optimization to 1920x1080 @ 85% quality
@@ -87,7 +85,7 @@ ServicesFinder supports two distinct user roles with separate data management:
 
 ---
 
-## Technical Requirements
+## 🛠️ Technical Requirements
 
 - Android Studio
 - Java
